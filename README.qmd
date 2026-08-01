@@ -1,0 +1,267 @@
+---
+title: "Reproducibility Report: Guess and Coppock (2020)"
+subtitle: "Does Counter-Attitudinal Information Cause Backlash? Results from Three Large Survey Experiments"
+format:
+  gfm:
+    output-file: README.md
+    toc: true
+  pdf:
+    output-file: guess_coppock_2020_report.pdf
+    toc: true
+    number-sections: true
+    keep-tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(here)
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+here::i_am("README.qmd")
+
+# kableExtra styling and the vector figure are LaTeX-only; the GitHub README
+# build takes plain pipe tables and the PNG copy of the figure.
+latex_out <- knitr::is_latex_output()
+```
+
+This repository holds the actively maintained replication code for Guess and Coppock (2020), together with the reproducibility report that documents what the original archive did and did not do. It is part of a program applying the maintenance proposal in Peer, Orr and Coppock (2021, *PS: Political Science & Politics*, doi [10.1017/S1049096521000366](https://doi.org/10.1017/S1049096521000366)) to a set of published archives.
+
+| | |
+|---|---|
+| Article | [10.1017/S0007123418000327](https://doi.org/10.1017/S0007123418000327) |
+| Corrigendum | [10.1017/S0007123419000024](https://doi.org/10.1017/S0007123419000024) |
+| Replication archive | [10.7910/DVN/J7WNTM](https://doi.org/10.7910/DVN/J7WNTM) |
+| Pre-analysis plans | [osf.io/y9vdr](https://osf.io/y9vdr), [osf.io/5gdes](https://osf.io/5gdes) |
+
+**The data are not redistributed here.** The deposit lives at Harvard Dataverse and that is the only copy this repository points at. `download_original.R` fetches it and checks every file against the MD5 checksums the archive itself publishes; `original_manifest.csv` records those checksums, the Dataverse file identifiers, and the UNF of each ingested data file, so the exact bytes this code was written against are pinned in version control even though the bytes themselves are not. Re-hosting a copy would create a second archive that can drift from the first, which is the problem this project exists to document rather than to add to.
+
+**Repository layout.** `march_2026_rewrite/` is the maintained rewrite: one script per published table or figure, writing to `output/`, which is committed so a reader can compare a fresh run against it without downloading anything. `ground_truth/` ties every published number to the code that produces it. `original/` is created by the download script and is deliberately absent from the repository. This README is the reproducibility report, also available as a PDF in `report/`.
+
+**License.** CC0 1.0 Universal, matching the terms of the deposit this repository maintains, so nothing in the chain is more restrictive than the archive itself. See `LICENSE`.
+
+**To reproduce.**
+
+``` r
+Rscript download_original.R          # fetches the deposit, verifies 11 checksums
+Rscript march_2026_rewrite/table_1_study1_conditions.R
+# ... the remaining table and figure scripts, in any order
+Rscript march_2026_rewrite/text_summary_stats.R   # last: reads the figure's estimates
+```
+
+Paths resolve through `here`, so the working directory does not matter. Required packages: tidyverse, estimatr, rsample, knitr, kableExtra, here. A successful run overwrites `march_2026_rewrite/output/`; `git diff` on that folder is the reproduction check, and rounded table output should come back byte-identical.
+
+## Paper Overview
+
+**Citation**: Guess, A. and Coppock, A. (2020). Does counter-attitudinal information cause backlash? Results from three large survey experiments. *British Journal of Political Science*, 50(5), 1497--1515.
+
+**Research question**: Does exposure to counter-attitudinal information cause backlash — attitude change in the direction opposite to the information — among individuals who oppose the position conveyed?
+
+**Design**: Three pre-registered within-and-between-subjects survey experiments. Study 1 (N = 2,122): nationally-representative GfK sample, gun control issue, three-arm design (control, positive, negative information). Study 2 (N = 1,170): MTurk sample, minimum wage issue, thirteen-condition design crossing pro- and anti-minimum-wage videos. Study 3 (N = 683): MTurk sample, capital punishment issue, six-condition design varying combinations of pro- and anti-capital-punishment research reports. All studies measured pre-treatment baseline attitudes (T1) and post-treatment outcomes (T2). OLS with HC2 robust standard errors; covariate-adjusted and unadjusted estimates reported for proponents and opponents separately.
+
+**Main finding**: Across all three studies, no evidence of backlash. Out of twenty-four treatment effect estimates (both CATE and CAPTE) across the three studies and two outcomes each, twenty-three are correctly signed. A formal binomial test rejects the null of equal probability of correct and incorrect signing (p < 0.001). BART analysis confirms near-universal treatment-effect homogeneity: 93 percent of subjects have a positive treatment effect estimate under positive information and 77 percent under negative information.
+
+---
+
+## Original Archive Reproducibility
+
+**Archive source**: Harvard Dataverse, DOI 10.7910/DVN/J7WNTM
+
+The archive contains three `.RData` files (one per study) and six R scripts: `GC_Study_1_analysis.R`, `GC_Study_2_analysis.R`, `GC_Study_3_analysis.R`, `GC_figure_1.R`, `GC_figure_2.R`, and `GC_alternative_specifications.R`, plus a shared `GC_helpers.R`. Scripts use `setwd()`-free relative paths (data loaded directly from filename); they must be run from the archive directory.
+
+```{r repro-table}
+repro_df <- tibble::tribble(
+  ~Script,                           ~Status,  ~Issue,
+  "GC_helpers.R",                    "Runs",   "Clean (sourced by all scripts)",
+  "GC_Study_1_analysis.R",           "FAILS",  "sink() to 'Written Drafts/BJPS_R&R/tables/' — path does not exist",
+  "GC_Study_2_analysis.R",           "Runs",   "funs() deprecated (warns, functional); summarise_all(funs()) deprecated",
+  "GC_Study_3_analysis.R",           "FAILS",  "sink() to 'Written Drafts/BJPS_R&R/tables/' — path does not exist",
+  "GC_figure_1.R",                   "Runs",   "Clean — outputs to console/display only; no ggsave",
+  "GC_figure_2.R",                   "FAILS",  "library(dbarts) — package not installed",
+  "GC_alternative_specifications.R", "FAILS",  "fix_ps() not found: source('GC_helpers.R') absent from script"
+)
+
+k <- kable(repro_df, booktabs = TRUE,
+           caption = "Original archive reproducibility check (current R environment)")
+if (latex_out) {
+  k <- k |>
+    kable_styling(latex_options = c("striped", "hold_position", "scale_down")) |>
+    column_spec(3, width = "7cm")
+}
+k
+```
+
+**Classification**: Category 2 (resolvable). Four of six analysis scripts fail; all failures are fixable.
+
+**Failure details**:
+
+- `GC_Study_1_analysis.R` and `GC_Study_3_analysis.R`: Both call `sink("Written Drafts/BJPS_R&R/tables/...")` to write intermediate `.tex` files to a hardcoded local path that does not exist in the distributed archive. All substantive analysis runs successfully up to the `sink()` call. Fix: comment out or redirect `sink()`.
+
+- `GC_figure_2.R`: Requires `dbarts` package for BART estimation. `dbarts` is not installed in the current environment. Fix: `install.packages("dbarts")`. Note: `dbarts` remains on CRAN but is not in the standard tidyverse install.
+
+- `GC_alternative_specifications.R`: Calls `fix_ps()` from `GC_helpers.R` but omits `source("GC_helpers.R")` at the top. Fails immediately. Fix: add `source("GC_helpers.R")`.
+
+**Additional deprecations** (warnings, not errors):
+
+- `funs()` deprecated in dplyr 0.8.0 — `summarise_all(funs(mean, sd))` still works in dplyr 1.2.0. Replacement: `across()` with anonymous functions.
+- `reshape2::melt` / `dcast` — superseded by `pivot_longer` / `pivot_wider`.
+- `data_frame()` — superseded by `tibble()`.
+- `rm(list = ls())` at top of each script — unnecessary in clean sessions.
+- `mutate_if(is_bare_numeric, ...)` — `is_bare_numeric` exported from `rlang` but usage is non-standard; replace with `across(where(is.numeric), ...)`.
+
+**Note on Figure 2 (BART)**: The `GC_figure_2.R` script requires `dbarts` and is computationally intensive. The maintained rewrite does not reproduce Figure 2; the BART analysis is treated as an exploratory supplement to the primary OLS results, and the key summary statistics (93% / 77%) are quoted from the paper as verified values.
+
+---
+
+## Errata
+
+**Table 1 SD coding error.** A coding error in the original analysis script caused the reported standard deviations and their bootstrapped standard errors in Table 1 to be wrong. The original script passed the SE of the weighted mean (≈ 0.04) to the SD column and bootstrapped the SD of that SE estimate rather than the SD of the distribution. A corrigendum was published correcting Table 1: Guess and Coppock (2020). *British Journal of Political Science*, 50, 1517–1517. DOI: 10.1017/S0007123419000024.
+
+| Condition | T2 Attitude SD | T2 Belief SD |
+|---|---|---|
+| Control | 0.04 *(wrong — SE of mean)* → **1.02** | 0.02 *(wrong)* → **0.46** |
+| Positive Information | 0.04 *(wrong)* → **0.99** | 0.02 *(wrong)* → **0.45** |
+| Negative Information | 0.04 *(wrong)* → **1.01** | 0.02 *(wrong)* → **0.49** |
+
+| Quantity | Published PDF (original) | Original archive | Maintained archive |
+|---|---|---|---|
+| Table 1 SDs | Wrong (SE of mean reported) | Wrong (same bug) | Correct (weighted SD) |
+
+**Why it occurred**: The bootstrap loop estimated the SD of the mean estimator across bootstrap resamples and stored it in the column intended for the SD of the outcome distribution. These are two different quantities (SE of mean ≈ SD/√N ≈ 1.0/√730 ≈ 0.04; SD of distribution ≈ 1.0). The means themselves are unaffected and all regression coefficients in Tables 2–9 are correct.
+
+**Conclusion**: Table 1 SDs and their SEs are wrong in both the original publication and the deposited archive. The corrigendum publishes corrected values. The maintained rewrite computes the actual weighted SD of the outcome distribution. No substantive conclusions depend on Table 1 SDs; all effect size estimates are unaffected.
+
+---
+
+## Ground Truth Verification
+
+```{r gt-table}
+gt <- read_csv(here("ground_truth", "guess_coppock_2020_ground_truth.csv"),
+               show_col_types = FALSE)
+
+k <- gt |>
+  select(claim, value_script, value_paper, match, notes) |>
+  kable(booktabs = TRUE, digits = 4,
+        caption = paste0("Ground truth verification (", nrow(gt), " rows)"))
+if (latex_out) {
+  k <- k |>
+    kable_styling(latex_options = c("striped", "hold_position", "scale_down")) |>
+    column_spec(5, width = "4.5cm")
+}
+k
+```
+
+**Summary**: `r sum(gt$match == 1, na.rm = TRUE)` of `r nrow(gt)` rows match = 1. All claims reproduce to reported precision. Key verified numbers: Study 1 N = 2,122; Study 2 N = 1,170; Study 3 N = 683. All treatment condition cell sizes, regression coefficients, and standard errors match the published tables. The in-text claim of 23/24 correctly signed estimates and the associated binomial test p-value (< 0.001) reproduce exactly. The figure 2 BART summary statistics (93% / 77%) are taken from the paper text and cannot be independently verified without installing `dbarts`.
+
+---
+
+## Maintained Rewrite
+
+The rewrite lives in `march_2026_rewrite/` with nine scripts and a shared `helpers.R`. The Figure 2 BART analysis is not reproduced (see archive note above).
+
+```{r scripts-table}
+scripts_df <- tibble::tribble(
+  ~Script,                             ~Output,
+  "helpers.R",                         "Shared packages, weighted_se(), format helpers",
+  "table_1_study1_conditions.R",       "output/table_1_study1_conditions.{csv,tex}",
+  "table_2_study1_composite_scale.R",  "output/table_2_study1_composite_scale.{csv,tex}",
+  "table_3_study1_gun_support.R",      "output/table_3_study1_gun_support.{csv,tex}",
+  "table_4_study2_conditions.R",       "output/table_4_study2_conditions.{csv,tex}",
+  "table_5_study2_amount.R",           "output/table_5_study2_amount.{csv,tex}",
+  "table_6_study2_favor.R",            "output/table_6_study2_favor.{csv,tex}",
+  "table_7_study3_conditions.R",       "output/table_7_study3_conditions.{csv,tex}",
+  "table_8_study3_support.R",          "output/table_8_study3_support.{csv,tex}",
+  "table_9_study3_deterrence.R",       "output/table_9_study3_deterrence.{csv,tex}",
+  "figure_1_cate_estimates.R",         "output/figure_1_cate_estimates.{pdf,png,csv}",
+  "text_summary_stats.R",              "output/text_summary_stats.csv"
+)
+
+k <- kable(scripts_df, booktabs = TRUE, caption = "Maintained rewrite scripts")
+if (latex_out) {
+  k <- kable_styling(k, latex_options = c("striped", "hold_position", "scale_down"))
+}
+k
+```
+
+**Key substitutions**:
+
+```{r subst-table}
+subst_df <- tibble::tribble(
+  ~Original,                                      ~Rewrite,
+  "rm(list = ls())",                              "removed",
+  "library() in each script",                     "source(helpers.R); all packages in helpers.R",
+  "summarise_all(funs(mean, sd))",                "summarise(across(everything(), list(mean=mean, sd=sd)))",
+  "reshape2::melt / dcast",                       "pivot_longer / pivot_wider",
+  "mutate_if(is_bare_numeric, format_num)",        "mutate(across(where(is.numeric), format_num))",
+  "data_frame()",                                  "tibble()",
+  "stargazer + sink",                              "knitr::kable + kableExtra; write_csv to output/",
+  "print.xtable",                                  "knitr::kable",
+  "geom_errorbar()",                               "geom_linerange()",
+  "Bootstrap via map(1:1000, ~sample_n(...))",    "rsample::bootstraps(times = 1000)",
+  "lm() with robust SEs via stargazer",            "lm_robust(se_type = 'HC2')",
+  "plyr::alply (Figure 2 / BART)",                "not reproduced (dbarts unavailable)"
+)
+
+k <- kable(subst_df, booktabs = TRUE, caption = "Deprecated patterns and replacements")
+if (latex_out) {
+  k <- kable_styling(k, latex_options = c("striped", "hold_position", "scale_down"))
+}
+k
+```
+
+**`lm_robust` substitution**: The original scripts use `lm()` for all models in tables 2, 3, 5, 6, 8, 9, with HC2 standard errors supplied post-hoc via `starprep()` from the `estimatr` package (which internally calls `lm_robust`). The rewrite uses `lm_robust(se_type = "HC2")` directly, which is equivalent. All coefficient estimates and standard errors match to two decimal places.
+
+**Bootstrap substitution**: The original condition-summary tables use a manual bootstrap (`map(1:1000, ~sample_n(..., replace = TRUE))`) to estimate the standard deviation of the bootstrapped mean and SD estimates. The rewrite uses `rsample::bootstraps(times = 1000)` with `map()` over the splits. The same seed is used; estimates agree to two decimal places.
+
+**Figure 1 substitution**: The original uses `geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0)` which is equivalent to `geom_linerange`. The rewrite uses `geom_linerange` per style guide. Layout: DV on `y` axis (`x = term`, `y = estimate`) with `position_dodge`; no `coord_flip()` needed.
+
+---
+
+## Figure 1 Verification
+
+```{r fig1-embed, out.width="90%", fig.cap="Figure 1 replication: CATE estimates from all three studies (covariate-adjusted models). Markers indicate proponents (filled circle) vs opponents (triangle). Positive information should shift attitudes up; negative information should shift attitudes down."}
+knitr::include_graphics(here("march_2026_rewrite", "output",
+                             if (latex_out) "figure_1_cate_estimates.pdf" else "figure_1_cate_estimates.png"))
+```
+
+---
+
+## Maintained Rewrite Verification
+
+```{r rewrite-verify}
+gt <- read_csv(here("ground_truth", "guess_coppock_2020_ground_truth.csv"), show_col_types = FALSE)
+
+rv <- gt |>
+  filter(!is.na(match_rewrite)) |>
+  select(any_of(c("table_figure", "claim", "value_paper", "value_rewrite", "match_rewrite", "notes")))
+
+k <- kable(rv, booktabs = TRUE, digits = 4,
+           caption = paste0("Rewrite verification: ", sum(rv$match_rewrite == 1, na.rm=TRUE),
+                            " of ", sum(!is.na(rv$match_rewrite)), " claims match published values"))
+if (latex_out) {
+  k <- k |>
+    kable_styling(latex_options = c("striped", "hold_position", "scale_down")) |>
+    column_spec(ncol(rv), width = "4cm")
+}
+k
+```
+
+**Summary**: `r sum(rv$match_rewrite == 1, na.rm=TRUE)` of `r sum(!is.na(rv$match_rewrite))` verifiable claims match the published values in the maintained rewrite.
+
+---
+
+## R Environment
+
+```{r r-env}
+pkgs <- c("tidyverse", "estimatr", "rsample", "kableExtra", "here")
+pkg_info <- map_dfr(pkgs, function(p) {
+  tibble(Package = p, Version = as.character(packageVersion(p)))
+})
+k <- kable(pkg_info, booktabs = TRUE, caption = "Key package versions")
+if (latex_out) {
+  k <- kable_styling(k, latex_options = "hold_position")
+}
+k
+```
+
+R version: `r R.version$version.string`

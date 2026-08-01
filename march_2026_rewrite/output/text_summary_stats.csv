@@ -1,0 +1,5 @@
+statistic,value
+n_estimates_total,24
+n_correctly_signed,23
+n_sig_at_05,11
+binom_test_pvalue,2.980232238769535e-6
