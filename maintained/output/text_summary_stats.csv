@@ -3,5 +3,5 @@ n_estimates_total,24
 n_correctly_signed,23
 n_sig_at_05,11
 binom_test_pvalue,2.980232238769535e-6
-bart_prop_positive_under_pos_info,0.9664283890732703
-bart_prop_negative_under_neg_info,0.7827418943068675
+bart_prop_positive_under_pos_info,0.9895328057186622
+bart_prop_negative_under_neg_info,0.7870819504723002

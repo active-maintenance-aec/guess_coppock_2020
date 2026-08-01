@@ -53,23 +53,28 @@ reproducibility report, also available as a PDF in `report/`.
 repository maintains, so nothing in the chain is more restrictive than
 the archive itself. See `LICENSE`.
 
-**To reproduce.**
+**To reproduce.** Clone or download the repository, open
+`guess_coppock_2020.Rproj`, and run:
 
 ``` r
-Rscript download_original.R          # fetches the deposit, verifies 11 checksums
-Rscript maintained/table_1_study1_conditions.R
-# ... the remaining table scripts, in any order
-Rscript maintained/figure_1_cate_estimates.R
-Rscript maintained/figure_2_bart.R                # ~30 seconds, six BART fits
-Rscript maintained/text_summary_stats.R           # last: reads both figures' estimates
-Rscript maintained/text_bart_seed_sensitivity.R   # ~6 minutes, refits BART at ten seeds
+source("run_all.R")
 ```
 
-Paths resolve through `here`, so the working directory does not matter.
-Required packages: tidyverse, estimatr, rsample, knitr, kableExtra,
-here. A successful run overwrites `maintained/output/`; `git diff` on
-that folder is the reproduction check, and rounded table output should
-come back byte-identical.
+That fetches the deposited archive from Dataverse, verifies its eleven
+checksums, and produces every table and figure into
+`maintained/output/`. It takes about seven minutes, nearly all of it the
+ten-seed BART refit at the end. Individual scripts can be run on their
+own in any order, with two exceptions: `text_summary_stats.R` reads both
+figures’ estimates, so it comes after them.
+
+Required packages: tidyverse, estimatr, rsample, dbarts, knitr,
+kableExtra, here. Paths resolve through `here`, so nothing depends on
+the working directory and the scripts work equally well under `Rscript`
+outside RStudio. A successful run overwrites `maintained/output/`, which
+is committed: **`git diff` on that folder is the reproduction check**,
+and the CSV, TeX and PNG output should come back byte-identical. The two
+PDF figures always show as changed, because a PDF records the time it
+was written; compare their PNG twins instead.
 
 ## Paper Overview
 
@@ -110,8 +115,8 @@ Two questions, answered before the detail.
 
 ### Does the deposited archive run?
 
-Not as deposited. Four of its seven scripts fail in a clean R session,
-and the failures divide sharply.
+Not as deposited. Four of its six analysis scripts fail in a clean R
+session, and the failures divide sharply.
 
 **Three are trivial**: one-line fixes, no published number touched.
 `GC_Study_1_analysis.R` and `GC_Study_3_analysis.R` both `sink()` to
@@ -121,13 +126,12 @@ scripts completes before the call is reached.
 `GC_alternative_specifications.R` calls `fix_ps()` without sourcing the
 file that defines it.
 
-**One is substantive**, and it is the interesting case. `GC_figure_2.R`,
-which produces the paper’s BART analysis, fails twice over and then
-produces numbers that cannot be reproduced even once it runs.
+**One is substantive.** `GC_figure_2.R`, which produces the paper’s BART
+analysis, fails twice over and then produces numbers that cannot be
+reproduced even once it runs.
 
-- It needs `dbarts`, which is not part of a tidyverse installation. That
-  much is trivial: the package is on CRAN and actively maintained,
-  version 0.9-33 published in March 2026.
+- It needs `dbarts`, which is on CRAN and actively maintained, version
+  0.9-33 published in March 2026.
 - With `dbarts` installed it still fails, on
   `object '.Random.seed' not found`. `dbarts` requires the RNG to have
   been initialized, and a fresh `Rscript` session has never drawn a
@@ -141,9 +145,11 @@ produces numbers that cannot be reproduced even once it runs.
   by up to 0.81. The maintained version pins `n.threads = 1L`, after
   which a seeded run is byte-reproducible.
 
-The archive is therefore Category 2, resolvable, with a caveat the
-category does not express: a script can be made to run and still not be
-made to reproduce.
+Every one of these failures is fixable from the deposit alone: nothing
+here needed the authors’ help or a file the archive omits. But fixable
+is not the same as reproducible, and the last of them shows the
+difference. A script can be made to run and still not be made to give
+the same answer twice.
 
 ### Does the maintained rewrite reproduce the paper?
 
@@ -164,23 +170,37 @@ Reproduction verdict by component
 All 79 recorded ground truth claims are verifiable against the rewrite,
 and 77 of them match.
 
-**The one claim that does not reproduce, stated plainly.** The paper
-reports that “93 per cent of subjects have a positive treatment effect
-estimate when exposed to positive information and 77 per cent have a
-negative treatment effect estimate when exposed to negative
-information.” The second figure reproduces: this rewrite gives 0.787,
-and across ten seeds the value runs from 0.756 to 0.795, with the
-published 0.77 near the median. The first does not. This rewrite gives
-0.990; the deposited script, run with a seed prepended as its only
-modification, gives 0.990; and across ten seeds the value never falls
-below 0.977. The published 0.93 lies outside that range, so this is not
-seed noise.
+**The claim that does not reproduce.** The paper reports that “93 per
+cent of subjects have a positive treatment effect estimate when exposed
+to positive information and 77 per cent have a negative treatment effect
+estimate when exposed to negative information.” The second half holds.
+This rewrite gives 0.787, and across ten seeds the proportion runs from
+0.756 to 0.795, with the published 0.77 sitting near the middle. The
+first half does not. This rewrite gives 0.990, the deposited script
+gives 0.990, and across ten seeds the proportion never falls below
+0.977. Seed noise cannot account for a published 0.93.
 
-**The direction matters.** The error runs against the paper’s own
-interest: a rate of 0.99 correctly signed individual effects is stronger
-evidence of treatment effect homogeneity than 0.93, not weaker. The
-substantive claim the sentence supports is unaffected, and would have
-been better served by the correct number.
+**The sampler is a likelier culprit than the analysis.** The archive was
+deposited on 27 June 2018, when the current `dbarts` was 0.9-3. Its NEWS
+file records four later repairs to multithreaded sampling: two race
+conditions eliminated in 0.9-18, reproducibility fixes in 0.9-19, a fix
+for `k` mixing across chains when running multithreaded in 0.9-20, and
+“a multithreaded issue leading to inconsistent results” in 0.9-23. `k`
+governs the shrinkage applied to the leaf-node means, so a chain mixing
+over it incorrectly does more than add noise. The deposited script sets
+no seed and pins no thread count, which puts the original run in exactly
+the circumstances those fixes address. Judging from the evidence at
+hand, the gap between 0.93 and 0.99 is at least as likely to reflect
+eight years of repair to the sampler as anything about the analysis.
+Settling it would mean installing 0.9-3 under the R of the day, which
+this rewrite does not attempt. Either way the number as published does
+not reproduce under a current, correct sampler, which is the fact a
+reader today needs.
+
+**The error runs against the paper’s own interest.** A rate of 0.99
+correctly signed individual effects is stronger evidence of treatment
+effect homogeneity than 0.93, not weaker. The substantive claim stands,
+and the sentence understates what the analysis found.
 
 ------------------------------------------------------------------------
 
@@ -207,8 +227,8 @@ they must be run from the archive directory.
 
 Original archive reproducibility check (current R environment)
 
-**Classification**: Category 2 (resolvable). Four of six analysis
-scripts fail; all failures are fixable.
+Four of the six analysis scripts fail. All four are fixable from the
+deposit alone.
 
 **Failure details**:
 
@@ -218,9 +238,8 @@ scripts fail; all failures are fixable.
   distributed archive. All substantive analysis runs successfully up to
   the `sink()` call. Fix: comment out or redirect `sink()`.
 
-- `GC_figure_2.R`: Fails twice. First, it requires `dbarts`, which is
-  not part of a tidyverse installation; the package is on CRAN and
-  actively maintained (0.9-33, March 2026), so
+- `GC_figure_2.R`: Fails twice. First, it requires `dbarts`, which is on
+  CRAN and actively maintained (0.9-33, March 2026), so
   `install.packages("dbarts")` resolves it. Second, with `dbarts`
   installed the script still fails with
   `object '.Random.seed' not found`: `dbarts` requires the RNG to have
@@ -376,7 +395,7 @@ of the outcome distribution. No substantive conclusions depend on Table
 | study3_opp_neg_adj_deter | -0.200 | -0.200 | 1 | Opponents: neg info deterrence adjusted (significant); rewrite: -0.205 |
 | n_correctly_signed | 23.000 | 23.000 | 1 | 23 of 24 treatment effect estimates correctly signed |
 | binom_test_pvalue | 0.000 | 0.001 | 1 | Binomial test p \< 0.001 (exact: 2.98e-06) |
-| pct_pos_te_under_pos_treatment | 0.990 | 0.930 | 0 | DOES NOT REPRODUCE. Paper reports 93% of subjects with a positive TE under positive information (BART). The deposited script, run with a seed prepended as its only modification, gives 0.990; the maintained rewrite gives 0.990. A ten-seed sweep (maintained/output/text_bart_seed_sensitivity.csv) shows 0.93 lies below every run, so this is not seed noise. The error understates the paper own result: a higher share correctly signed is stronger evidence of homogeneity, so the substantive claim is unaffected. |
+| pct_pos_te_under_pos_treatment | 0.990 | 0.930 | 0 | DOES NOT REPRODUCE. Paper reports 93% of subjects with a positive TE under positive information (BART). The deposited script, run with a seed prepended as its only modification, gives 0.990; the maintained rewrite gives 0.990. A ten-seed sweep (maintained/output/text_bart_seed_sensitivity.csv) shows 0.93 lies below every run, so this is not seed noise. The error understates the paper own result: a higher share correctly signed is stronger evidence of homogeneity, so the substantive claim is unaffected. Candidate explanation: the archive was deposited 2018-06-27 when dbarts 0.9-3 was current, and dbarts NEWS records four later fixes to multithreaded sampling (race conditions in 0.9-18, reproducibility in 0.9-19, k mixing across chains in 0.9-20, inconsistent results in 0.9-23). The deposited script sets no seed and pins no threads, so package changes may account for the gap rather than anything in the analysis. Untested; would require installing 0.9-3 under the R of the day. |
 | pct_neg_te_under_neg_treatment | 0.770 | 0.770 | 1 | Reproduces. Deposited script (seeded) gives 0.766; maintained rewrite gives 0.787. Across ten seeds (maintained/output/text_bart_seed_sensitivity.csv) the published 0.77 sits near the middle of the range. |
 
 Ground truth verification (79 rows)
@@ -579,7 +598,7 @@ sits below every one of the ten runs, whose minimum is 0.977.
 | table_9 | study3_opp_neg_adj_deter | -0.200 | -0.200 | 1 | Opponents: neg info deterrence adjusted (significant); rewrite: -0.205 |
 | figure_1 | n_correctly_signed | 23.000 | 23.000 | 1 | 23 of 24 treatment effect estimates correctly signed |
 | figure_1 | binom_test_pvalue | 0.001 | 0.000 | 1 | Binomial test p \< 0.001 (exact: 2.98e-06) |
-| figure_2 | pct_pos_te_under_pos_treatment | 0.930 | 0.990 | 0 | DOES NOT REPRODUCE. Paper reports 93% of subjects with a positive TE under positive information (BART). The deposited script, run with a seed prepended as its only modification, gives 0.990; the maintained rewrite gives 0.990. A ten-seed sweep (maintained/output/text_bart_seed_sensitivity.csv) shows 0.93 lies below every run, so this is not seed noise. The error understates the paper own result: a higher share correctly signed is stronger evidence of homogeneity, so the substantive claim is unaffected. |
+| figure_2 | pct_pos_te_under_pos_treatment | 0.930 | 0.990 | 0 | DOES NOT REPRODUCE. Paper reports 93% of subjects with a positive TE under positive information (BART). The deposited script, run with a seed prepended as its only modification, gives 0.990; the maintained rewrite gives 0.990. A ten-seed sweep (maintained/output/text_bart_seed_sensitivity.csv) shows 0.93 lies below every run, so this is not seed noise. The error understates the paper own result: a higher share correctly signed is stronger evidence of homogeneity, so the substantive claim is unaffected. Candidate explanation: the archive was deposited 2018-06-27 when dbarts 0.9-3 was current, and dbarts NEWS records four later fixes to multithreaded sampling (race conditions in 0.9-18, reproducibility in 0.9-19, k mixing across chains in 0.9-20, inconsistent results in 0.9-23). The deposited script sets no seed and pins no threads, so package changes may account for the gap rather than anything in the analysis. Untested; would require installing 0.9-3 under the R of the day. |
 | figure_2 | pct_neg_te_under_neg_treatment | 0.770 | 0.790 | 1 | Reproduces. Deposited script (seeded) gives 0.766; maintained rewrite gives 0.787. Across ten seeds (maintained/output/text_bart_seed_sensitivity.csv) the published 0.77 sits near the middle of the range. |
 
 Rewrite verification: 77 of 79 claims match published values
