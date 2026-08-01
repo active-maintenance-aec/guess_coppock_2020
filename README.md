@@ -15,6 +15,8 @@
 - [Maintained Rewrite Verification](#maintained-rewrite-verification)
 - [R Environment](#r-environment)
 
+*Drafted by Claude Opus 5 under the supervision of Alex Coppock.*
+
 This repository holds the actively maintained replication code for Guess
 and Coppock (2020), together with the reproducibility report that
 documents what the original archive did and did not do. It is part of a
