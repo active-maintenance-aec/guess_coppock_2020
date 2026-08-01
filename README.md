@@ -32,14 +32,16 @@ to a set of published archives.
 
 **The data are not redistributed here.** The deposit lives at Harvard
 Dataverse and that is the only copy this repository points at.
-`download_original.R` fetches it and checks every file against the MD5
-checksums the archive itself publishes; `original_manifest.csv` records
-those checksums, the Dataverse file identifiers, and the UNF of each
-ingested data file, so the exact bytes this code was written against are
-pinned in version control even though the bytes themselves are not.
-Re-hosting a copy would create a second archive that can drift from the
-first, which is the problem this project exists to document rather than
-to add to.
+`download_original.R` fetches it and verifies every file;
+`original_manifest.csv` records the Dataverse file identifiers, the UNF
+of each ingested data file, and two checksums per file: the MD5 of the
+bytes Dataverse serves, which is what this code was written against, and
+the MD5 Dataverse publishes. Here the two agree for all eleven files.
+They do not always, so the script verifies against the served bytes and
+reports any disagreement. Either way the exact bytes are pinned in
+version control even though the bytes themselves are not. Re-hosting a
+copy would create a second archive that can drift from the first, which
+is the problem this project exists to document rather than to add to.
 
 **Repository layout.** `maintained/` is the maintained rewrite: one
 script per published table or figure, writing to `output/`, which is
