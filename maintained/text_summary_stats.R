@@ -1,4 +1,4 @@
-# guess_coppock_2020 — text_summary_stats.R
+# guess_coppock_2020/maintained/text_summary_stats.R
 # Output: output/text_summary_stats.csv
 # Depends on: figure_1_cate_estimates.R and figure_2_bart.R output, helpers.R
 # Description: In-text statistics: count of correctly signed estimates, binomial test.

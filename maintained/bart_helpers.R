@@ -1,4 +1,4 @@
-# guess_coppock_2020 — bart_helpers.R
+# guess_coppock_2020/maintained/bart_helpers.R
 # Shared by figure_2_bart.R and text_bart_seed_sensitivity.R. Kept out of helpers.R
 # so the other ten scripts do not load dbarts, which masks tidyr::extract.
 

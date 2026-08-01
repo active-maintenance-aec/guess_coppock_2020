@@ -1,4 +1,4 @@
-# guess_coppock_2020 — table_1_study1_conditions.R
+# guess_coppock_2020/maintained/table_1_study1_conditions.R
 # Output: output/table_1_study1_conditions.csv, output/table_1_study1_conditions.tex
 # Depends on: original/GC_study_1.RData, helpers.R
 # Description: Study 1 (gun control) treatment condition means and bootstrapped SDs.

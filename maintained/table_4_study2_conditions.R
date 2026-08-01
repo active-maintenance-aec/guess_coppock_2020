@@ -1,4 +1,4 @@
-# guess_coppock_2020 — table_4_study2_conditions.R
+# guess_coppock_2020/maintained/table_4_study2_conditions.R
 # Output: output/table_4_study2_conditions.csv, output/table_4_study2_conditions.tex
 # Depends on: original/GC_Study_2.RData, helpers.R
 # Description: Study 2 (minimum wage) treatment condition means and bootstrapped SDs.

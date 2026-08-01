@@ -1,4 +1,4 @@
-# guess_coppock_2020 — helpers.R
+# guess_coppock_2020/maintained/helpers.R
 # Shared packages and helper functions sourced by all scripts.
 
 library(here)

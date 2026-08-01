@@ -1,4 +1,4 @@
-# guess_coppock_2020 — table_7_study3_conditions.R
+# guess_coppock_2020/maintained/table_7_study3_conditions.R
 # Output: output/table_7_study3_conditions.csv, output/table_7_study3_conditions.tex
 # Depends on: original/GC_Study_3.RData, helpers.R
 # Description: Study 3 (capital punishment) treatment condition means and bootstrapped SDs.

@@ -1,4 +1,4 @@
-# guess_coppock_2020 — table_5_study2_amount.R
+# guess_coppock_2020/maintained/table_5_study2_amount.R
 # Output: output/table_5_study2_amount.csv, output/table_5_study2_amount.tex
 # Depends on: original/GC_Study_2.RData, helpers.R
 # Description: OLS effects of minimum wage information on T2 Amount, by initial position.

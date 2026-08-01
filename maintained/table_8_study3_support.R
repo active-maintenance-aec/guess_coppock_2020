@@ -1,4 +1,4 @@
-# guess_coppock_2020 — table_8_study3_support.R
+# guess_coppock_2020/maintained/table_8_study3_support.R
 # Output: output/table_8_study3_support.csv, output/table_8_study3_support.tex
 # Depends on: original/GC_Study_3.RData, helpers.R
 # Description: OLS effects of capital punishment information on T2 attitude support, by proponent status.

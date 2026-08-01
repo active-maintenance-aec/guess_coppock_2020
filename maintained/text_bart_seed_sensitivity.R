@@ -1,4 +1,4 @@
-# guess_coppock_2020 — text_bart_seed_sensitivity.R
+# guess_coppock_2020/maintained/text_bart_seed_sensitivity.R
 # Output: output/text_bart_seed_sensitivity.csv
 # Depends on: original/GC_study_1.RData, GC_Study_2.RData, GC_Study_3.RData, helpers.R, bart_helpers.R
 # Description: How far the two in-text BART proportions move across random seeds.

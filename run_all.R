@@ -1,4 +1,4 @@
-# guess_coppock_2020 — run_all.R
+# guess_coppock_2020/run_all.R
 # Runs the whole reproduction in order: fetch and verify the deposited archive,
 # then every published table and figure, then the in-text quantities.
 # Every script is self-contained and can also be run on its own.

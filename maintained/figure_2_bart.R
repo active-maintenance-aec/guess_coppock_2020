@@ -1,4 +1,4 @@
-# guess_coppock_2020 — figure_2_bart.R
+# guess_coppock_2020/maintained/figure_2_bart.R
 # Output: output/figure_2_bart.pdf, output/figure_2_bart.png, output/figure_2_bart.csv
 # Depends on: original/GC_study_1.RData, GC_Study_2.RData, GC_Study_3.RData, helpers.R, bart_helpers.R
 # Description: BART individual treatment effect estimates (Figure 2). Each subject

@@ -1,4 +1,4 @@
-# guess_coppock_2020 — figure_1_cate_estimates.R
+# guess_coppock_2020/maintained/figure_1_cate_estimates.R
 # Output: output/figure_1_cate_estimates.pdf, output/figure_1_cate_estimates.png
 # Depends on: original/GC_study_1.RData, GC_Study_2.RData, GC_Study_3.RData, helpers.R
 # Description: Covariate-adjusted CATE estimates (Figure 1): 24 estimates from all three studies.

@@ -1,4 +1,4 @@
-# guess_coppock_2020 — table_3_study1_gun_support.R
+# guess_coppock_2020/maintained/table_3_study1_gun_support.R
 # Output: output/table_3_study1_gun_support.csv, output/table_3_study1_gun_support.tex
 # Depends on: original/GC_study_1.RData, helpers.R
 # Description: OLS effects of information on Study 1 binary gun control support item (W2_Q1).

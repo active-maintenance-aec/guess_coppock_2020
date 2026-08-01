@@ -1,4 +1,4 @@
-# guess_coppock_2020 — table_9_study3_deterrence.R
+# guess_coppock_2020/maintained/table_9_study3_deterrence.R
 # Output: output/table_9_study3_deterrence.csv, output/table_9_study3_deterrence.tex
 # Depends on: original/GC_Study_3.RData, helpers.R
 # Description: OLS effects of capital punishment information on T2 deterrence belief, by proponent status.

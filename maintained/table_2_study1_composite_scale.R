@@ -1,4 +1,4 @@
-# guess_coppock_2020 — table_2_study1_composite_scale.R
+# guess_coppock_2020/maintained/table_2_study1_composite_scale.R
 # Output: output/table_2_study1_composite_scale.csv, output/table_2_study1_composite_scale.tex
 # Depends on: original/GC_study_1.RData, helpers.R
 # Description: OLS effects of information on Study 1 composite gun control scale.

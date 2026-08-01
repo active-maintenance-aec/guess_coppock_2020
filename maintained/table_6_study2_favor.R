@@ -1,4 +1,4 @@
-# guess_coppock_2020 — table_6_study2_favor.R
+# guess_coppock_2020/maintained/table_6_study2_favor.R
 # Output: output/table_6_study2_favor.csv, output/table_6_study2_favor.tex
 # Depends on: original/GC_Study_2.RData, helpers.R
 # Description: OLS effects of minimum wage information on T2 Favor (binary support), by initial position.
