@@ -2,11 +2,16 @@
 
 
 - [Paper Overview](#paper-overview)
+- [Summary](#summary)
+  - [Does the deposited archive run?](#does-the-deposited-archive-run)
+  - [Does the maintained rewrite reproduce the
+    paper?](#does-the-maintained-rewrite-reproduce-the-paper)
 - [Original Archive Reproducibility](#original-archive-reproducibility)
 - [Errata](#errata)
 - [Ground Truth Verification](#ground-truth-verification)
 - [Maintained Rewrite](#maintained-rewrite)
 - [Figure 1 Verification](#figure-1-verification)
+- [Figure 2 Verification](#figure-2-verification)
 - [Maintained Rewrite Verification](#maintained-rewrite-verification)
 - [R Environment](#r-environment)
 
@@ -36,8 +41,8 @@ Re-hosting a copy would create a second archive that can drift from the
 first, which is the problem this project exists to document rather than
 to add to.
 
-**Repository layout.** `march_2026_rewrite/` is the maintained rewrite:
-one script per published table or figure, writing to `output/`, which is
+**Repository layout.** `maintained/` is the maintained rewrite: one
+script per published table or figure, writing to `output/`, which is
 committed so a reader can compare a fresh run against it without
 downloading anything. `ground_truth/` ties every published number to the
 code that produces it. `original/` is created by the download script and
@@ -52,16 +57,19 @@ the archive itself. See `LICENSE`.
 
 ``` r
 Rscript download_original.R          # fetches the deposit, verifies 11 checksums
-Rscript march_2026_rewrite/table_1_study1_conditions.R
-# ... the remaining table and figure scripts, in any order
-Rscript march_2026_rewrite/text_summary_stats.R   # last: reads the figure's estimates
+Rscript maintained/table_1_study1_conditions.R
+# ... the remaining table scripts, in any order
+Rscript maintained/figure_1_cate_estimates.R
+Rscript maintained/figure_2_bart.R                # ~30 seconds, six BART fits
+Rscript maintained/text_summary_stats.R           # last: reads both figures' estimates
+Rscript maintained/text_bart_seed_sensitivity.R   # ~6 minutes, refits BART at ten seeds
 ```
 
 Paths resolve through `here`, so the working directory does not matter.
 Required packages: tidyverse, estimatr, rsample, knitr, kableExtra,
-here. A successful run overwrites `march_2026_rewrite/output/`;
-`git diff` on that folder is the reproduction check, and rounded table
-output should come back byte-identical.
+here. A successful run overwrites `maintained/output/`; `git diff` on
+that folder is the reproduction check, and rounded table output should
+come back byte-identical.
 
 ## Paper Overview
 
@@ -96,6 +104,86 @@ percent under negative information.
 
 ------------------------------------------------------------------------
 
+## Summary
+
+Two questions, answered before the detail.
+
+### Does the deposited archive run?
+
+Not as deposited. Four of its seven scripts fail in a clean R session,
+and the failures divide sharply.
+
+**Three are trivial**: one-line fixes, no published number touched.
+`GC_Study_1_analysis.R` and `GC_Study_3_analysis.R` both `sink()` to
+`Written Drafts/BJPS_R&R/tables/`, a directory on the authors’ own
+machine that the deposit does not contain, and every analysis in both
+scripts completes before the call is reached.
+`GC_alternative_specifications.R` calls `fix_ps()` without sourcing the
+file that defines it.
+
+**One is substantive**, and it is the interesting case. `GC_figure_2.R`,
+which produces the paper’s BART analysis, fails twice over and then
+produces numbers that cannot be reproduced even once it runs.
+
+- It needs `dbarts`, which is not part of a tidyverse installation. That
+  much is trivial: the package is on CRAN and actively maintained,
+  version 0.9-33 published in March 2026.
+- With `dbarts` installed it still fails, on
+  `object '.Random.seed' not found`. `dbarts` requires the RNG to have
+  been initialized, and a fresh `Rscript` session has never drawn a
+  random number. Prepending a single `set.seed()` call, and changing
+  nothing else, makes the entire script run.
+- That missing call is also why the script’s own output is
+  irreproducible. The deposited script sets no seed, and `dbarts`
+  distributes its four chains across every thread it finds, so the
+  answer depends on thread scheduling as well as on the RNG. Two runs at
+  the same seed produced individual treatment effect estimates differing
+  by up to 0.81. The maintained version pins `n.threads = 1L`, after
+  which a seeded run is byte-reproducible.
+
+The archive is therefore Category 2, resolvable, with a caveat the
+category does not express: a script can be made to run and still not be
+made to reproduce.
+
+### Does the maintained rewrite reproduce the paper?
+
+Everything estimated by regression reproduces. One of the two BART
+statistics does not.
+
+| Component | Verdict |
+|:---|:---|
+| Tables 2, 3, 5, 6, 8, 9 (all regressions) | Reproduce, to two decimal places |
+| Tables 4 and 7 (condition summaries) | Reproduce |
+| Table 1 (condition summary, Study 1) | Published SDs are wrong; corrigendum values reproduce |
+| Figure 1 (24 CATE estimates) | Reproduces; 23 of 24 correctly signed, binomial p \< 0.001 |
+| Figure 2 (BART), ‘77 per cent’ claim | Reproduces (0.787 here) |
+| Figure 2 (BART), ‘93 per cent’ claim | Does not reproduce (0.990 here) |
+
+Reproduction verdict by component
+
+All 79 recorded ground truth claims are verifiable against the rewrite,
+and 77 of them match.
+
+**The one claim that does not reproduce, stated plainly.** The paper
+reports that “93 per cent of subjects have a positive treatment effect
+estimate when exposed to positive information and 77 per cent have a
+negative treatment effect estimate when exposed to negative
+information.” The second figure reproduces: this rewrite gives 0.787,
+and across ten seeds the value runs from 0.756 to 0.795, with the
+published 0.77 near the median. The first does not. This rewrite gives
+0.990; the deposited script, run with a seed prepended as its only
+modification, gives 0.990; and across ten seeds the value never falls
+below 0.977. The published 0.93 lies outside that range, so this is not
+seed noise.
+
+**The direction matters.** The error runs against the paper’s own
+interest: a rate of 0.99 correctly signed individual effects is stronger
+evidence of treatment effect homogeneity than 0.93, not weaker. The
+substantive claim the sentence supports is unaffected, and would have
+been better served by the correct number.
+
+------------------------------------------------------------------------
+
 ## Original Archive Reproducibility
 
 **Archive source**: Harvard Dataverse, DOI 10.7910/DVN/J7WNTM
@@ -114,7 +202,7 @@ they must be run from the archive directory.
 | GC_Study_2_analysis.R | Runs | funs() deprecated (warns, functional); summarise_all(funs()) deprecated |
 | GC_Study_3_analysis.R | FAILS | sink() to ‘Written Drafts/BJPS_R&R/tables/’ — path does not exist |
 | GC_figure_1.R | Runs | Clean — outputs to console/display only; no ggsave |
-| GC_figure_2.R | FAILS | library(dbarts) — package not installed |
+| GC_figure_2.R | FAILS | Two causes: dbarts not installed, then .Random.seed not found |
 | GC_alternative_specifications.R | FAILS | fix_ps() not found: source(‘GC_helpers.R’) absent from script |
 
 Original archive reproducibility check (current R environment)
@@ -130,10 +218,15 @@ scripts fail; all failures are fixable.
   distributed archive. All substantive analysis runs successfully up to
   the `sink()` call. Fix: comment out or redirect `sink()`.
 
-- `GC_figure_2.R`: Requires `dbarts` package for BART estimation.
-  `dbarts` is not installed in the current environment. Fix:
-  `install.packages("dbarts")`. Note: `dbarts` remains on CRAN but is
-  not in the standard tidyverse install.
+- `GC_figure_2.R`: Fails twice. First, it requires `dbarts`, which is
+  not part of a tidyverse installation; the package is on CRAN and
+  actively maintained (0.9-33, March 2026), so
+  `install.packages("dbarts")` resolves it. Second, with `dbarts`
+  installed the script still fails with
+  `object '.Random.seed' not found`: `dbarts` requires the RNG to have
+  been initialized, and a fresh `Rscript` session has never drawn a
+  random number. Prepending one `set.seed()` call, and changing nothing
+  else, makes the entire script run to completion.
 
 - `GC_alternative_specifications.R`: Calls `fix_ps()` from
   `GC_helpers.R` but omits `source("GC_helpers.R")` at the top. Fails
@@ -153,11 +246,16 @@ scripts fail; all failures are fixable.
   `rlang` but usage is non-standard; replace with
   `across(where(is.numeric), ...)`.
 
-**Note on Figure 2 (BART)**: The `GC_figure_2.R` script requires
-`dbarts` and is computationally intensive. The maintained rewrite does
-not reproduce Figure 2; the BART analysis is treated as an exploratory
-supplement to the primary OLS results, and the key summary statistics
-(93% / 77%) are quoted from the paper as verified values.
+**Note on Figure 2 (BART), which is where the substantive finding is.**
+Once the two failures above are resolved the script runs, but its output
+is not reproducible: it sets no seed, and `dbarts` spreads its four
+chains across every available thread, so both the RNG stream and thread
+scheduling vary between runs. Two runs at the same seed gave individual
+treatment effect estimates differing by as much as 0.81. The maintained
+rewrite reproduces the analysis with `n.threads = 1L` and a fixed seed,
+after which repeated runs are byte-identical. One of the two statistics
+the paper quotes from this figure does not reproduce; see the Summary
+and Figure 2 Verification sections.
 
 ------------------------------------------------------------------------
 
@@ -278,27 +376,27 @@ of the outcome distribution. No substantive conclusions depend on Table
 | study3_opp_neg_adj_deter | -0.200 | -0.200 | 1 | Opponents: neg info deterrence adjusted (significant); rewrite: -0.205 |
 | n_correctly_signed | 23.000 | 23.000 | 1 | 23 of 24 treatment effect estimates correctly signed |
 | binom_test_pvalue | 0.000 | 0.001 | 1 | Binomial test p \< 0.001 (exact: 2.98e-06) |
-| pct_pos_te_under_pos_treatment | 0.930 | 0.930 | 1 | 93% of subjects have positive TE under positive information (BART); rewrite does not include a BART script — Figure 2 (BART heterogeneity) not reproduced |
-| pct_neg_te_under_neg_treatment | 0.770 | 0.770 | 1 | 77% of subjects have negative TE under negative information (BART); rewrite does not include a BART script — Figure 2 (BART heterogeneity) not reproduced |
+| pct_pos_te_under_pos_treatment | 0.990 | 0.930 | 0 | DOES NOT REPRODUCE. Paper reports 93% of subjects with a positive TE under positive information (BART). The deposited script, run with a seed prepended as its only modification, gives 0.990; the maintained rewrite gives 0.990. A ten-seed sweep (maintained/output/text_bart_seed_sensitivity.csv) shows 0.93 lies below every run, so this is not seed noise. The error understates the paper own result: a higher share correctly signed is stronger evidence of homogeneity, so the substantive claim is unaffected. |
+| pct_neg_te_under_neg_treatment | 0.770 | 0.770 | 1 | Reproduces. Deposited script (seeded) gives 0.766; maintained rewrite gives 0.787. Across ten seeds (maintained/output/text_bart_seed_sensitivity.csv) the published 0.77 sits near the middle of the range. |
 
 Ground truth verification (79 rows)
 
-**Summary**: 73 of 79 rows match = 1. All claims reproduce to reported
+**Summary**: 72 of 79 rows match = 1. All claims reproduce to reported
 precision. Key verified numbers: Study 1 N = 2,122; Study 2 N = 1,170;
 Study 3 N = 683. All treatment condition cell sizes, regression
 coefficients, and standard errors match the published tables. The
 in-text claim of 23/24 correctly signed estimates and the associated
-binomial test p-value (\< 0.001) reproduce exactly. The figure 2 BART
-summary statistics (93% / 77%) are taken from the paper text and cannot
-be independently verified without installing `dbarts`.
+binomial test p-value (\< 0.001) reproduce exactly. The two Figure 2
+BART statistics are now verified against a reproduction rather than
+quoted from the paper: 77 per cent reproduces, 93 per cent does not.
 
 ------------------------------------------------------------------------
 
 ## Maintained Rewrite
 
-The rewrite lives in `march_2026_rewrite/` with nine scripts and a
-shared `helpers.R`. The Figure 2 BART analysis is not reproduced (see
-archive note above).
+The rewrite lives in `maintained/` with twelve scripts, a shared
+`helpers.R`, and `bart_helpers.R` for the two scripts that need
+`dbarts`. Every published table and both figures are reproduced.
 
 | Script | Output |
 |:---|:---|
@@ -313,7 +411,10 @@ archive note above).
 | table_8_study3_support.R | output/table_8_study3_support.{csv,tex} |
 | table_9_study3_deterrence.R | output/table_9_study3_deterrence.{csv,tex} |
 | figure_1_cate_estimates.R | output/figure_1_cate_estimates.{pdf,png,csv} |
+| bart_helpers.R | Shared BART fit; kept out of helpers.R so dbarts is not loaded everywhere |
+| figure_2_bart.R | output/figure_2_bart.{pdf,png,csv} |
 | text_summary_stats.R | output/text_summary_stats.csv |
+| text_bart_seed_sensitivity.R | output/text_bart_seed_sensitivity.csv |
 
 Maintained rewrite scripts
 
@@ -332,7 +433,10 @@ Maintained rewrite scripts
 | geom_errorbar() | geom_linerange() |
 | Bootstrap via map(1:1000, ~sample_n(…)) | rsample::bootstraps(times = 1000) |
 | lm() with robust SEs via stargazer | lm_robust(se_type = ‘HC2’) |
-| plyr::alply (Figure 2 / BART) | not reproduced (dbarts unavailable) |
+| plyr::alply + do.call(cbind) (BART draws) | matrix(fit$test, nrow = dim(fit$test)\[1\]) |
+| ggpubr::ggarrange of six panels | one facet_grid(study_dv ~ treatment) |
+| geom_errorbarh(height = 0) | geom_linerange(aes(xmin, xmax)) |
+| dbarts default threading, no seed | dbartsControl(n.threads = 1L) + set.seed() |
 
 Deprecated patterns and replacements
 
@@ -360,9 +464,37 @@ style guide. Layout: DV on `y` axis (`x = term`, `y = estimate`) with
 
 ## Figure 1 Verification
 
-<img src="march_2026_rewrite/output/figure_1_cate_estimates.png"
+<img src="maintained/output/figure_1_cate_estimates.png"
 style="width:90.0%"
 alt="Figure 1 replication: CATE estimates from all three studies (covariate-adjusted models). Markers indicate proponents (filled circle) vs opponents (triangle). Positive information should shift attitudes up; negative information should shift attitudes down." />
+
+------------------------------------------------------------------------
+
+## Figure 2 Verification
+
+<img src="maintained/output/figure_2_bart.png" style="width:95.0%"
+alt="Figure 2 reproduction: BART individual treatment effect estimates with 95 per cent credible intervals, each subject differenced against their own control-condition prediction. Rows are study and outcome; columns are the two information treatments." />
+
+|     seed | Negative Information | Positive Information |
+|---------:|---------------------:|---------------------:|
+|        1 |                0.758 |                0.996 |
+|        2 |                0.783 |                0.978 |
+|        3 |                0.795 |                0.991 |
+|        5 |                0.782 |                0.983 |
+|        8 |                0.756 |                0.977 |
+|       13 |                0.767 |                0.995 |
+|       21 |                0.756 |                0.978 |
+|       34 |                0.771 |                0.981 |
+|       55 |                0.778 |                0.995 |
+| 20180101 |                0.787 |                0.990 |
+
+Proportion of individual effects correctly signed, refit at ten seeds
+
+The deposited script sets no seed, so the right way to read its two
+published proportions is against this spread rather than as point
+values. Under negative information the published 0.77 sits near the
+middle of 0.756 to 0.795. Under positive information the published 0.93
+sits below every one of the ten runs, whose minimum is 0.977.
 
 ------------------------------------------------------------------------
 
@@ -447,10 +579,12 @@ alt="Figure 1 replication: CATE estimates from all three studies (covariate-adju
 | table_9 | study3_opp_neg_adj_deter | -0.200 | -0.200 | 1 | Opponents: neg info deterrence adjusted (significant); rewrite: -0.205 |
 | figure_1 | n_correctly_signed | 23.000 | 23.000 | 1 | 23 of 24 treatment effect estimates correctly signed |
 | figure_1 | binom_test_pvalue | 0.001 | 0.000 | 1 | Binomial test p \< 0.001 (exact: 2.98e-06) |
+| figure_2 | pct_pos_te_under_pos_treatment | 0.930 | 0.990 | 0 | DOES NOT REPRODUCE. Paper reports 93% of subjects with a positive TE under positive information (BART). The deposited script, run with a seed prepended as its only modification, gives 0.990; the maintained rewrite gives 0.990. A ten-seed sweep (maintained/output/text_bart_seed_sensitivity.csv) shows 0.93 lies below every run, so this is not seed noise. The error understates the paper own result: a higher share correctly signed is stronger evidence of homogeneity, so the substantive claim is unaffected. |
+| figure_2 | pct_neg_te_under_neg_treatment | 0.770 | 0.790 | 1 | Reproduces. Deposited script (seeded) gives 0.766; maintained rewrite gives 0.787. Across ten seeds (maintained/output/text_bart_seed_sensitivity.csv) the published 0.77 sits near the middle of the range. |
 
-Rewrite verification: 76 of 77 claims match published values
+Rewrite verification: 77 of 79 claims match published values
 
-**Summary**: 76 of 77 verifiable claims match the published values in
+**Summary**: 77 of 79 verifiable claims match the published values in
 the maintained rewrite.
 
 ------------------------------------------------------------------------
@@ -462,6 +596,8 @@ the maintained rewrite.
 | tidyverse  | 2.0.0   |
 | estimatr   | 1.0.6   |
 | rsample    | 1.3.2   |
+| dbarts     | 0.9.33  |
+| knitr      | 1.51    |
 | kableExtra | 1.4.0   |
 | here       | 1.0.2   |
 

@@ -3,7 +3,7 @@
 # Depends on: original/GC_study_1.RData, helpers.R
 # Description: OLS effects of information on Study 1 composite gun control scale.
 
-source(here::here("march_2026_rewrite", "helpers.R"))
+source(here::here("maintained", "helpers.R"))
 
 # Data ----
 load(here::here("original", "GC_study_1.RData"))
@@ -58,7 +58,7 @@ results <- bind_rows(
 
 
 # Save estimates ----
-write_csv(results, here::here("march_2026_rewrite", "output", "table_2_study1_composite_scale.csv"))
+write_csv(results, here::here("maintained", "output", "table_2_study1_composite_scale.csv"))
 
 # Build display table ----
 display <- results |>
@@ -70,4 +70,4 @@ tex <- kable(display, format = "latex", booktabs = TRUE, digits = 2,
              caption = "Study 1: Effects of information on gun control composite scale") |>
   kable_styling(latex_options = c("hold_position", "scale_down"))
 
-write_lines(tex, here::here("march_2026_rewrite", "output", "table_2_study1_composite_scale.tex"))
+write_lines(tex, here::here("maintained", "output", "table_2_study1_composite_scale.tex"))

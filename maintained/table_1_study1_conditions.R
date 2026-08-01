@@ -3,7 +3,7 @@
 # Depends on: original/GC_study_1.RData, helpers.R
 # Description: Study 1 (gun control) treatment condition means and bootstrapped SDs.
 
-source(here::here("march_2026_rewrite", "helpers.R"))
+source(here::here("maintained", "helpers.R"))
 set.seed(20180101)
 
 load(here::here("original", "GC_study_1.RData"))
@@ -71,7 +71,7 @@ tab <- tab_means |>
   arrange(condition)
 
 # Save CSV ----
-write_csv(tab, here::here("march_2026_rewrite", "output", "table_1_study1_conditions.csv"))
+write_csv(tab, here::here("maintained", "output", "table_1_study1_conditions.csv"))
 
 # Build display rows: mean/SD row then (bootstrapped SE) row ----
 display_rows <- tab |>
@@ -105,4 +105,4 @@ tex <- kable(interleaved, format = "latex", booktabs = TRUE,
              caption = "Study 1 (gun control): treatment conditions") |>
   kable_styling(latex_options = c("hold_position", "scale_down"))
 
-write_lines(tex, here::here("march_2026_rewrite", "output", "table_1_study1_conditions.tex"))
+write_lines(tex, here::here("maintained", "output", "table_1_study1_conditions.tex"))

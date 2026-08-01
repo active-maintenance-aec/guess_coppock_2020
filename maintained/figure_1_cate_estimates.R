@@ -3,7 +3,7 @@
 # Depends on: original/GC_study_1.RData, GC_Study_2.RData, GC_Study_3.RData, helpers.R
 # Description: Covariate-adjusted CATE estimates (Figure 1): 24 estimates from all three studies.
 
-source(here::here("march_2026_rewrite", "helpers.R"))
+source(here::here("maintained", "helpers.R"))
 
 load(here::here("original", "GC_study_1.RData"))
 load(here::here("original", "GC_Study_2.RData"))
@@ -146,10 +146,10 @@ g <- ggplot(gg_df, aes(x = term, y = estimate, group = subset, shape = subset)) 
     legend.position   = "bottom"
   )
 
-ggsave(here::here("march_2026_rewrite", "output", "figure_1_cate_estimates.pdf"),
+ggsave(here::here("maintained", "output", "figure_1_cate_estimates.pdf"),
        plot = g, width = 9, height = 10)
-ggsave(here::here("march_2026_rewrite", "output", "figure_1_cate_estimates.png"),
+ggsave(here::here("maintained", "output", "figure_1_cate_estimates.png"),
        plot = g, width = 9, height = 10, dpi = 300)
 
 # Save estimates ----
-write_csv(gg_df, here::here("march_2026_rewrite", "output", "figure_1_cate_estimates.csv"))
+write_csv(gg_df, here::here("maintained", "output", "figure_1_cate_estimates.csv"))

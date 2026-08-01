@@ -3,7 +3,7 @@
 # Depends on: original/GC_study_1.RData, helpers.R
 # Description: OLS effects of information on Study 1 binary gun control support item (W2_Q1).
 
-source(here::here("march_2026_rewrite", "helpers.R"))
+source(here::here("maintained", "helpers.R"))
 
 # Data ----
 load(here::here("original", "GC_study_1.RData"))
@@ -48,7 +48,7 @@ results <- bind_rows(
 
 
 # Save estimates ----
-write_csv(results, here::here("march_2026_rewrite", "output", "table_3_study1_gun_support.csv"))
+write_csv(results, here::here("maintained", "output", "table_3_study1_gun_support.csv"))
 
 
 # Display table ----
@@ -61,4 +61,4 @@ tex <- kable(display, format = "latex", booktabs = TRUE, digits = 2,
              caption = "Study 1: Effects of information on gun control support (W2_Q1)") |>
   kable_styling(latex_options = c("hold_position", "scale_down"))
 
-write_lines(tex, here::here("march_2026_rewrite", "output", "table_3_study1_gun_support.tex"))
+write_lines(tex, here::here("maintained", "output", "table_3_study1_gun_support.tex"))

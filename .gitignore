@@ -12,7 +12,7 @@ guess_coppock_2020_corrigendum.pdf
 notes.md
 
 # Quarto copies referenced resources beside the PDF; the PDF embeds them.
-report/march_2026_rewrite/
+report/maintained/
 
 # The deposited archive is fetched from Dataverse by download_original.R, not redistributed.
 original/

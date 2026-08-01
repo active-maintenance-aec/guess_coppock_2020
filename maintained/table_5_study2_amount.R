@@ -1,9 +1,9 @@
-# guess_coppock_2020 — table_6_study2_favor.R
-# Output: output/table_6_study2_favor.csv, output/table_6_study2_favor.tex
+# guess_coppock_2020 — table_5_study2_amount.R
+# Output: output/table_5_study2_amount.csv, output/table_5_study2_amount.tex
 # Depends on: original/GC_Study_2.RData, helpers.R
-# Description: OLS effects of minimum wage information on T2 Favor (binary support), by initial position.
+# Description: OLS effects of minimum wage information on T2 Amount, by initial position.
 
-source(here::here("march_2026_rewrite", "helpers.R"))
+source(here::here("maintained", "helpers.R"))
 
 # Data ----
 load(here::here("original", "GC_Study_2.RData"))
@@ -11,7 +11,7 @@ load(here::here("original", "GC_Study_2.RData"))
 
 # Models ----
 covs <- "favor_T1_recode + age + male + ideology + partyid + education + amount_T1"
-base <- "favor_T2_recode ~ positive_information + negative_information + I(condition_type == 'Placebo')"
+base <- "amount_T2 ~ positive_information + negative_information + I(condition_type == 'Placebo')"
 
 fit_opp_unadj <- lm_robust(as.formula(base),
   data = subset(study_2, initial_position == "con_raise"), se_type = "HC2")
@@ -35,10 +35,10 @@ extract_rows <- function(fit, label) {
     filter(term %in% terms_keep) |>
     mutate(
       term_label = case_when(
-        term == "positive_information"                 ~ "Pos. Info (0 to 1)",
-        term == "negative_information"                 ~ "Neg. Info (0 to 1)",
-        term == "I(condition_type == \"Placebo\")TRUE" ~ "Condition: Placebo",
-        term == "(Intercept)"                          ~ "Constant"
+        term == "positive_information"                      ~ "Pos. Info (0 to 1)",
+        term == "negative_information"                      ~ "Neg. Info (0 to 1)",
+        term == "I(condition_type == \"Placebo\")TRUE"      ~ "Condition: Placebo",
+        term == "(Intercept)"                               ~ "Constant"
       ),
       group = label,
       N = fit$nobs
@@ -56,7 +56,7 @@ results <- bind_rows(
 
 
 # Save estimates ----
-write_csv(results, here::here("march_2026_rewrite", "output", "table_6_study2_favor.csv"))
+write_csv(results, here::here("maintained", "output", "table_5_study2_amount.csv"))
 
 
 # Display table ----
@@ -67,7 +67,7 @@ display <- results |>
                                         "Condition: Placebo", "Constant")))
 
 tex <- kable(display, format = "latex", booktabs = TRUE, digits = 2,
-             caption = "Study 2: Effects of information on favoring minimum wage raise") |>
+             caption = "Study 2: Effects of information on preferred minimum wage amount") |>
   kable_styling(latex_options = c("hold_position", "scale_down"))
 
-write_lines(tex, here::here("march_2026_rewrite", "output", "table_6_study2_favor.tex"))
+write_lines(tex, here::here("maintained", "output", "table_5_study2_amount.tex"))

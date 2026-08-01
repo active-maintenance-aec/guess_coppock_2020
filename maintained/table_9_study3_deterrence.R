@@ -1,9 +1,9 @@
-# guess_coppock_2020 — table_8_study3_support.R
-# Output: output/table_8_study3_support.csv, output/table_8_study3_support.tex
+# guess_coppock_2020 — table_9_study3_deterrence.R
+# Output: output/table_9_study3_deterrence.csv, output/table_9_study3_deterrence.tex
 # Depends on: original/GC_Study_3.RData, helpers.R
-# Description: OLS effects of capital punishment information on T2 attitude support, by proponent status.
+# Description: OLS effects of capital punishment information on T2 deterrence belief, by proponent status.
 
-source(here::here("march_2026_rewrite", "helpers.R"))
+source(here::here("maintained", "helpers.R"))
 
 # Data ----
 load(here::here("original", "GC_Study_3.RData"))
@@ -11,7 +11,7 @@ load(here::here("original", "GC_Study_3.RData"))
 
 # Models ----
 covs <- "support_recode_T1 + deter_recode_T1 + age + female + ideology + educ + race"
-base <- "support_recode_T2 ~ positive_information + negative_information + I(condition_factor == 'NN')"
+base <- "deter_recode_T2 ~ positive_information + negative_information + I(condition_factor == 'NN')"
 
 fit_pro_unadj <- lm_robust(as.formula(base),
   data = subset(study_3, pro == 1), se_type = "HC2")
@@ -50,7 +50,7 @@ results <- bind_rows(
 
 
 # Save estimates ----
-write_csv(results, here::here("march_2026_rewrite", "output", "table_8_study3_support.csv"))
+write_csv(results, here::here("maintained", "output", "table_9_study3_deterrence.csv"))
 
 
 # Display table ----
@@ -62,7 +62,7 @@ display <- results |>
                                         "Condition: Null Null", "Constant")))
 
 tex <- kable(display, format = "latex", booktabs = TRUE, digits = 2,
-             caption = "Study 3: Effects of information on support for capital punishment") |>
+             caption = "Study 3: Effects of information on belief in deterrent effect of capital punishment") |>
   kable_styling(latex_options = c("hold_position", "scale_down"))
 
-write_lines(tex, here::here("march_2026_rewrite", "output", "table_8_study3_support.tex"))
+write_lines(tex, here::here("maintained", "output", "table_9_study3_deterrence.tex"))

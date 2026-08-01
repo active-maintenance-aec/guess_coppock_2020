@@ -8,7 +8,7 @@ library(knitr)
 library(kableExtra)
 library(rsample)
 
-here::i_am("march_2026_rewrite/helpers.R")
+here::i_am("maintained/helpers.R")
 
 # Weighted standard error (Cochran 1977 definition) ----
 weighted_var <- function(x, w, na.rm = FALSE) {

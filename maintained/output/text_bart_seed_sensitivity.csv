@@ -1,0 +1,21 @@
+seed,treatment,prop_correctly_signed
+1,Negative Information,0.7578503957110033
+1,Positive Information,0.9956599438345672
+2,Negative Information,0.7827418943068675
+2,Positive Information,0.9782997191728363
+3,Negative Information,0.7951238192494255
+3,Positive Information,0.9911922389583865
+5,Negative Information,0.7822312994638754
+5,Positive Information,0.9825121266275211
+8,Negative Information,0.755552718917539
+8,Positive Information,0.9772785294868522
+13,Negative Information,0.7667858054633648
+13,Positive Information,0.9950217002808271
+21,Negative Information,0.756318611182027
+21,Positive Information,0.9775338269083482
+34,Negative Information,0.7711258616287976
+34,Positive Information,0.9812356395200409
+55,Negative Information,0.7778912432984427
+55,Positive Information,0.9954046464130712
+20180101,Negative Information,0.7870819504723002
+20180101,Positive Information,0.9895328057186622

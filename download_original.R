@@ -3,7 +3,7 @@
 # Depends on: original_manifest.csv
 # Description: Fetch the deposited archive from Harvard Dataverse and verify every
 #   file against the checksums the archive itself publishes. Run this once before
-#   running anything in march_2026_rewrite/.
+#   running anything in maintained/.
 
 library(tidyverse)
 library(here)

@@ -3,7 +3,7 @@
 # Depends on: original/GC_Study_3.RData, helpers.R
 # Description: Study 3 (capital punishment) treatment condition means and bootstrapped SDs.
 
-source(here::here("march_2026_rewrite", "helpers.R"))
+source(here::here("maintained", "helpers.R"))
 set.seed(20180101)
 
 # Data ----
@@ -63,7 +63,7 @@ tab <- tab_means |>
 
 
 # Save ----
-write_csv(tab, here::here("march_2026_rewrite", "output", "table_7_study3_conditions.csv"))
+write_csv(tab, here::here("maintained", "output", "table_7_study3_conditions.csv"))
 
 
 # LaTeX table ----
@@ -71,4 +71,4 @@ tex <- kable(tab, format = "latex", booktabs = TRUE, digits = 2,
              caption = "Study 3 (capital punishment): treatment conditions") |>
   kable_styling(latex_options = c("hold_position", "scale_down"))
 
-write_lines(tex, here::here("march_2026_rewrite", "output", "table_7_study3_conditions.tex"))
+write_lines(tex, here::here("maintained", "output", "table_7_study3_conditions.tex"))

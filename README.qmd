@@ -36,7 +36,7 @@ This repository holds the actively maintained replication code for Guess and Cop
 
 **The data are not redistributed here.** The deposit lives at Harvard Dataverse and that is the only copy this repository points at. `download_original.R` fetches it and checks every file against the MD5 checksums the archive itself publishes; `original_manifest.csv` records those checksums, the Dataverse file identifiers, and the UNF of each ingested data file, so the exact bytes this code was written against are pinned in version control even though the bytes themselves are not. Re-hosting a copy would create a second archive that can drift from the first, which is the problem this project exists to document rather than to add to.
 
-**Repository layout.** `march_2026_rewrite/` is the maintained rewrite: one script per published table or figure, writing to `output/`, which is committed so a reader can compare a fresh run against it without downloading anything. `ground_truth/` ties every published number to the code that produces it. `original/` is created by the download script and is deliberately absent from the repository. This README is the reproducibility report, also available as a PDF in `report/`.
+**Repository layout.** `maintained/` is the maintained rewrite: one script per published table or figure, writing to `output/`, which is committed so a reader can compare a fresh run against it without downloading anything. `ground_truth/` ties every published number to the code that produces it. `original/` is created by the download script and is deliberately absent from the repository. This README is the reproducibility report, also available as a PDF in `report/`.
 
 **License.** CC0 1.0 Universal, matching the terms of the deposit this repository maintains, so nothing in the chain is more restrictive than the archive itself. See `LICENSE`.
 
@@ -44,12 +44,15 @@ This repository holds the actively maintained replication code for Guess and Cop
 
 ``` r
 Rscript download_original.R          # fetches the deposit, verifies 11 checksums
-Rscript march_2026_rewrite/table_1_study1_conditions.R
-# ... the remaining table and figure scripts, in any order
-Rscript march_2026_rewrite/text_summary_stats.R   # last: reads the figure's estimates
+Rscript maintained/table_1_study1_conditions.R
+# ... the remaining table scripts, in any order
+Rscript maintained/figure_1_cate_estimates.R
+Rscript maintained/figure_2_bart.R                # ~30 seconds, six BART fits
+Rscript maintained/text_summary_stats.R           # last: reads both figures' estimates
+Rscript maintained/text_bart_seed_sensitivity.R   # ~6 minutes, refits BART at ten seeds
 ```
 
-Paths resolve through `here`, so the working directory does not matter. Required packages: tidyverse, estimatr, rsample, knitr, kableExtra, here. A successful run overwrites `march_2026_rewrite/output/`; `git diff` on that folder is the reproduction check, and rounded table output should come back byte-identical.
+Paths resolve through `here`, so the working directory does not matter. Required packages: tidyverse, estimatr, rsample, knitr, kableExtra, here. A successful run overwrites `maintained/output/`; `git diff` on that folder is the reproduction check, and rounded table output should come back byte-identical.
 
 ## Paper Overview
 
@@ -60,6 +63,75 @@ Paths resolve through `here`, so the working directory does not matter. Required
 **Design**: Three pre-registered within-and-between-subjects survey experiments. Study 1 (N = 2,122): nationally-representative GfK sample, gun control issue, three-arm design (control, positive, negative information). Study 2 (N = 1,170): MTurk sample, minimum wage issue, thirteen-condition design crossing pro- and anti-minimum-wage videos. Study 3 (N = 683): MTurk sample, capital punishment issue, six-condition design varying combinations of pro- and anti-capital-punishment research reports. All studies measured pre-treatment baseline attitudes (T1) and post-treatment outcomes (T2). OLS with HC2 robust standard errors; covariate-adjusted and unadjusted estimates reported for proponents and opponents separately.
 
 **Main finding**: Across all three studies, no evidence of backlash. Out of twenty-four treatment effect estimates (both CATE and CAPTE) across the three studies and two outcomes each, twenty-three are correctly signed. A formal binomial test rejects the null of equal probability of correct and incorrect signing (p < 0.001). BART analysis confirms near-universal treatment-effect homogeneity: 93 percent of subjects have a positive treatment effect estimate under positive information and 77 percent under negative information.
+
+---
+
+## Summary
+
+```{r summary-setup, include=FALSE}
+gt_all <- read_csv(here("ground_truth", "guess_coppock_2020_ground_truth.csv"),
+                   show_col_types = FALSE)
+seed_df <- read_csv(here("maintained", "output", "text_bart_seed_sensitivity.csv"),
+                    show_col_types = FALSE)
+bart_now <- read_csv(here("maintained", "output", "figure_2_bart.csv"),
+                     show_col_types = FALSE)
+
+n_claims <- nrow(gt_all)
+n_verifiable <- sum(!is.na(gt_all$match_rewrite))
+n_match <- sum(gt_all$match_rewrite == 1, na.rm = TRUE)
+
+bart_pos <- bart_now |> filter(treatment == "Positive Information") |> summarise(p = mean(tau_hat > 0)) |> pull(p)
+bart_neg <- bart_now |> filter(treatment == "Negative Information") |> summarise(p = mean(tau_hat < 0)) |> pull(p)
+
+seed_pos <- seed_df |> filter(treatment == "Positive Information")
+seed_neg <- seed_df |> filter(treatment == "Negative Information")
+```
+
+Two questions, answered before the detail.
+
+### Does the deposited archive run?
+
+Not as deposited. Four of its seven scripts fail in a clean R session, and the failures divide sharply.
+
+**Three are trivial**: one-line fixes, no published number touched. `GC_Study_1_analysis.R` and `GC_Study_3_analysis.R` both `sink()` to `Written Drafts/BJPS_R&R/tables/`, a directory on the authors' own machine that the deposit does not contain, and every analysis in both scripts completes before the call is reached. `GC_alternative_specifications.R` calls `fix_ps()` without sourcing the file that defines it.
+
+**One is substantive**, and it is the interesting case. `GC_figure_2.R`, which produces the paper's BART analysis, fails twice over and then produces numbers that cannot be reproduced even once it runs.
+
+- It needs `dbarts`, which is not part of a tidyverse installation. That much is trivial: the package is on CRAN and actively maintained, version 0.9-33 published in March 2026.
+- With `dbarts` installed it still fails, on `object '.Random.seed' not found`. `dbarts` requires the RNG to have been initialized, and a fresh `Rscript` session has never drawn a random number. Prepending a single `set.seed()` call, and changing nothing else, makes the entire script run.
+- That missing call is also why the script's own output is irreproducible. The deposited script sets no seed, and `dbarts` distributes its four chains across every thread it finds, so the answer depends on thread scheduling as well as on the RNG. Two runs at the same seed produced individual treatment effect estimates differing by up to 0.81. The maintained version pins `n.threads = 1L`, after which a seeded run is byte-reproducible.
+
+The archive is therefore Category 2, resolvable, with a caveat the category does not express: a script can be made to run and still not be made to reproduce.
+
+### Does the maintained rewrite reproduce the paper?
+
+Everything estimated by regression reproduces. One of the two BART statistics does not.
+
+```{r summary-table}
+verdict_df <- tibble::tribble(
+  ~Component,                                  ~Verdict,
+  "Tables 2, 3, 5, 6, 8, 9 (all regressions)", "Reproduce, to two decimal places",
+  "Tables 4 and 7 (condition summaries)",      "Reproduce",
+  "Table 1 (condition summary, Study 1)",      "Published SDs are wrong; corrigendum values reproduce",
+  "Figure 1 (24 CATE estimates)",              "Reproduces; 23 of 24 correctly signed, binomial p < 0.001",
+  "Figure 2 (BART), '77 per cent' claim",      paste0("Reproduces (", sprintf("%.3f", bart_neg), " here)"),
+  "Figure 2 (BART), '93 per cent' claim",      paste0("Does not reproduce (", sprintf("%.3f", bart_pos), " here)")
+)
+
+k <- kable(verdict_df, booktabs = TRUE, caption = "Reproduction verdict by component")
+if (latex_out) {
+  k <- k |>
+    kable_styling(latex_options = c("striped", "hold_position", "scale_down")) |>
+    column_spec(2, width = "8cm")
+}
+k
+```
+
+All `r n_claims` recorded ground truth claims are verifiable against the rewrite, and `r n_match` of them match.
+
+**The one claim that does not reproduce, stated plainly.** The paper reports that "93 per cent of subjects have a positive treatment effect estimate when exposed to positive information and 77 per cent have a negative treatment effect estimate when exposed to negative information." The second figure reproduces: this rewrite gives `r sprintf("%.3f", bart_neg)`, and across ten seeds the value runs from `r round(min(seed_neg$prop_correctly_signed), 3)` to `r round(max(seed_neg$prop_correctly_signed), 3)`, with the published 0.77 near the median. The first does not. This rewrite gives `r sprintf("%.3f", bart_pos)`; the deposited script, run with a seed prepended as its only modification, gives 0.990; and across ten seeds the value never falls below `r round(min(seed_pos$prop_correctly_signed), 3)`. The published 0.93 lies outside that range, so this is not seed noise.
+
+**The direction matters.** The error runs against the paper's own interest: a rate of `r sprintf("%.2f", bart_pos)` correctly signed individual effects is stronger evidence of treatment effect homogeneity than 0.93, not weaker. The substantive claim the sentence supports is unaffected, and would have been better served by the correct number.
 
 ---
 
@@ -77,7 +149,7 @@ repro_df <- tibble::tribble(
   "GC_Study_2_analysis.R",           "Runs",   "funs() deprecated (warns, functional); summarise_all(funs()) deprecated",
   "GC_Study_3_analysis.R",           "FAILS",  "sink() to 'Written Drafts/BJPS_R&R/tables/' — path does not exist",
   "GC_figure_1.R",                   "Runs",   "Clean — outputs to console/display only; no ggsave",
-  "GC_figure_2.R",                   "FAILS",  "library(dbarts) — package not installed",
+  "GC_figure_2.R",                   "FAILS",  "Two causes: dbarts not installed, then .Random.seed not found",
   "GC_alternative_specifications.R", "FAILS",  "fix_ps() not found: source('GC_helpers.R') absent from script"
 )
 
@@ -97,7 +169,7 @@ k
 
 - `GC_Study_1_analysis.R` and `GC_Study_3_analysis.R`: Both call `sink("Written Drafts/BJPS_R&R/tables/...")` to write intermediate `.tex` files to a hardcoded local path that does not exist in the distributed archive. All substantive analysis runs successfully up to the `sink()` call. Fix: comment out or redirect `sink()`.
 
-- `GC_figure_2.R`: Requires `dbarts` package for BART estimation. `dbarts` is not installed in the current environment. Fix: `install.packages("dbarts")`. Note: `dbarts` remains on CRAN but is not in the standard tidyverse install.
+- `GC_figure_2.R`: Fails twice. First, it requires `dbarts`, which is not part of a tidyverse installation; the package is on CRAN and actively maintained (0.9-33, March 2026), so `install.packages("dbarts")` resolves it. Second, with `dbarts` installed the script still fails with `object '.Random.seed' not found`: `dbarts` requires the RNG to have been initialized, and a fresh `Rscript` session has never drawn a random number. Prepending one `set.seed()` call, and changing nothing else, makes the entire script run to completion.
 
 - `GC_alternative_specifications.R`: Calls `fix_ps()` from `GC_helpers.R` but omits `source("GC_helpers.R")` at the top. Fails immediately. Fix: add `source("GC_helpers.R")`.
 
@@ -109,7 +181,7 @@ k
 - `rm(list = ls())` at top of each script — unnecessary in clean sessions.
 - `mutate_if(is_bare_numeric, ...)` — `is_bare_numeric` exported from `rlang` but usage is non-standard; replace with `across(where(is.numeric), ...)`.
 
-**Note on Figure 2 (BART)**: The `GC_figure_2.R` script requires `dbarts` and is computationally intensive. The maintained rewrite does not reproduce Figure 2; the BART analysis is treated as an exploratory supplement to the primary OLS results, and the key summary statistics (93% / 77%) are quoted from the paper as verified values.
+**Note on Figure 2 (BART), which is where the substantive finding is.** Once the two failures above are resolved the script runs, but its output is not reproducible: it sets no seed, and `dbarts` spreads its four chains across every available thread, so both the RNG stream and thread scheduling vary between runs. Two runs at the same seed gave individual treatment effect estimates differing by as much as 0.81. The maintained rewrite reproduces the analysis with `n.threads = 1L` and a fixed seed, after which repeated runs are byte-identical. One of the two statistics the paper quotes from this figure does not reproduce; see the Summary and Figure 2 Verification sections.
 
 ---
 
@@ -151,13 +223,13 @@ if (latex_out) {
 k
 ```
 
-**Summary**: `r sum(gt$match == 1, na.rm = TRUE)` of `r nrow(gt)` rows match = 1. All claims reproduce to reported precision. Key verified numbers: Study 1 N = 2,122; Study 2 N = 1,170; Study 3 N = 683. All treatment condition cell sizes, regression coefficients, and standard errors match the published tables. The in-text claim of 23/24 correctly signed estimates and the associated binomial test p-value (< 0.001) reproduce exactly. The figure 2 BART summary statistics (93% / 77%) are taken from the paper text and cannot be independently verified without installing `dbarts`.
+**Summary**: `r sum(gt$match == 1, na.rm = TRUE)` of `r nrow(gt)` rows match = 1. All claims reproduce to reported precision. Key verified numbers: Study 1 N = 2,122; Study 2 N = 1,170; Study 3 N = 683. All treatment condition cell sizes, regression coefficients, and standard errors match the published tables. The in-text claim of 23/24 correctly signed estimates and the associated binomial test p-value (< 0.001) reproduce exactly. The two Figure 2 BART statistics are now verified against a reproduction rather than quoted from the paper: 77 per cent reproduces, 93 per cent does not.
 
 ---
 
 ## Maintained Rewrite
 
-The rewrite lives in `march_2026_rewrite/` with nine scripts and a shared `helpers.R`. The Figure 2 BART analysis is not reproduced (see archive note above).
+The rewrite lives in `maintained/` with twelve scripts, a shared `helpers.R`, and `bart_helpers.R` for the two scripts that need `dbarts`. Every published table and both figures are reproduced.
 
 ```{r scripts-table}
 scripts_df <- tibble::tribble(
@@ -173,7 +245,10 @@ scripts_df <- tibble::tribble(
   "table_8_study3_support.R",          "output/table_8_study3_support.{csv,tex}",
   "table_9_study3_deterrence.R",       "output/table_9_study3_deterrence.{csv,tex}",
   "figure_1_cate_estimates.R",         "output/figure_1_cate_estimates.{pdf,png,csv}",
-  "text_summary_stats.R",              "output/text_summary_stats.csv"
+  "bart_helpers.R",                    "Shared BART fit; kept out of helpers.R so dbarts is not loaded everywhere",
+  "figure_2_bart.R",                   "output/figure_2_bart.{pdf,png,csv}",
+  "text_summary_stats.R",              "output/text_summary_stats.csv",
+  "text_bart_seed_sensitivity.R",      "output/text_bart_seed_sensitivity.csv"
 )
 
 k <- kable(scripts_df, booktabs = TRUE, caption = "Maintained rewrite scripts")
@@ -199,7 +274,10 @@ subst_df <- tibble::tribble(
   "geom_errorbar()",                               "geom_linerange()",
   "Bootstrap via map(1:1000, ~sample_n(...))",    "rsample::bootstraps(times = 1000)",
   "lm() with robust SEs via stargazer",            "lm_robust(se_type = 'HC2')",
-  "plyr::alply (Figure 2 / BART)",                "not reproduced (dbarts unavailable)"
+  "plyr::alply + do.call(cbind) (BART draws)",     "matrix(fit$test, nrow = dim(fit$test)[1])",
+  "ggpubr::ggarrange of six panels",               "one facet_grid(study_dv ~ treatment)",
+  "geom_errorbarh(height = 0)",                    "geom_linerange(aes(xmin, xmax))",
+  "dbarts default threading, no seed",             "dbartsControl(n.threads = 1L) + set.seed()"
 )
 
 k <- kable(subst_df, booktabs = TRUE, caption = "Deprecated patterns and replacements")
@@ -220,9 +298,33 @@ k
 ## Figure 1 Verification
 
 ```{r fig1-embed, out.width="90%", fig.cap="Figure 1 replication: CATE estimates from all three studies (covariate-adjusted models). Markers indicate proponents (filled circle) vs opponents (triangle). Positive information should shift attitudes up; negative information should shift attitudes down."}
-knitr::include_graphics(here("march_2026_rewrite", "output",
+knitr::include_graphics(here("maintained", "output",
                              if (latex_out) "figure_1_cate_estimates.pdf" else "figure_1_cate_estimates.png"))
 ```
+
+---
+
+## Figure 2 Verification
+
+```{r fig2-embed, out.width="95%", fig.cap="Figure 2 reproduction: BART individual treatment effect estimates with 95 per cent credible intervals, each subject differenced against their own control-condition prediction. Rows are study and outcome; columns are the two information treatments."}
+knitr::include_graphics(here("maintained", "output",
+                             if (latex_out) "figure_2_bart.pdf" else "figure_2_bart.png"))
+```
+
+```{r fig2-seed-table}
+seed_tab <- seed_df |>
+  pivot_wider(names_from = treatment, values_from = prop_correctly_signed) |>
+  arrange(seed)
+
+k <- kable(seed_tab, booktabs = TRUE, digits = 3,
+           caption = "Proportion of individual effects correctly signed, refit at ten seeds")
+if (latex_out) {
+  k <- kable_styling(k, latex_options = c("striped", "hold_position"))
+}
+k
+```
+
+The deposited script sets no seed, so the right way to read its two published proportions is against this spread rather than as point values. Under negative information the published 0.77 sits near the middle of `r round(min(seed_neg$prop_correctly_signed), 3)` to `r round(max(seed_neg$prop_correctly_signed), 3)`. Under positive information the published 0.93 sits below every one of the ten runs, whose minimum is `r round(min(seed_pos$prop_correctly_signed), 3)`.
 
 ---
 
@@ -253,7 +355,7 @@ k
 ## R Environment
 
 ```{r r-env}
-pkgs <- c("tidyverse", "estimatr", "rsample", "kableExtra", "here")
+pkgs <- c("tidyverse", "estimatr", "rsample", "dbarts", "knitr", "kableExtra", "here")
 pkg_info <- map_dfr(pkgs, function(p) {
   tibble(Package = p, Version = as.character(packageVersion(p)))
 })
