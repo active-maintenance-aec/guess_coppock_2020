@@ -30,3 +30,10 @@ source(here::here("maintained", "figure_2_bart.R"))
 # text_bart_seed_sensitivity.R refits BART at ten seeds and takes several minutes.
 source(here::here("maintained", "text_summary_stats.R"))
 source(here::here("maintained", "text_bart_seed_sensitivity.R"))
+
+# Deposited archive, again ----
+# The check at the top of this file is a precondition: it says original/ was intact
+# before anything ran. Nothing above writes to original/, and this second pass is what
+# demonstrates it rather than assuming it. Nothing is downloaded; the files are already
+# present and are re-checked against the manifest on checksum, byte size and membership.
+source(here::here("download_original.R"))
