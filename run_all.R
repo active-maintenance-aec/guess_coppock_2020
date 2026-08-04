@@ -31,6 +31,17 @@ source(here::here("maintained", "figure_2_bart.R"))
 source(here::here("maintained", "text_summary_stats.R"))
 source(here::here("maintained", "text_bart_seed_sensitivity.R"))
 
+# Coverage gate ----
+# Checks the extraction of published claims against the ground truth and against
+# in_text_claims.R, which it sources into its own environment and reads as a
+# program. It halts the run on any disagreement.
+source(here::here("ground_truth", "claims_gate.R"))
+
+# In-text claims, printed ----
+# The same file again, this time for a reader: one line per published claim,
+# carrying the number the pipeline produces for it.
+source(here::here("maintained", "in_text_claims.R"), local = new.env())
+
 # Deposited archive, again ----
 # The check at the top of this file is a precondition: it says original/ was intact
 # before anything ran. Nothing above writes to original/, and this second pass is what

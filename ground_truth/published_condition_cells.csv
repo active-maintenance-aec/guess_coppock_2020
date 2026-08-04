@@ -1,0 +1,171 @@
+table_figure,source,row_label,quantity,stochastic,value_paper
+table_1,corrigendum,Control,N,FALSE,730
+table_1,corrigendum,Control,T2 Attitude mean,FALSE,-0.03
+table_1,corrigendum,Control,T2 Attitude SD,FALSE,1.02
+table_1,corrigendum,Control,T2 Belief mean,FALSE,0.69
+table_1,corrigendum,Control,T2 Belief SD,FALSE,0.46
+table_1,corrigendum,Control,T2 Attitude mean SE,TRUE,0.04
+table_1,corrigendum,Control,T2 Attitude SD SE,TRUE,0.02
+table_1,corrigendum,Control,T2 Belief mean SE,TRUE,0.02
+table_1,corrigendum,Control,T2 Belief SD SE,TRUE,0.01
+table_1,corrigendum,Positive Information,N,FALSE,702
+table_1,corrigendum,Positive Information,T2 Attitude mean,FALSE,0.06
+table_1,corrigendum,Positive Information,T2 Attitude SD,FALSE,0.99
+table_1,corrigendum,Positive Information,T2 Belief mean,FALSE,0.72
+table_1,corrigendum,Positive Information,T2 Belief SD,FALSE,0.45
+table_1,corrigendum,Positive Information,T2 Attitude mean SE,TRUE,0.04
+table_1,corrigendum,Positive Information,T2 Attitude SD SE,TRUE,0.02
+table_1,corrigendum,Positive Information,T2 Belief mean SE,TRUE,0.02
+table_1,corrigendum,Positive Information,T2 Belief SD SE,TRUE,0.01
+table_1,corrigendum,Negative Information,N,FALSE,690
+table_1,corrigendum,Negative Information,T2 Attitude mean,FALSE,0.00
+table_1,corrigendum,Negative Information,T2 Attitude SD,FALSE,1.01
+table_1,corrigendum,Negative Information,T2 Belief mean,FALSE,0.62
+table_1,corrigendum,Negative Information,T2 Belief SD,FALSE,0.49
+table_1,corrigendum,Negative Information,T2 Attitude mean SE,TRUE,0.04
+table_1,corrigendum,Negative Information,T2 Attitude SD SE,TRUE,0.02
+table_1,corrigendum,Negative Information,T2 Belief mean SE,TRUE,0.02
+table_1,corrigendum,Negative Information,T2 Belief SD SE,TRUE,0.01
+table_4,article,Placebo,N,FALSE,93
+table_4,article,Placebo,Positive information,FALSE,0
+table_4,article,Placebo,Negative information,FALSE,0
+table_4,article,Placebo,Favor mean,FALSE,5.34
+table_4,article,Placebo,Favor SD,FALSE,1.64
+table_4,article,Placebo,Amount mean,FALSE,9.23
+table_4,article,Placebo,Amount SD,FALSE,2.77
+table_4,article,Placebo,Favor mean SE,TRUE,0.18
+table_4,article,Placebo,Favor SD SE,TRUE,0.12
+table_4,article,Placebo,Amount mean SE,TRUE,0.29
+table_4,article,Placebo,Amount SD SE,TRUE,0.33
+table_4,article,Con Young / Con Old,N,FALSE,162
+table_4,article,Con Young / Con Old,Positive information,FALSE,0
+table_4,article,Con Young / Con Old,Negative information,FALSE,1
+table_4,article,Con Young / Con Old,Favor mean,FALSE,4.77
+table_4,article,Con Young / Con Old,Favor SD,FALSE,1.84
+table_4,article,Con Young / Con Old,Amount mean,FALSE,8.67
+table_4,article,Con Young / Con Old,Amount SD,FALSE,2.65
+table_4,article,Con Young / Con Old,Favor mean SE,TRUE,0.15
+table_4,article,Con Young / Con Old,Favor SD SE,TRUE,0.08
+table_4,article,Con Young / Con Old,Amount mean SE,TRUE,0.21
+table_4,article,Con Young / Con Old,Amount SD SE,TRUE,0.24
+table_4,article,Pro Old / Con Old,N,FALSE,165
+table_4,article,Pro Old / Con Old,Positive information,FALSE,0
+table_4,article,Pro Old / Con Old,Negative information,FALSE,0
+table_4,article,Pro Old / Con Old,Favor mean,FALSE,4.99
+table_4,article,Pro Old / Con Old,Favor SD,FALSE,2.09
+table_4,article,Pro Old / Con Old,Amount mean,FALSE,9.99
+table_4,article,Pro Old / Con Old,Amount SD,FALSE,4.28
+table_4,article,Pro Old / Con Old,Favor mean SE,TRUE,0.16
+table_4,article,Pro Old / Con Old,Favor SD SE,TRUE,0.09
+table_4,article,Pro Old / Con Old,Amount mean SE,TRUE,0.33
+table_4,article,Pro Old / Con Old,Amount SD SE,TRUE,0.28
+table_4,article,Pro Old / Con Young,N,FALSE,195
+table_4,article,Pro Old / Con Young,Positive information,FALSE,0
+table_4,article,Pro Old / Con Young,Negative information,FALSE,0
+table_4,article,Pro Old / Con Young,Favor mean,FALSE,4.87
+table_4,article,Pro Old / Con Young,Favor SD,FALSE,1.93
+table_4,article,Pro Old / Con Young,Amount mean,FALSE,9.85
+table_4,article,Pro Old / Con Young,Amount SD,FALSE,3.32
+table_4,article,Pro Old / Con Young,Favor mean SE,TRUE,0.14
+table_4,article,Pro Old / Con Young,Favor SD SE,TRUE,0.07
+table_4,article,Pro Old / Con Young,Amount mean SE,TRUE,0.24
+table_4,article,Pro Old / Con Young,Amount SD SE,TRUE,0.24
+table_4,article,Pro Young / Con Old,N,FALSE,169
+table_4,article,Pro Young / Con Old,Positive information,FALSE,0
+table_4,article,Pro Young / Con Old,Negative information,FALSE,0
+table_4,article,Pro Young / Con Old,Favor mean,FALSE,5.01
+table_4,article,Pro Young / Con Old,Favor SD,FALSE,1.90
+table_4,article,Pro Young / Con Old,Amount mean,FALSE,9.30
+table_4,article,Pro Young / Con Old,Amount SD,FALSE,3.03
+table_4,article,Pro Young / Con Old,Favor mean SE,TRUE,0.15
+table_4,article,Pro Young / Con Old,Favor SD SE,TRUE,0.09
+table_4,article,Pro Young / Con Old,Amount mean SE,TRUE,0.24
+table_4,article,Pro Young / Con Old,Amount SD SE,TRUE,0.27
+table_4,article,Pro Young / Con Young,N,FALSE,192
+table_4,article,Pro Young / Con Young,Positive information,FALSE,0
+table_4,article,Pro Young / Con Young,Negative information,FALSE,0
+table_4,article,Pro Young / Con Young,Favor mean,FALSE,5.18
+table_4,article,Pro Young / Con Young,Favor SD,FALSE,1.64
+table_4,article,Pro Young / Con Young,Amount mean,FALSE,9.38
+table_4,article,Pro Young / Con Young,Amount SD,FALSE,2.94
+table_4,article,Pro Young / Con Young,Favor mean SE,TRUE,0.12
+table_4,article,Pro Young / Con Young,Favor SD SE,TRUE,0.09
+table_4,article,Pro Young / Con Young,Amount mean SE,TRUE,0.21
+table_4,article,Pro Young / Con Young,Amount SD SE,TRUE,0.32
+table_4,article,Pro Young / Pro Old,N,FALSE,193
+table_4,article,Pro Young / Pro Old,Positive information,FALSE,1
+table_4,article,Pro Young / Pro Old,Negative information,FALSE,0
+table_4,article,Pro Young / Pro Old,Favor mean,FALSE,5.59
+table_4,article,Pro Young / Pro Old,Favor SD,FALSE,1.67
+table_4,article,Pro Young / Pro Old,Amount mean,FALSE,10.93
+table_4,article,Pro Young / Pro Old,Amount SD,FALSE,3.91
+table_4,article,Pro Young / Pro Old,Favor mean SE,TRUE,0.12
+table_4,article,Pro Young / Pro Old,Favor SD SE,TRUE,0.11
+table_4,article,Pro Young / Pro Old,Amount mean SE,TRUE,0.28
+table_4,article,Pro Young / Pro Old,Amount SD SE,TRUE,0.28
+table_7,article,Con Con,N,FALSE,117
+table_7,article,Con Con,Positive information,FALSE,0
+table_7,article,Con Con,Negative information,FALSE,2
+table_7,article,Con Con,T2 Attitude mean,FALSE,3.52
+table_7,article,Con Con,T2 Attitude SD,FALSE,2.07
+table_7,article,Con Con,T2 Belief mean,FALSE,3.27
+table_7,article,Con Con,T2 Belief SD,FALSE,1.65
+table_7,article,Con Con,T2 Attitude mean SE,TRUE,0.19
+table_7,article,Con Con,T2 Attitude SD SE,TRUE,0.07
+table_7,article,Con Con,T2 Belief mean SE,TRUE,0.15
+table_7,article,Con Con,T2 Belief SD SE,TRUE,0.09
+table_7,article,Con Null,N,FALSE,116
+table_7,article,Con Null,Positive information,FALSE,0
+table_7,article,Con Null,Negative information,FALSE,1
+table_7,article,Con Null,T2 Attitude mean,FALSE,3.15
+table_7,article,Con Null,T2 Attitude SD,FALSE,2.12
+table_7,article,Con Null,T2 Belief mean,FALSE,3.11
+table_7,article,Con Null,T2 Belief SD,FALSE,1.58
+table_7,article,Con Null,T2 Attitude mean SE,TRUE,0.20
+table_7,article,Con Null,T2 Attitude SD SE,TRUE,0.09
+table_7,article,Con Null,T2 Belief mean SE,TRUE,0.15
+table_7,article,Con Null,T2 Belief SD SE,TRUE,0.09
+table_7,article,Null Null,N,FALSE,112
+table_7,article,Null Null,Positive information,FALSE,0
+table_7,article,Null Null,Negative information,FALSE,0
+table_7,article,Null Null,T2 Attitude mean,FALSE,3.18
+table_7,article,Null Null,T2 Attitude SD,FALSE,2.06
+table_7,article,Null Null,T2 Belief mean,FALSE,3.13
+table_7,article,Null Null,T2 Belief SD,FALSE,1.56
+table_7,article,Null Null,T2 Attitude mean SE,TRUE,0.20
+table_7,article,Null Null,T2 Attitude SD SE,TRUE,0.09
+table_7,article,Null Null,T2 Belief mean SE,TRUE,0.15
+table_7,article,Null Null,T2 Belief SD SE,TRUE,0.08
+table_7,article,Pro Con,N,FALSE,118
+table_7,article,Pro Con,Positive information,FALSE,0
+table_7,article,Pro Con,Negative information,FALSE,0
+table_7,article,Pro Con,T2 Attitude mean,FALSE,3.59
+table_7,article,Pro Con,T2 Attitude SD,FALSE,2.27
+table_7,article,Pro Con,T2 Belief mean,FALSE,3.69
+table_7,article,Pro Con,T2 Belief SD,FALSE,1.75
+table_7,article,Pro Con,T2 Attitude mean SE,TRUE,0.21
+table_7,article,Pro Con,T2 Attitude SD SE,TRUE,0.08
+table_7,article,Pro Con,T2 Belief mean SE,TRUE,0.17
+table_7,article,Pro Con,T2 Belief SD SE,TRUE,0.09
+table_7,article,Pro Null,N,FALSE,121
+table_7,article,Pro Null,Positive information,FALSE,1
+table_7,article,Pro Null,Negative information,FALSE,0
+table_7,article,Pro Null,T2 Attitude mean,FALSE,3.62
+table_7,article,Pro Null,T2 Attitude SD,FALSE,2.28
+table_7,article,Pro Null,T2 Belief mean,FALSE,3.81
+table_7,article,Pro Null,T2 Belief SD,FALSE,1.66
+table_7,article,Pro Null,T2 Attitude mean SE,TRUE,0.21
+table_7,article,Pro Null,T2 Attitude SD SE,TRUE,0.07
+table_7,article,Pro Null,T2 Belief mean SE,TRUE,0.15
+table_7,article,Pro Null,T2 Belief SD SE,TRUE,0.09
+table_7,article,Pro Pro,N,FALSE,102
+table_7,article,Pro Pro,Positive information,FALSE,2
+table_7,article,Pro Pro,Negative information,FALSE,0
+table_7,article,Pro Pro,T2 Attitude mean,FALSE,3.69
+table_7,article,Pro Pro,T2 Attitude SD,FALSE,2.22
+table_7,article,Pro Pro,T2 Belief mean,FALSE,4.13
+table_7,article,Pro Pro,T2 Belief SD,FALSE,1.61
+table_7,article,Pro Pro,T2 Attitude mean SE,TRUE,0.22
+table_7,article,Pro Pro,T2 Attitude SD SE,TRUE,0.08
+table_7,article,Pro Pro,T2 Belief mean SE,TRUE,0.16
+table_7,article,Pro Pro,T2 Belief SD SE,TRUE,0.10

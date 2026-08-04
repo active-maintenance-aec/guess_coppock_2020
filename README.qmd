@@ -48,7 +48,7 @@ This repository holds the actively maintained replication code for Guess and Cop
 source("run_all.R")
 ```
 
-That fetches the deposited archive from Dataverse, verifies its eleven checksums, and produces every table and figure into `maintained/output/`. It takes about seven minutes, nearly all of it the ten-seed BART refit at the end. Individual scripts can be run on their own in any order, with two exceptions: `text_summary_stats.R` reads both figures' estimates, so it comes after them.
+That fetches the deposited archive from Dataverse, verifies its eleven checksums, and produces every table and figure into `maintained/output/`. Most of its running time is the ten-seed BART refit at the end. Individual scripts can be run on their own in any order, with one exception: `text_summary_stats.R` reads both figures' estimates, so it comes after them.
 
 Required packages: tidyverse, estimatr, rsample, dbarts, knitr, kableExtra, here. Paths resolve through `here`, so nothing depends on the working directory and the scripts work equally well under `Rscript` outside RStudio. A successful run overwrites `maintained/output/`, which is committed: **`git diff` on that folder is the reproduction check**, and the CSV, TeX and PNG output should come back byte-identical. The two PDF figures always show as changed, because a PDF records the time it was written; compare their PNG twins instead.
 
@@ -67,8 +67,14 @@ Required packages: tidyverse, estimatr, rsample, dbarts, knitr, kableExtra, here
 ## Summary
 
 ```{r summary-setup, include=FALSE}
+# value_paper is the string the article prints and is forced to character in every
+# reader. Guessed as double it comes back as 0 where the article printed 0.00, and
+# the printed precision is what every comparison in this repository depends on.
+gt_cols <- cols(.default = col_character(), value_paper = col_character())
+
 gt_all <- read_csv(here("ground_truth", "guess_coppock_2020_ground_truth.csv"),
-                   show_col_types = FALSE)
+                   col_types = gt_cols) |>
+  mutate(across(c(match, match_rewrite, holds), as.numeric))
 seed_df <- read_csv(here("maintained", "output", "text_bart_seed_sensitivity.csv"),
                     show_col_types = FALSE)
 bart_now <- read_csv(here("maintained", "output", "figure_2_bart.csv"),
@@ -77,6 +83,28 @@ bart_now <- read_csv(here("maintained", "output", "figure_2_bart.csv"),
 n_claims <- nrow(gt_all)
 n_verifiable <- sum(!is.na(gt_all$match_rewrite))
 n_match <- sum(gt_all$match_rewrite == 1, na.rm = TRUE)
+n_holds <- sum(!is.na(gt_all$holds))
+n_holding <- sum(gt_all$holds == 1, na.rm = TRUE)
+n_paper_internal <- sum(gt_all$defect_locus == "paper_internal", na.rm = TRUE)
+
+claims_df <- read_csv(here("ground_truth", "published_claims.csv"),
+                      col_types = cols(.default = col_character(),
+                                       value_paper = col_character(),
+                                       digits = col_integer()))
+cells_df <- read_csv(here("ground_truth", "published_condition_cells.csv"),
+                     col_types = cols(.default = col_character(),
+                                      value_paper = col_character()))
+
+# The three condition-summary tables are covered cell by cell rather than claim by
+# claim, so their counts are read back out of the ground truth's own summary rows
+# rather than typed.
+cell_rows <- c("study1_table_1_cells", "study2_table_4_cells", "study3_table_7_cells")
+boot_rows <- c("study1_table_1_boot_cells", "study2_table_4_boot_cells", "study3_table_7_boot_cells")
+n_det_cells <- sum(as.numeric(gt_all$value_paper[gt_all$claim_id %in% cell_rows]))
+n_boot_cells <- sum(as.numeric(gt_all$value_paper[gt_all$claim_id %in% boot_rows]))
+n_boot_agree <- sum(as.numeric(gt_all$value_rewrite[gt_all$claim_id %in% boot_rows]))
+n_extraction <- nrow(claims_df)
+n_needs_block <- sum(claims_df$needs_block == "TRUE")
 
 bart_pos <- bart_now |> filter(treatment == "Positive Information") |> summarise(p = mean(tau_hat > 0)) |> pull(p)
 bart_neg <- bart_now |> filter(treatment == "Negative Information") |> summarise(p = mean(tau_hat < 0)) |> pull(p)
@@ -103,17 +131,19 @@ Every one of these failures is fixable from the deposit alone: nothing here need
 
 ### Does the maintained rewrite reproduce the paper?
 
-Everything estimated by regression reproduces. One of the two BART statistics does not.
+Every regression the deposit fits reproduces. What does not agree with the article is the article: one table prints another table's contents, three participant counts in the text disagree with the tables beneath them, and one of the two BART statistics falls outside the range the analysis produces at any seed.
 
 ```{r summary-table}
 verdict_df <- tibble::tribble(
   ~Component,                                  ~Verdict,
-  "Tables 2, 3, 5, 6, 8, 9 (all regressions)", "Reproduce, to two decimal places",
-  "Tables 4 and 7 (condition summaries)",      "Reproduce",
+  "Tables 2, 3, 5, 8, 9 (regressions)",        "Reproduce, to two decimal places",
+  "Table 6 (Study 2, favoring a raise)",       "Published table reprints Table 5; the deposit's own Favor models give different values",
+  "Tables 4 and 7 (condition summaries)",      "Means and SDs reproduce; the bootstrapped SEs are unseeded draws",
   "Table 1 (condition summary, Study 1)",      "Published SDs are wrong; corrigendum values reproduce",
+  "Participant counts in the text",            "Studies 2 and 3 disagree with their own condition tables",
   "Figure 1 (24 CATE estimates)",              "Reproduces; 23 of 24 correctly signed, binomial p < 0.001",
-  "Figure 2 (BART), '77 per cent' claim",      paste0("Reproduces (", sprintf("%.3f", bart_neg), " here)"),
-  "Figure 2 (BART), '93 per cent' claim",      paste0("Does not reproduce (", sprintf("%.3f", bart_pos), " here)")
+  "Figure 2 (BART), '77 per cent' claim",      paste0("Holds against the ten-seed spread (", sprintf("%.1f", 100 * bart_neg), " per cent here)"),
+  "Figure 2 (BART), '93 per cent' claim",      paste0("Does not hold; below every seed (", sprintf("%.1f", 100 * bart_pos), " per cent here)")
 )
 
 k <- kable(verdict_df, booktabs = TRUE, caption = "Reproduction verdict by component")
@@ -125,11 +155,13 @@ if (latex_out) {
 k
 ```
 
-All `r n_claims` recorded ground truth claims are verifiable against the rewrite, and `r n_match` of them match.
+Of the `r n_claims` ground truth rows, `r n_verifiable` compare a published number against one the rewrite produces and `r n_match` of those agree; a further `r n_holds` carry a descriptive verdict rather than a value, and `r n_holding` of them hold. `r n_paper_internal` rows record the article disagreeing with its own tables or with its own data. Those are collected in `guess_coppock_2020_errata.pdf` at the repository root.
 
-**The claim that does not reproduce.** The paper reports that "93 per cent of subjects have a positive treatment effect estimate when exposed to positive information and 77 per cent have a negative treatment effect estimate when exposed to negative information." The second half holds. This rewrite gives `r sprintf("%.3f", bart_neg)`, and across ten seeds the proportion runs from `r round(min(seed_neg$prop_correctly_signed), 3)` to `r round(max(seed_neg$prop_correctly_signed), 3)`, with the published 0.77 sitting near the middle. The first half does not. This rewrite gives `r sprintf("%.3f", bart_pos)`, the deposited script gives 0.990, and across ten seeds the proportion never falls below `r round(min(seed_pos$prop_correctly_signed), 3)`. Seed noise cannot account for a published 0.93.
+**The largest disagreement is Table 6.** "Effects of information on favoring minimum wage raise" prints Table 5's contents cell for cell, header included. The deposit's own Table 6 block fits the Favor outcome, and those estimates are what Figure 1 plots, so the table is what is wrong rather than the analysis behind it. See the Errata section below.
 
-**The sampler is a likelier culprit than the analysis.** The archive was deposited on 27 June 2018, when the current `dbarts` was 0.9-3. Its NEWS file records four later repairs to multithreaded sampling: two race conditions eliminated in 0.9-18, reproducibility fixes in 0.9-19, a fix for `k` mixing across chains when running multithreaded in 0.9-20, and "a multithreaded issue leading to inconsistent results" in 0.9-23. `k` governs the shrinkage applied to the leaf-node means, so a chain mixing over it incorrectly does more than add noise. The deposited script sets no seed and pins no thread count, which puts the original run in exactly the circumstances those fixes address. Judging from the evidence at hand, the gap between 0.93 and 0.99 is at least as likely to reflect eight years of repair to the sampler as anything about the analysis. Settling it would mean installing 0.9-3 under the R of the day, which this rewrite does not attempt. Either way the number as published does not reproduce under a current, correct sampler, which is the fact a reader today needs.
+**The BART claim that does not hold.** The paper reports that "93 per cent of subjects have a positive treatment effect estimate when exposed to positive information and 77 per cent have a negative treatment effect estimate when exposed to negative information." Neither figure can be compared as a point value, because the deposited script sets no seed and each published figure is therefore one draw. Read against the distribution, the second half holds. This rewrite gives `r sprintf("%.3f", bart_neg)`, and across ten seeds the proportion runs from `r round(min(seed_neg$prop_correctly_signed), 3)` to `r round(max(seed_neg$prop_correctly_signed), 3)`, with the published 0.77 sitting near the middle. The first half does not. This rewrite gives `r sprintf("%.3f", bart_pos)`, the deposited script gives 0.990, and across ten seeds the proportion never falls below `r round(min(seed_pos$prop_correctly_signed), 3)`. The published 0.93 lies outside the range entirely, so seed noise cannot account for it.
+
+**The sampler is a likelier culprit than the analysis.** The archive was deposited on 27 June 2018, when the current `dbarts` was 0.9-3. Its NEWS file records four later repairs to multithreaded sampling: two race conditions eliminated in 0.9-18, reproducibility fixes in 0.9-19, a fix for `k` mixing across chains when running multithreaded in 0.9-20, and "a multithreaded issue leading to inconsistent results" in 0.9-23. `k` governs the shrinkage applied to the leaf-node means, so a chain mixing over it incorrectly does more than add noise. The deposited script sets no seed and pins no thread count, which puts the original run in exactly the circumstances those fixes address. Judging from the evidence at hand, the gap between 0.93 and 0.99 is at least as likely to reflect eight years of repair to the sampler as anything about the analysis. Settling it would mean installing 0.9-3 under the R of the day, which this rewrite does not attempt. Either way the number as published lies outside everything a current, correct sampler produces, which is the fact a reader today needs. Because there is no seed, there is also no single value it could be corrected to, which is why it is recorded here and not in the errata.
 
 **The error runs against the paper's own interest.** A rate of `r sprintf("%.2f", bart_pos)` correctly signed individual effects is stronger evidence of treatment effect homogeneity than 0.93, not weaker. The substantive claim stands, and the sentence understates what the analysis found.
 
@@ -181,11 +213,13 @@ Four of the six analysis scripts fail. All four are fixable from the deposit alo
 - `rm(list = ls())` at top of each script — unnecessary in clean sessions.
 - `mutate_if(is_bare_numeric, ...)` — `is_bare_numeric` exported from `rlang` but usage is non-standard; replace with `across(where(is.numeric), ...)`.
 
+**The deposit sets no seed anywhere, and that reaches further than Figure 2.** The three condition-summary tables each bootstrap their standard errors with `map(1:1000, ~sample_n(..., replace = TRUE))` and no `set.seed()` call before it, so the `r n_boot_cells` parenthesised cells of Tables 1, 4 and 7 are single unseeded draws. Every one of those cells is transcribed in `ground_truth/published_condition_cells.csv` and compared against the rewrite, and `r n_boot_agree` of them agree at the rewrite's own seed; every disagreement is one unit in the last printed digit. The `r n_det_cells` deterministic cells of the same three tables are a different matter, and all but one reproduce exactly. A reader comparing a rerun against the published page should expect the parenthesised cells to move and nothing else to.
+
 **Note on Figure 2 (BART), which is where the substantive finding is.** Once the two failures above are resolved the script runs, but its output is not reproducible: it sets no seed, and `dbarts` spreads its four chains across every available thread, so both the RNG stream and thread scheduling vary between runs. Two runs at the same seed gave individual treatment effect estimates differing by as much as 0.81. The maintained rewrite reproduces the analysis with `n.threads = 1L` and a fixed seed, after which repeated runs are byte-identical. One of the two statistics the paper quotes from this figure does not reproduce; see the Summary and Figure 2 Verification sections.
 
 ---
 
-## Errata
+## Table 1 and the Corrigendum
 
 **Table 1 SD coding error.** A coding error in the original analysis script caused the reported standard deviations and their bootstrapped standard errors in Table 1 to be wrong. The original script passed the SE of the weighted mean (≈ 0.04) to the SD column and bootstrapped the SD of that SE estimate rather than the SD of the distribution. A corrigendum was published correcting Table 1: Guess and Coppock (2020). *British Journal of Political Science*, 50, 1517–1517. DOI: 10.1017/S0007123419000024.
 
@@ -208,8 +242,7 @@ Four of the six analysis scripts fail. All four are fixable from the deposit alo
 ## Ground Truth Verification
 
 ```{r gt-table}
-gt <- read_csv(here("ground_truth", "guess_coppock_2020_ground_truth.csv"),
-               show_col_types = FALSE)
+gt <- gt_all
 
 k <- gt |>
   select(claim, value_script, value_paper, match, notes) |>
@@ -224,6 +257,59 @@ k
 ```
 
 **Summary**: `r sum(gt$match == 1, na.rm = TRUE)` of `r nrow(gt)` rows match = 1. All claims reproduce to reported precision. Key verified numbers: Study 1 N = 2,122; Study 2 N = 1,170; Study 3 N = 683. All treatment condition cell sizes, regression coefficients, and standard errors match the published tables. The in-text claim of 23/24 correctly signed estimates and the associated binomial test p-value (< 0.001) reproduce exactly. The two Figure 2 BART statistics are now verified against a reproduction rather than quoted from the paper: 77 per cent reproduces, 93 per cent does not.
+
+---
+
+## The Extraction and the Two Instruments
+
+`ground_truth/published_claims.csv` is the extraction: every numeric claim the article's main text, its nine tables, its two figures and its corrigendum make, `r n_extraction` of them, each classified by hand as a quantity the pipeline produces (`pipeline`), a claim about shape or sign (`descriptive`), a design fact (`definitional`), a count of things (`structural`) or a number copied from another paper (`transcribed`). Spelled-out numbers were swept for alongside digits: "three well-powered randomized experiments", "eleven of the twenty-four", "ten pairs of neighboring states". `r n_needs_block` of the `r n_extraction` rows are quantities the pipeline can reach and so require an entry in `maintained/in_text_claims.R`.
+
+**The extraction covers the article and the corrigendum, not the online appendix.** The appendix carries nineteen further tables, fourteen of them the same models estimated within levels of a different moderator, and the maintained rewrite reproduces none of them. That is a gap in this repository's coverage rather than a judgment that the appendix does not need checking.
+
+`maintained/in_text_claims.R` is the second instrument. It carries the article's own sentence verbatim above each block, recomputes the number from `maintained/output/`, and prints it at the precision the published page uses. It never reads the ground truth, and it never refits a model: every estimate it prints was produced by an analysis script, and what it does independently is the filtering, differencing and unit conversion that turns an estimate into the number a sentence states. Where it and the ground truth disagree, one of them is wrong.
+
+`ground_truth/claims_gate.R` is what makes that pair a check rather than two documents. It reads `in_text_claims.R` as a program, not as text: it sources the file into its own environment, captures what it prints, and asserts that the number of printed claims equals the number the extraction declares, that the two sets of claim identifiers are equal in both directions, that every printed value matches the ground truth's own rewrite value at that claim's precision, that the extraction and the ground truth agree about what the article printed, and that every adverse row carries a `defect_locus` while no clean match does. It runs from `run_all.R` and halts the run on any failure.
+
+**This repository has no `build_ground_truth.R`.** Its ground truth was written by hand, so the rule that such a file be generated from the pipeline is not met here, and that should be read as a limitation of this repository rather than as a property of the archive. The gate closes the channel that matters most: sourcing the second instrument and comparing what it prints against the committed `value_rewrite` column makes every hand-typed rewrite value auditable against a live recomputation.
+
+```{r coverage-table}
+float_cells <- tibble::tribble(
+  ~table_figure, ~published_numbers,
+  "table_1", 27, "table_2", 32, "table_3", 32, "table_4", 77,
+  "table_5", 60, "table_6", 60, "table_7", 66, "table_8", 40,
+  "table_9", 40, "figure_1", 24, "figure_2", 2
+)
+
+cov_df <- gt_all |>
+  filter(table_figure %in% float_cells$table_figure) |>
+  summarise(rows = n(), .by = table_figure) |>
+  right_join(float_cells, by = "table_figure") |>
+  mutate(rows = tidyr::replace_na(rows, 0L)) |>
+  arrange(table_figure, .locale = "en") |>
+  transmute(Float = table_figure, `Published numbers` = published_numbers,
+            `Ground truth rows` = rows)
+
+k <- kable(cov_df, booktabs = TRUE,
+           caption = "Published numbers per float, against the ground truth rows that reach them")
+if (latex_out) {
+  k <- kable_styling(k, latex_options = c("striped", "hold_position"))
+}
+k
+```
+
+Coverage is not even. Tables 1, 4 and 7 are covered cell by cell, all `r n_det_cells + n_boot_cells` of their published numbers, through `ground_truth/published_condition_cells.csv`. The six regression tables are covered at their coefficient estimates and sample sizes rather than at their standard errors, constants and R-squareds, which is between a fifth and a third of what each prints. Figure 1's five rows are the summary statistics the text quotes from it; the twenty-four estimates it plots are the covariate-adjusted columns of the six regression tables, and are checked there.
+
+---
+
+## Errata
+
+Eight statements in the published article are wrong: contradicted by the deposited data, by the article's own tables, or by the float they point at. They are collected, with the corrected sentence in each case computed from `maintained/output/` at render time, in **`guess_coppock_2020_errata.pdf`** at the root of this repository, built from `errata.qmd`. None of them changes a conclusion.
+
+The largest is Table 6. "Effects of information on favoring minimum wage raise" prints the contents of Table 5 rather than its own, cell for cell, with the column header inside it reading "Dependent variable: T2 Amount". The deposited `GC_Study_2_analysis.R` fits its Table 6 models on the Favor outcome, and Figure 1's "Study 2: T2 Favor" panel plots those estimates rather than the ones the table prints, so the text is right and the table is not. The corrected table is reprinted in the errata.
+
+Three are participant counts. The text puts Study 2 at 1,170 subjects where its own Table 4 sums to `r format(sum(as.numeric(gt_all$value_rewrite[gt_all$claim_id == "study2_N_participated"])), big.mark = ",")`, and Study 3 at 683 subjects and 396 opponents where Table 7 sums to `r sum(as.numeric(gt_all$value_rewrite[gt_all$claim_id == "study3_N_main"]))` and Tables 8 and 9 report `r sum(as.numeric(gt_all$value_rewrite[gt_all$claim_id == "study3_N_opponents_text"]))`. Three are Study 3 estimates that the Results text states to three decimals, a precision the tables do not print, where the deposited specification gives different values. The last is a cross-reference to Table 2 that should be to Table 3.
+
+The published "93 per cent" is deliberately not among them, for the reason given above: it comes from an unseeded procedure, so there is no value it could be corrected to.
 
 ---
 
@@ -248,7 +334,8 @@ scripts_df <- tibble::tribble(
   "bart_helpers.R",                    "Shared BART fit; kept out of helpers.R so dbarts is not loaded everywhere",
   "figure_2_bart.R",                   "output/figure_2_bart.{pdf,png,csv}",
   "text_summary_stats.R",              "output/text_summary_stats.csv",
-  "text_bart_seed_sensitivity.R",      "output/text_bart_seed_sensitivity.csv"
+  "text_bart_seed_sensitivity.R",      "output/text_bart_seed_sensitivity.csv",
+  "in_text_claims.R",                  "One printed line per published claim; writes nothing"
 )
 
 k <- kable(scripts_df, booktabs = TRUE, caption = "Maintained rewrite scripts")
@@ -331,7 +418,7 @@ The deposited script sets no seed, so the right way to read its two published pr
 ## Maintained Rewrite Verification
 
 ```{r rewrite-verify}
-gt <- read_csv(here("ground_truth", "guess_coppock_2020_ground_truth.csv"), show_col_types = FALSE)
+gt <- gt_all
 
 rv <- gt |>
   filter(!is.na(match_rewrite)) |>

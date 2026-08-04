@@ -41,7 +41,8 @@ extract_rows <- function(fit, label) {
         term == "(Intercept)"                               ~ "Constant"
       ),
       group = label,
-      N = fit$nobs
+      N = fit$nobs,
+      r2 = fit$r.squared
     )
 }
 

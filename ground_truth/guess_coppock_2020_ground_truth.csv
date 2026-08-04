@@ -1,80 +1,131 @@
-paper_id,table_figure,claim,value_script,value_paper,match,value_rewrite,match_rewrite,defect_locus,notes
-guess_coppock_2020,text,study1_N_total,2122,2122,1,2122,1,,Study 1 GfK sample N
-guess_coppock_2020,table_1,study1_N_control,730,730,1,730,1,,Control group N
-guess_coppock_2020,table_1,study1_N_pos_info,702,702,1,702,1,,Positive information group N
-guess_coppock_2020,table_1,study1_N_neg_info,690,690,1,690,1,,Negative information group N
-guess_coppock_2020,table_1,study1_W2scale_control_mean,-0.03,-0.03,1,-0.03,1,,Control group mean composite scale; rewrite: -0.027 rounds to -0.03
-guess_coppock_2020,table_1,study1_W2scale_pos_mean,0.06,0.06,1,0.06,1,,Positive info mean composite scale; rewrite: 0.056 rounds to 0.06
-guess_coppock_2020,table_1,study1_W2scale_neg_mean,0.00,0.00,1,0.00,1,,Negative info mean composite scale; rewrite: 0.003 rounds to 0.00
-guess_coppock_2020,table_1,study1_W2scale_control_sd,0.04,1.02,0,1.02,1,,Corrigendum corrects SD: original/archive report SE of mean (~0.04) not SD (~1.02); rewrite computes weighted SD
-guess_coppock_2020,table_1,study1_W2scale_pos_sd,0.04,0.99,0,0.99,1,,Corrigendum corrects SD: original/archive report SE of mean (~0.04) not SD (~0.99); rewrite computes weighted SD
-guess_coppock_2020,table_1,study1_W2scale_neg_sd,0.04,1.01,0,1.00,0,rewrite,Corrigendum corrects SD: original/archive report SE of mean (~0.04) not SD (~1.01); rewrite gives 1.00 (rounds from 1.0046); corrigendum shows 1.01 — negligible rounding discrepancy in weighted SD formula
-guess_coppock_2020,table_1,study1_W2Q1_control_sd,0.02,0.46,0,0.46,1,,Corrigendum corrects SD: original/archive report SE of mean (~0.02) not SD (~0.46); rewrite computes weighted SD
-guess_coppock_2020,table_1,study1_W2Q1_pos_sd,0.02,0.45,0,0.45,1,,Corrigendum corrects SD: original/archive report SE of mean (~0.02) not SD (~0.45); rewrite computes weighted SD
-guess_coppock_2020,table_1,study1_W2Q1_neg_sd,0.02,0.49,0,0.49,1,,Corrigendum corrects SD: original/archive report SE of mean (~0.02) not SD (~0.49); rewrite computes weighted SD
-guess_coppock_2020,table_2,study1_W2scale_opp_pos_unadj,0.05,0.05,1,0.05,1,,Among opponents: pos info coef composite scale unadjusted; rewrite: 0.051
-guess_coppock_2020,table_2,study1_W2scale_opp_neg_unadj,0.04,0.04,1,0.04,1,,Among opponents: neg info coef composite scale unadjusted; rewrite: 0.039
-guess_coppock_2020,table_2,study1_W2scale_opp_const_unadj,-0.91,-0.91,1,-0.91,1,,Among opponents: constant unadjusted; rewrite: -0.908
-guess_coppock_2020,table_2,study1_W2scale_opp_pos_adj,0.05,0.05,1,0.05,1,,Among opponents: pos info coef composite scale adjusted; rewrite: 0.049
-guess_coppock_2020,table_2,study1_W2scale_opp_neg_adj,-0.003,-0.003,1,-0.003,1,,Among opponents: neg info coef composite scale adjusted; rewrite: -0.0026
-guess_coppock_2020,table_2,study1_N_opponents,718,718,1,718,1,,N opponents in Table 2
-guess_coppock_2020,table_2,study1_W2scale_pro_pos_unadj,0.06,0.06,1,0.06,1,,Among proponents: pos info coef composite scale unadjusted; rewrite: 0.055
-guess_coppock_2020,table_2,study1_W2scale_pro_neg_unadj,0.04,0.04,1,0.04,1,,Among proponents: neg info coef composite scale unadjusted; rewrite: 0.041
-guess_coppock_2020,table_2,study1_W2scale_pro_const_unadj,0.41,0.41,1,0.41,1,,Among proponents: constant unadjusted; rewrite: 0.413
-guess_coppock_2020,table_2,study1_N_proponents,1359,1359,1,1359,1,,N proponents in Table 2
-guess_coppock_2020,table_3,study1_W2Q1_opp_pos_unadj,0.03,0.03,1,0.03,1,,Among opponents: pos info coef W2_Q1 unadjusted; rewrite: 0.026
-guess_coppock_2020,table_3,study1_W2Q1_opp_neg_unadj,-0.02,-0.02,1,-0.02,1,,Among opponents: neg info coef W2_Q1 unadjusted; rewrite: -0.019
-guess_coppock_2020,table_3,study1_W2Q1_opp_pos_adj,0.02,0.02,1,0.02,1,,Among opponents: pos info coef W2_Q1 adjusted; rewrite: 0.015
-guess_coppock_2020,table_3,study1_W2Q1_opp_neg_adj,-0.03,-0.03,1,-0.03,1,,Among opponents: neg info coef W2_Q1 adjusted; rewrite: -0.032
-guess_coppock_2020,table_3,study1_W2Q1_pro_pos_unadj,0.01,0.01,1,0.01,1,,Among proponents: pos info coef W2_Q1 unadjusted; rewrite: 0.006
-guess_coppock_2020,table_3,study1_W2Q1_pro_neg_unadj,-0.08,-0.08,1,-0.08,1,,Among proponents: neg info coef W2_Q1 unadjusted (significant); rewrite: -0.077
-guess_coppock_2020,table_3,study1_W2Q1_pro_pos_adj,0.01,0.01,1,0.01,1,,Among proponents: pos info coef W2_Q1 adjusted; rewrite: 0.008
-guess_coppock_2020,table_3,study1_W2Q1_pro_neg_adj,-0.07,-0.07,1,-0.07,1,,Among proponents: neg info coef W2_Q1 adjusted (significant); rewrite: -0.071
-guess_coppock_2020,table_3,study1_N_opp_Q1,724,724,1,724,1,,N opponents Table 3
-guess_coppock_2020,table_3,study1_N_pro_Q1,1375,1375,1,1375,1,,N proponents Table 3
-guess_coppock_2020,table_4,study2_N_placebo,93,93,1,93,1,,Study 2 Placebo group N
-guess_coppock_2020,table_4,study2_N_conyoung_conold,162,162,1,162,1,,Con Young / Con Old group N
-guess_coppock_2020,table_4,study2_N_proold_conold,165,165,1,165,1,,Pro Old / Con Old group N
-guess_coppock_2020,table_4,study2_N_proold_conyoung,195,195,1,195,1,,Pro Old / Con Young group N
-guess_coppock_2020,table_4,study2_N_proyoung_conold,169,169,1,169,1,,Pro Young / Con Old group N
-guess_coppock_2020,table_4,study2_N_proyoung_conyoung,192,192,1,192,1,,Pro Young / Con Young group N
-guess_coppock_2020,table_4,study2_N_proyoung_proold,193,193,1,193,1,,Pro Young / Pro Old group N
-guess_coppock_2020,table_5,study2_opp_pos_unadj,0.43,0.43,1,0.43,1,,Opponents: pos info amount unadjusted; rewrite: 0.434
-guess_coppock_2020,table_5,study2_opp_neg_unadj,-0.61,-0.61,1,-0.61,1,,Opponents: neg info amount unadjusted; rewrite: -0.611
-guess_coppock_2020,table_5,study2_opp_pos_adj,0.60,0.60,1,0.60,1,,Opponents: pos info amount adjusted; rewrite: 0.601
-guess_coppock_2020,table_5,study2_opp_neg_adj,-0.70,-0.70,1,-0.70,1,,Opponents: neg info amount adjusted (significant); rewrite: -0.696
-guess_coppock_2020,table_5,study2_pro_pos_unadj,1.31,1.31,1,1.31,1,,Proponents: pos info amount unadjusted (significant); rewrite: 1.315
-guess_coppock_2020,table_5,study2_pro_neg_unadj,-1.93,-1.93,1,-1.93,1,,Proponents: neg info amount unadjusted (significant); rewrite: -1.929
-guess_coppock_2020,table_5,study2_pro_pos_adj,1.40,1.40,1,1.40,1,,Proponents: pos info amount adjusted (significant); rewrite: 1.397
-guess_coppock_2020,table_5,study2_pro_neg_adj,-1.70,-1.70,1,-1.70,1,,Proponents: neg info amount adjusted (significant); rewrite: -1.699
-guess_coppock_2020,table_5,study2_N_opponents,343,343,1,343,1,,N opponents Table 5
-guess_coppock_2020,table_5,study2_N_proponents,470,470,1,470,1,,N proponents Table 5
-guess_coppock_2020,table_5,study2_N_moderates,356,356,1,356,1,,N moderates Table 5
-guess_coppock_2020,table_7,study3_N_CC,117,117,1,117,1,,Study 3 Con Con group N
-guess_coppock_2020,table_7,study3_N_CN,116,116,1,116,1,,Study 3 Con Null group N
-guess_coppock_2020,table_7,study3_N_NN,112,112,1,112,1,,Study 3 Null Null group N
-guess_coppock_2020,table_7,study3_N_PC,118,118,1,118,1,,Study 3 Pro Con group N
-guess_coppock_2020,table_7,study3_N_PN,121,121,1,121,1,,Study 3 Pro Null group N
-guess_coppock_2020,table_7,study3_N_PP,102,102,1,102,1,,Study 3 Pro Pro group N
-guess_coppock_2020,table_8,study3_pro_pos_unadj,0.05,0.05,1,0.05,1,,Proponents: pos info support unadjusted; rewrite: 0.048
-guess_coppock_2020,table_8,study3_pro_neg_unadj,-0.27,-0.27,1,-0.27,1,,Proponents: neg info support unadjusted (significant); rewrite: -0.267
-guess_coppock_2020,table_8,study3_pro_pos_adj,0.01,0.01,1,0.01,1,,Proponents: pos info support adjusted; rewrite: 0.015
-guess_coppock_2020,table_8,study3_pro_neg_adj,-0.33,-0.33,1,-0.33,1,,Proponents: neg info support adjusted (significant); rewrite: -0.326
-guess_coppock_2020,table_8,study3_opp_pos_unadj,0.12,0.12,1,0.12,1,,Opponents: pos info support unadjusted; rewrite: 0.116
-guess_coppock_2020,table_8,study3_opp_neg_unadj,0.01,0.01,1,0.01,1,,Opponents: neg info support unadjusted; rewrite: 0.009
-guess_coppock_2020,table_8,study3_opp_pos_adj,0.07,0.07,1,0.07,1,,Opponents: pos info support adjusted; rewrite: 0.074
-guess_coppock_2020,table_8,study3_opp_neg_adj,-0.04,-0.04,1,-0.04,1,,Opponents: neg info support adjusted; rewrite: -0.040
-guess_coppock_2020,table_8,study3_N_proponents,287,287,1,287,1,,N proponents Table 8
-guess_coppock_2020,table_8,study3_N_opponents,395,395,1,395,1,,N opponents Table 8
-guess_coppock_2020,table_9,study3_pro_pos_unadj_deter,0.15,0.15,1,0.15,1,,Proponents: pos info deterrence unadjusted; rewrite: 0.146
-guess_coppock_2020,table_9,study3_pro_neg_unadj_deter,-0.35,-0.35,1,-0.35,1,,Proponents: neg info deterrence unadjusted (significant); rewrite: -0.347
-guess_coppock_2020,table_9,study3_pro_pos_adj_deter,0.12,0.12,1,0.12,1,,Proponents: pos info deterrence adjusted; rewrite: 0.118
-guess_coppock_2020,table_9,study3_pro_neg_adj_deter,-0.36,-0.36,1,-0.36,1,,Proponents: neg info deterrence adjusted (significant); rewrite: -0.361
-guess_coppock_2020,table_9,study3_opp_pos_unadj_deter,0.35,0.35,1,0.35,1,,Opponents: pos info deterrence unadjusted (significant); rewrite: 0.349
-guess_coppock_2020,table_9,study3_opp_neg_unadj_deter,-0.16,-0.16,1,-0.16,1,,Opponents: neg info deterrence unadjusted; rewrite: -0.164
-guess_coppock_2020,table_9,study3_opp_pos_adj_deter,0.31,0.31,1,0.31,1,,Opponents: pos info deterrence adjusted (significant); rewrite: 0.312
-guess_coppock_2020,table_9,study3_opp_neg_adj_deter,-0.20,-0.20,1,-0.20,1,,Opponents: neg info deterrence adjusted (significant); rewrite: -0.205
-guess_coppock_2020,figure_1,n_correctly_signed,23,23,1,23,1,,23 of 24 treatment effect estimates correctly signed
-guess_coppock_2020,figure_1,binom_test_pvalue,0.00000298,0.001,1,0.00000298,1,,Binomial test p < 0.001 (exact: 2.98e-06)
-guess_coppock_2020,figure_2,pct_pos_te_under_pos_treatment,0.99,0.93,0,0.99,0,environment,"DOES NOT REPRODUCE. Paper reports 93% of subjects with a positive TE under positive information (BART). The deposited script, run with a seed prepended as its only modification, gives 0.990; the maintained rewrite gives 0.990. A ten-seed sweep (maintained/output/text_bart_seed_sensitivity.csv) shows 0.93 lies below every run, so this is not seed noise. The error understates the paper own result: a higher share correctly signed is stronger evidence of homogeneity, so the substantive claim is unaffected. Candidate explanation: the archive was deposited 2018-06-27 when dbarts 0.9-3 was current, and dbarts NEWS records four later fixes to multithreaded sampling (race conditions in 0.9-18, reproducibility in 0.9-19, k mixing across chains in 0.9-20, inconsistent results in 0.9-23). The deposited script sets no seed and pins no threads, so package changes may account for the gap rather than anything in the analysis. Untested; would require installing 0.9-3 under the R of the day."
-guess_coppock_2020,figure_2,pct_neg_te_under_neg_treatment,0.77,0.77,1,0.79,1,,Reproduces. Deposited script (seeded) gives 0.766; maintained rewrite gives 0.787. Across ten seeds (maintained/output/text_bart_seed_sensitivity.csv) the published 0.77 sits near the middle of the range.
+paper_id,table_figure,claim_id,value_script,value_paper,match,value_rewrite,match_rewrite,claim,holds,defect_locus,notes
+guess_coppock_2020,text,study1_N_total,2122,2122,1,2122,1,study1_N_total,,,Study 1 GfK sample N
+guess_coppock_2020,table_1,study1_n_conditions,,3,,3,1,study1_n_conditions,,,"Three treatment conditions, one row per condition in the Table 1 output"
+guess_coppock_2020,table_1,study1_table_1_cells,,15,,14,0,study1_table_1_cells,,rewrite,"Deterministic cells of the corrigendum's Table 1: Ns, means and SDs. 14 of 15 reproduce; the exception is the negative information SD of the composite scale, which the rewrite gives as 1.00 against a published 1.01"
+guess_coppock_2020,table_1,study1_table_1_boot_cells,,12,,11,0,study1_table_1_boot_cells,,archive,"Bootstrapped SE cells of the corrigendum's Table 1. The deposit sets no seed anywhere, so each published cell is one unseeded draw and cannot be reproduced as a point value; 11 of 12 agree at the rewrite's seed"
+guess_coppock_2020,table_1,study1_N_control,730,730,1,730,1,study1_N_control,,,Control group N
+guess_coppock_2020,table_1,study1_N_pos_info,702,702,1,702,1,study1_N_pos_info,,,Positive information group N
+guess_coppock_2020,table_1,study1_N_neg_info,690,690,1,690,1,study1_N_neg_info,,,Negative information group N
+guess_coppock_2020,table_1,study1_W2scale_control_mean,-0.03,-0.03,1,-0.03,1,study1_W2scale_control_mean,,,Control group mean composite scale; rewrite: -0.027 rounds to -0.03
+guess_coppock_2020,table_1,study1_W2scale_pos_mean,0.06,0.06,1,0.06,1,study1_W2scale_pos_mean,,,Positive info mean composite scale; rewrite: 0.056 rounds to 0.06
+guess_coppock_2020,table_1,study1_W2scale_neg_mean,0.00,0.00,1,0.00,1,study1_W2scale_neg_mean,,,Negative info mean composite scale; rewrite: 0.003 rounds to 0.00
+guess_coppock_2020,table_1,study1_W2Q1_control_mean,,0.69,,0.685956837159691,1,study1_W2Q1_control_mean,,,Control group mean gun control support
+guess_coppock_2020,table_1,study1_W2Q1_pos_mean,,0.72,,0.715065174203077,1,study1_W2Q1_pos_mean,,,Positive information mean gun control support
+guess_coppock_2020,table_1,study1_W2Q1_neg_mean,,0.62,,0.621435706191726,1,study1_W2Q1_neg_mean,,,Negative information mean gun control support
+guess_coppock_2020,table_1,study1_W2scale_control_sd,0.04,1.02,0,1.02,1,study1_W2scale_control_sd,,archive,Corrigendum corrects SD: original/archive report SE of mean (~0.04) not SD (~1.02); rewrite computes weighted SD
+guess_coppock_2020,table_1,study1_W2scale_pos_sd,0.04,0.99,0,0.99,1,study1_W2scale_pos_sd,,archive,Corrigendum corrects SD: original/archive report SE of mean (~0.04) not SD (~0.99); rewrite computes weighted SD
+guess_coppock_2020,table_1,study1_W2scale_neg_sd,0.04,1.01,0,1.00,0,study1_W2scale_neg_sd,,rewrite,Corrigendum corrects SD: original/archive report SE of mean (~0.04) not SD (~1.01); rewrite gives 1.00 (rounds from 1.0046); corrigendum shows 1.01 — negligible rounding discrepancy in weighted SD formula
+guess_coppock_2020,table_1,study1_W2Q1_control_sd,0.02,0.46,0,0.46,1,study1_W2Q1_control_sd,,archive,Corrigendum corrects SD: original/archive report SE of mean (~0.02) not SD (~0.46); rewrite computes weighted SD
+guess_coppock_2020,table_1,study1_W2Q1_pos_sd,0.02,0.45,0,0.45,1,study1_W2Q1_pos_sd,,archive,Corrigendum corrects SD: original/archive report SE of mean (~0.02) not SD (~0.45); rewrite computes weighted SD
+guess_coppock_2020,table_1,study1_W2Q1_neg_sd,0.02,0.49,0,0.49,1,study1_W2Q1_neg_sd,,archive,Corrigendum corrects SD: original/archive report SE of mean (~0.02) not SD (~0.49); rewrite computes weighted SD
+guess_coppock_2020,table_1,study1_sds_do_not_vary,,,,,,study1_sds_do_not_vary,1,,Holds against the corrigendum's own SD column: the composite scale SDs span 0.03 and the support SDs 0.04 across the three conditions
+guess_coppock_2020,table_2,study1_W2scale_opp_pos_unadj,0.05,0.05,1,0.05,1,study1_W2scale_opp_pos_unadj,,,Among opponents: pos info coef composite scale unadjusted; rewrite: 0.051
+guess_coppock_2020,table_2,study1_W2scale_opp_neg_unadj,0.04,0.04,1,0.04,1,study1_W2scale_opp_neg_unadj,,,Among opponents: neg info coef composite scale unadjusted; rewrite: 0.039
+guess_coppock_2020,table_2,study1_W2scale_opp_const_unadj,-0.91,-0.91,1,-0.91,1,study1_W2scale_opp_const_unadj,,,Among opponents: constant unadjusted; rewrite: -0.908
+guess_coppock_2020,table_2,study1_W2scale_opp_pos_adj,0.05,0.05,1,0.05,1,study1_W2scale_opp_pos_adj,,,Among opponents: pos info coef composite scale adjusted; rewrite: 0.049
+guess_coppock_2020,table_2,study1_W2scale_opp_neg_adj,-0.003,-0.003,1,-0.003,1,study1_W2scale_opp_neg_adj,,,Among opponents: neg info coef composite scale adjusted; rewrite: -0.0026
+guess_coppock_2020,table_2,study1_N_opponents,718,718,1,718,1,study1_N_opponents,,,N opponents in Table 2
+guess_coppock_2020,table_2,study1_W2scale_pro_pos_unadj,0.06,0.06,1,0.06,1,study1_W2scale_pro_pos_unadj,,,Among proponents: pos info coef composite scale unadjusted; rewrite: 0.055
+guess_coppock_2020,table_2,study1_W2scale_pro_neg_unadj,0.04,0.04,1,0.04,1,study1_W2scale_pro_neg_unadj,,,Among proponents: neg info coef composite scale unadjusted; rewrite: 0.041
+guess_coppock_2020,table_2,study1_W2scale_pro_const_unadj,0.41,0.41,1,0.41,1,study1_W2scale_pro_const_unadj,,,Among proponents: constant unadjusted; rewrite: 0.413
+guess_coppock_2020,table_2,study1_N_proponents,1359,1359,1,1359,1,study1_N_proponents,,,N proponents in Table 2
+guess_coppock_2020,table_2,study1_table_2_note_threshold,,0.01,,,,study1_table_2_note_threshold,0,paper_internal,"The Table 2 note reads three stars as p > 0.01 where Table 3's identical note reads p < 0.01. The starred cells in Table 2 are those with small p-values, so the note as printed contradicts the table it annotates"
+guess_coppock_2020,table_3,study1_table_3_reference,,2,,3,,study1_table_3_reference,0,paper_internal,"The text introduces the binary gun control support results as Table 2, which is the composite scale table; the binary support results are Table 3"
+guess_coppock_2020,table_3,study1_W2Q1_opp_pos_unadj,0.03,0.03,1,0.03,1,study1_W2Q1_opp_pos_unadj,,,Among opponents: pos info coef W2_Q1 unadjusted; rewrite: 0.026
+guess_coppock_2020,table_3,study1_W2Q1_opp_neg_unadj,-0.02,-0.02,1,-0.02,1,study1_W2Q1_opp_neg_unadj,,,Among opponents: neg info coef W2_Q1 unadjusted; rewrite: -0.019
+guess_coppock_2020,table_3,study1_W2Q1_opp_pos_adj,0.02,0.02,1,0.02,1,study1_W2Q1_opp_pos_adj,,,Among opponents: pos info coef W2_Q1 adjusted; rewrite: 0.015
+guess_coppock_2020,table_3,study1_W2Q1_opp_neg_adj,-0.03,-0.03,1,-0.03,1,study1_W2Q1_opp_neg_adj,,,Among opponents: neg info coef W2_Q1 adjusted; rewrite: -0.032
+guess_coppock_2020,table_3,study1_W2Q1_pro_pos_unadj,0.01,0.01,1,0.01,1,study1_W2Q1_pro_pos_unadj,,,Among proponents: pos info coef W2_Q1 unadjusted; rewrite: 0.006
+guess_coppock_2020,table_3,study1_W2Q1_pro_neg_unadj,-0.08,-0.08,1,-0.08,1,study1_W2Q1_pro_neg_unadj,,,Among proponents: neg info coef W2_Q1 unadjusted (significant); rewrite: -0.077
+guess_coppock_2020,table_3,study1_W2Q1_pro_pos_adj,0.01,0.01,1,0.01,1,study1_W2Q1_pro_pos_adj,,,Among proponents: pos info coef W2_Q1 adjusted; rewrite: 0.008
+guess_coppock_2020,table_3,study1_W2Q1_pro_neg_adj,-0.07,-0.07,1,-0.07,1,study1_W2Q1_pro_neg_adj,,,Among proponents: neg info coef W2_Q1 adjusted (significant); rewrite: -0.071
+guess_coppock_2020,table_3,study1_N_opp_Q1,724,724,1,724,1,study1_N_opp_Q1,,,N opponents Table 3
+guess_coppock_2020,table_3,study1_N_pro_Q1,1375,1375,1,1375,1,study1_N_pro_Q1,,,N proponents Table 3
+guess_coppock_2020,text,study2_N_participated,,1170,,1169,0,study2_N_participated,,paper_internal,"The text states 1,170 participants where Table 4's own N column sums to 1,169, which is also the number of rows in the deposited Study 2 data"
+guess_coppock_2020,table_4,study2_table_4_cells,,49,,49,1,study2_table_4_cells,,,"Deterministic cells of Table 4: Ns, information content, means and SDs. All 49 reproduce"
+guess_coppock_2020,table_4,study2_table_4_boot_cells,,28,,11,0,study2_table_4_boot_cells,,archive,"Bootstrapped SE cells of Table 4. The deposit sets no seed, so each published cell is one unseeded draw; 11 of 28 agree at the rewrite's seed and every disagreement is one unit in the last printed digit"
+guess_coppock_2020,table_4,study2_N_placebo,93,93,1,93,1,study2_N_placebo,,,Study 2 Placebo group N
+guess_coppock_2020,table_4,study2_N_conyoung_conold,162,162,1,162,1,study2_N_conyoung_conold,,,Con Young / Con Old group N
+guess_coppock_2020,table_4,study2_N_proold_conold,165,165,1,165,1,study2_N_proold_conold,,,Pro Old / Con Old group N
+guess_coppock_2020,table_4,study2_N_proold_conyoung,195,195,1,195,1,study2_N_proold_conyoung,,,Pro Old / Con Young group N
+guess_coppock_2020,table_4,study2_N_proyoung_conold,169,169,1,169,1,study2_N_proyoung_conold,,,Pro Young / Con Old group N
+guess_coppock_2020,table_4,study2_N_proyoung_conyoung,192,192,1,192,1,study2_N_proyoung_conyoung,,,Pro Young / Con Young group N
+guess_coppock_2020,table_4,study2_N_proyoung_proold,193,193,1,193,1,study2_N_proyoung_proold,,,Pro Young / Pro Old group N
+guess_coppock_2020,text,study2_placebo_sd_test,,0.01,,,,study2_placebo_sd_test,,archive,"The deposit ships no randomization inference code, so the significance of the placebo versus Pro Old / Con Old SD difference has no counterpart anywhere in the archive or the rewrite"
+guess_coppock_2020,table_5,study2_opp_pos_unadj,0.43,0.43,1,0.43,1,study2_opp_pos_unadj,,,Opponents: pos info amount unadjusted; rewrite: 0.434
+guess_coppock_2020,table_5,study2_opp_neg_unadj,-0.61,-0.61,1,-0.61,1,study2_opp_neg_unadj,,,Opponents: neg info amount unadjusted; rewrite: -0.611
+guess_coppock_2020,table_5,study2_opp_pos_adj,0.60,0.60,1,0.60,1,study2_opp_pos_adj,,,Opponents: pos info amount adjusted; rewrite: 0.601
+guess_coppock_2020,table_5,study2_opp_neg_adj,-0.70,-0.70,1,-0.70,1,study2_opp_neg_adj,,,Opponents: neg info amount adjusted (significant); rewrite: -0.696
+guess_coppock_2020,table_5,study2_pro_pos_unadj,1.31,1.31,1,1.31,1,study2_pro_pos_unadj,,,Proponents: pos info amount unadjusted (significant); rewrite: 1.315
+guess_coppock_2020,table_5,study2_pro_neg_unadj,-1.93,-1.93,1,-1.93,1,study2_pro_neg_unadj,,,Proponents: neg info amount unadjusted (significant); rewrite: -1.929
+guess_coppock_2020,table_5,study2_pro_pos_adj,1.40,1.40,1,1.40,1,study2_pro_pos_adj,,,Proponents: pos info amount adjusted (significant); rewrite: 1.397
+guess_coppock_2020,table_5,study2_pro_neg_adj,-1.70,-1.70,1,-1.70,1,study2_pro_neg_adj,,,Proponents: neg info amount adjusted (significant); rewrite: -1.699
+guess_coppock_2020,table_5,study2_N_opponents,343,343,1,343,1,study2_N_opponents,,,N opponents Table 5
+guess_coppock_2020,table_5,study2_N_proponents,470,470,1,470,1,study2_N_proponents,,,N proponents Table 5
+guess_coppock_2020,table_5,study2_N_moderates,356,356,1,356,1,study2_N_moderates,,,N moderates Table 5
+guess_coppock_2020,table_6,study2_favor_opp_pos_unadj,,0.43,,0.859844271412679,0,study2_favor_opp_pos_unadj,,paper_internal,"Published Table 6 reprints Table 5 cell for cell under the caption for the Favor outcome; the deposit's own Table 6 block fits the Favor models, which give this value"
+guess_coppock_2020,table_6,study2_favor_opp_neg_unadj,,-0.61,,-0.0165224232887488,0,study2_favor_opp_neg_unadj,,paper_internal,Published Table 6 reprints Table 5; the Favor model gives this value
+guess_coppock_2020,table_6,study2_favor_opp_pos_adj,,0.60,,0.768682328279265,0,study2_favor_opp_pos_adj,,paper_internal,Published Table 6 reprints Table 5; the Favor model gives this value
+guess_coppock_2020,table_6,study2_favor_opp_neg_adj,,-0.70,,-0.129624763814162,0,study2_favor_opp_neg_adj,,paper_internal,Published Table 6 reprints Table 5; the Favor model gives this value
+guess_coppock_2020,table_6,study2_favor_mod_pos_unadj,,1.88,,0.563795072605646,0,study2_favor_mod_pos_unadj,,paper_internal,Published Table 6 reprints Table 5; the Favor model gives this value
+guess_coppock_2020,table_6,study2_favor_mod_neg_unadj,,-0.83,,-0.626221030453936,0,study2_favor_mod_neg_unadj,,paper_internal,Published Table 6 reprints Table 5; the Favor model gives this value
+guess_coppock_2020,table_6,study2_favor_mod_pos_adj,,1.51,,0.552637743075569,0,study2_favor_mod_pos_adj,,paper_internal,Published Table 6 reprints Table 5; the Favor model gives this value
+guess_coppock_2020,table_6,study2_favor_mod_neg_adj,,-0.93,,-0.656614927913443,0,study2_favor_mod_neg_adj,,paper_internal,Published Table 6 reprints Table 5; the Favor model gives this value
+guess_coppock_2020,table_6,study2_favor_pro_pos_unadj,,1.31,,0.286669340820966,0,study2_favor_pro_pos_unadj,,paper_internal,Published Table 6 reprints Table 5; the Favor model gives this value
+guess_coppock_2020,table_6,study2_favor_pro_neg_unadj,,-1.93,,-0.556293622141997,0,study2_favor_pro_neg_unadj,,paper_internal,Published Table 6 reprints Table 5; the Favor model gives this value
+guess_coppock_2020,table_6,study2_favor_pro_pos_adj,,1.40,,0.345014136725256,0,study2_favor_pro_pos_adj,,paper_internal,Published Table 6 reprints Table 5; the Favor model gives this value. Figure 1 plots this estimate rather than the one Table 6 prints
+guess_coppock_2020,table_6,study2_favor_pro_neg_adj,,-1.70,,-0.484836737342731,0,study2_favor_pro_neg_adj,,paper_internal,Published Table 6 reprints Table 5; the Favor model gives this value. Figure 1 plots this estimate rather than the one Table 6 prints
+guess_coppock_2020,table_6,study2_favor_all_signed,,,,,,study2_favor_all_signed,1,,Holds of the Favor models the deposit fits: all six positive information coefficients are positive and all six negative information coefficients are negative
+guess_coppock_2020,table_6,study2_favor_sig_exception,,,,,,study2_favor_sig_exception,1,,"Holds of the Favor models the deposit fits: ten of the twelve information coefficients have p below 0.05 and the two exceptions are negative information among opponents. It does not hold of the table as printed, which is Table 5"
+guess_coppock_2020,text,study3_N_main,,683,,686,0,study3_N_main,,paper_internal,"The text states 683 participants where Table 7's own N column sums to 686, which is also the number of rows in the deposited Study 3 data"
+guess_coppock_2020,text,study3_N_proponents_text,,287,,287,1,study3_N_proponents_text,,,Proponents in the Study 3 main survey
+guess_coppock_2020,text,study3_N_opponents_text,,396,,395,0,study3_N_opponents_text,,paper_internal,"The text states 396 opponents where Tables 8 and 9 report N = 395, which is also the number of opponents in the deposited data"
+guess_coppock_2020,table_7,study3_table_7_cells,,42,,42,1,study3_table_7_cells,,,"Deterministic cells of Table 7: Ns, information content, means and SDs. All 42 reproduce"
+guess_coppock_2020,table_7,study3_table_7_boot_cells,,24,,20,0,study3_table_7_boot_cells,,archive,"Bootstrapped SE cells of Table 7. The deposit sets no seed, so each published cell is one unseeded draw; 20 of 24 agree at the rewrite's seed"
+guess_coppock_2020,table_7,study3_N_CC,117,117,1,117,1,study3_N_CC,,,Study 3 Con Con group N
+guess_coppock_2020,table_7,study3_N_CN,116,116,1,116,1,study3_N_CN,,,Study 3 Con Null group N
+guess_coppock_2020,table_7,study3_N_NN,112,112,1,112,1,study3_N_NN,,,Study 3 Null Null group N
+guess_coppock_2020,table_7,study3_N_PC,118,118,1,118,1,study3_N_PC,,,Study 3 Pro Con group N
+guess_coppock_2020,table_7,study3_N_PN,121,121,1,121,1,study3_N_PN,,,Study 3 Pro Null group N
+guess_coppock_2020,table_7,study3_N_PP,102,102,1,102,1,study3_N_PP,,,Study 3 Pro Pro group N
+guess_coppock_2020,table_7,study3_n_conditions,,6,,6,1,study3_n_conditions,,,"Six treatment conditions, one row per condition in the Table 7 output"
+guess_coppock_2020,table_7,study3_propro_score,,2,,2,1,study3_propro_score,,,Positive information content of two Pro reports
+guess_coppock_2020,table_7,study3_pronull_score,,1,,1,1,study3_pronull_score,,,Positive information content of one Pro and one Null report
+guess_coppock_2020,text,study3_sd_test_level,,0.05,,,,study3_sd_test_level,,archive,"The deposit ships no randomization inference code, so this test has no counterpart in the archive or the rewrite"
+guess_coppock_2020,text,study3_sd_test_pvalue,,0.04,,,,study3_sd_test_pvalue,,archive,"The deposit ships no randomization inference code, so this p-value has no counterpart in the archive or the rewrite"
+guess_coppock_2020,text,study3_n_endline_dvs,,2,,2,1,study3_n_endline_dvs,,,"Two endline dependent variables, one per Study 3 regression table"
+guess_coppock_2020,table_8,study3_pro_pos_unadj,0.05,0.05,1,0.05,1,study3_pro_pos_unadj,,,Proponents: pos info support unadjusted; rewrite: 0.048
+guess_coppock_2020,table_8,study3_pro_neg_unadj,-0.27,-0.27,1,-0.27,1,study3_pro_neg_unadj,,,Proponents: neg info support unadjusted (significant); rewrite: -0.267
+guess_coppock_2020,table_8,study3_pro_pos_adj,0.01,0.01,1,0.01,1,study3_pro_pos_adj,,,Proponents: pos info support adjusted; rewrite: 0.015
+guess_coppock_2020,table_8,study3_pro_neg_adj,-0.33,-0.33,1,-0.33,1,study3_pro_neg_adj,,,Proponents: neg info support adjusted (significant); rewrite: -0.326
+guess_coppock_2020,table_8,study3_opp_pos_unadj,0.12,0.12,1,0.12,1,study3_opp_pos_unadj,,,Opponents: pos info support unadjusted; rewrite: 0.116
+guess_coppock_2020,table_8,study3_opp_neg_unadj,0.01,0.01,1,0.01,1,study3_opp_neg_unadj,,,Opponents: neg info support unadjusted; rewrite: 0.009
+guess_coppock_2020,table_8,study3_opp_pos_adj,0.07,0.07,1,0.07,1,study3_opp_pos_adj,,,Opponents: pos info support adjusted; rewrite: 0.074
+guess_coppock_2020,table_8,study3_opp_neg_adj,-0.04,-0.04,1,-0.04,1,study3_opp_neg_adj,,,Opponents: neg info support adjusted; rewrite: -0.040
+guess_coppock_2020,table_8,study3_N_proponents,287,287,1,287,1,study3_N_proponents,,,N proponents Table 8
+guess_coppock_2020,table_8,study3_N_opponents,395,395,1,395,1,study3_N_opponents,,,N opponents Table 8
+guess_coppock_2020,table_9,study3_pro_pos_unadj_deter,0.15,0.15,1,0.15,1,study3_pro_pos_unadj_deter,,,Proponents: pos info deterrence unadjusted; rewrite: 0.146
+guess_coppock_2020,table_9,study3_pro_neg_unadj_deter,-0.35,-0.35,1,-0.35,1,study3_pro_neg_unadj_deter,,,Proponents: neg info deterrence unadjusted (significant); rewrite: -0.347
+guess_coppock_2020,table_9,study3_pro_pos_adj_deter,0.12,0.12,1,0.12,1,study3_pro_pos_adj_deter,,,Proponents: pos info deterrence adjusted; rewrite: 0.118
+guess_coppock_2020,table_9,study3_pro_neg_adj_deter,-0.36,-0.36,1,-0.36,1,study3_pro_neg_adj_deter,,,Proponents: neg info deterrence adjusted (significant); rewrite: -0.361
+guess_coppock_2020,table_9,study3_opp_pos_unadj_deter,0.35,0.35,1,0.35,1,study3_opp_pos_unadj_deter,,,Opponents: pos info deterrence unadjusted (significant); rewrite: 0.349
+guess_coppock_2020,table_9,study3_opp_neg_unadj_deter,-0.16,-0.16,1,-0.16,1,study3_opp_neg_unadj_deter,,,Opponents: neg info deterrence unadjusted; rewrite: -0.164
+guess_coppock_2020,table_9,study3_opp_pos_adj_deter,0.31,0.31,1,0.31,1,study3_opp_pos_adj_deter,,,Opponents: pos info deterrence adjusted (significant); rewrite: 0.312
+guess_coppock_2020,table_9,study3_opp_neg_adj_deter,-0.20,-0.20,1,-0.20,1,study3_opp_neg_adj_deter,,,Opponents: neg info deterrence adjusted (significant); rewrite: -0.205
+guess_coppock_2020,text,study3_text_pro_pos_adj,,0.015,,0.0147188472655291,1,study3_text_pro_pos_adj,,,"Proponents: positive information on support, covariate adjusted, at the three decimals the text prints"
+guess_coppock_2020,text,study3_text_opp_pos_adj,,0.068,,0.0739778101879583,0,study3_text_opp_pos_adj,,paper_internal,"The text prints 0.068 where the deposited specification gives 0.074. Both round to the 0.07 that Table 8 prints, so the disagreement is visible only at the text's own precision. Dropping race from the covariate set gives 0.086, so the text's figure comes from neither specification"
+guess_coppock_2020,text,study3_text_pro_neg_adj,,-0.326,,-0.326248527919576,1,study3_text_pro_neg_adj,,,"Proponents: negative information on support, covariate adjusted, at the three decimals the text prints"
+guess_coppock_2020,text,study3_text_opp_neg_adj,,-0.042,,-0.039517816867248,0,study3_text_opp_neg_adj,,paper_internal,The text prints -0.042 where the deposited specification gives -0.040. Both round to the -0.04 that Table 8 prints
+guess_coppock_2020,text,study3_text_opp_neg_pvalue,,0.43,,0.462278884588384,0,study3_text_opp_neg_pvalue,,paper_internal,The text prints p = 0.43 where the deposited specification gives 0.46
+guess_coppock_2020,text,study3_text_pro_swing,,0.682,,0.68193475037021,1,study3_text_pro_swing,,,"Twice the sum of the two covariate-adjusted proponent coefficients, as the text computes it"
+guess_coppock_2020,text,study3_text_opp_swing,,0.220,,0.226991254110413,0,study3_text_opp_swing,,paper_internal,"Twice the sum of the two covariate-adjusted opponent coefficients gives 0.227, not the 0.220 the text prints; it inherits the two coefficient errors above"
+guess_coppock_2020,text,study3_subject_type_test,,0.05,,,,study3_subject_type_test,,archive,"The deposit fits no model interacting treatment with subject type, so this test has no counterpart in the archive or the rewrite"
+guess_coppock_2020,table_9,study3_deterrence_swing,,,,,,study3_deterrence_swing,1,,Holds: the same computation on Table 9 gives 0.96 scale points for proponents and 1.03 for opponents
+guess_coppock_2020,figure_1,n_estimates_total,,24,,24,1,n_estimates_total,,,Treatment effect estimates plotted in Figure 1
+guess_coppock_2020,figure_1,n_correctly_signed,23,23,1,23,1,n_correctly_signed,,,23 of 24 treatment effect estimates correctly signed
+guess_coppock_2020,figure_1,binom_test_pvalue,0.00000298,0.001,1,0.00000298,1,binom_test_pvalue,,,Binomial test p < 0.001 (exact: 2.98e-06)
+guess_coppock_2020,figure_1,n_sig_at_05,,11,,11,1,n_sig_at_05,,,Figure 1 estimates significant at the 0.05 level
+guess_coppock_2020,figure_2,pct_pos_te_under_pos_treatment,99.0,93,,98.9532805718662,,pct_pos_te_under_pos_treatment,0,environment,"DOES NOT HOLD. The deposited script sets no seed, so the published 93 per cent is one unseeded draw and the comparison is against the distribution rather than against a point. Across ten seeds the rewrite runs 97.7 to 99.6 per cent and 93 lies below every one of them. The error runs against the article's own interest: a higher share correctly signed is stronger evidence of homogeneity. The archive was deposited in June 2018 when dbarts 0.9-3 was current, and dbarts NEWS records four later repairs to multithreaded sampling, so the gap may belong to the sampler rather than to the analysis."
+guess_coppock_2020,figure_2,pct_neg_te_under_neg_treatment,76.6,77,,78.70819504723,,pct_neg_te_under_neg_treatment,1,,"HOLDS. The deposited script sets no seed, so the published 77 per cent is one unseeded draw. Across ten seeds the rewrite runs 75.6 to 79.5 per cent and 77 sits near the middle."
+guess_coppock_2020,figure_2,bart_wrong_sign_intervals,,,,,,bart_wrong_sign_intervals,1,,"Holds: of the 1,750 incorrectly signed BART estimates none has a credible interval excluding zero"
+guess_coppock_2020,figure_1,figure_1_interval,,95,,95,1,figure_1_interval,,,"Confidence level recovered from the plotted interval, the estimate, its standard error and the residual degrees of freedom"
