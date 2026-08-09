@@ -31,6 +31,17 @@ source(here::here("maintained", "figure_2_bart.R"))
 source(here::here("maintained", "text_summary_stats.R"))
 source(here::here("maintained", "text_bart_seed_sensitivity.R"))
 
+# Figure timestamps ----
+# R's pdf() device stamps a wall-clock /CreationDate and /ModDate into every figure it
+# writes, and those two fields are the only reason two runs of this pipeline produce
+# differing files. Blanking them lets the determinism check cover every file the
+# pipeline writes rather than all but the figures.
+source(here::here("maintained", "helpers.R"))
+walk(
+  list.files(here::here("maintained", "output"), pattern = "\\.pdf$", full.names = TRUE),
+  blank_pdf_timestamps
+)
+
 # Coverage gate ----
 # Checks the extraction of published claims against the ground truth and against
 # in_text_claims.R, which it sources into its own environment and reads as a
