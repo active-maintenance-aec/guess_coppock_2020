@@ -90,8 +90,8 @@ information cause backlash? Results from three large survey experiments.
 *British Journal of Political Science*, 50(5), 1497–1515.
 
 **Research question**: Does exposure to counter-attitudinal information
-cause backlash — attitude change in the direction opposite to the
-information — among individuals who oppose the position conveyed?
+cause backlash (attitude change in the direction opposite to the
+information) among individuals who oppose the position conveyed?
 
 **Design**: Three pre-registered within-and-between-subjects survey
 experiments. Study 1 (N = 2,122): nationally-representative GfK sample,
@@ -245,10 +245,10 @@ they must be run from the archive directory.
 | Script | Status | Issue |
 |:---|:---|:---|
 | GC_helpers.R | Runs | Clean (sourced by all scripts) |
-| GC_Study_1_analysis.R | FAILS | sink() to ‘Written Drafts/BJPS_R&R/tables/’ — path does not exist |
+| GC_Study_1_analysis.R | FAILS | sink() to ‘Written Drafts/BJPS_R&R/tables/’: the path does not exist |
 | GC_Study_2_analysis.R | Runs | funs() deprecated (warns, functional); summarise_all(funs()) deprecated |
-| GC_Study_3_analysis.R | FAILS | sink() to ‘Written Drafts/BJPS_R&R/tables/’ — path does not exist |
-| GC_figure_1.R | Runs | Clean — outputs to console/display only; no ggsave |
+| GC_Study_3_analysis.R | FAILS | sink() to ‘Written Drafts/BJPS_R&R/tables/’: the path does not exist |
+| GC_figure_1.R | Runs | Clean: outputs to console/display only; no ggsave |
 | GC_figure_2.R | FAILS | Two causes: dbarts not installed, then .Random.seed not found |
 | GC_alternative_specifications.R | FAILS | fix_ps() not found: source(‘GC_helpers.R’) absent from script |
 
@@ -280,15 +280,15 @@ deposit alone.
 
 **Additional deprecations** (warnings, not errors):
 
-- `funs()` deprecated in dplyr 0.8.0 — `summarise_all(funs(mean, sd))`
+- `funs()` deprecated in dplyr 0.8.0: `summarise_all(funs(mean, sd))`
   still works in dplyr 1.2.0. Replacement: `across()` with anonymous
   functions.
-- `reshape2::melt` / `dcast` — superseded by `pivot_longer` /
+- `reshape2::melt` / `dcast`: superseded by `pivot_longer` /
   `pivot_wider`.
-- `data_frame()` — superseded by `tibble()`.
-- `rm(list = ls())` at top of each script — unnecessary in clean
+- `data_frame()`: superseded by `tibble()`.
+- `rm(list = ls())` at top of each script: unnecessary in clean
   sessions.
-- `mutate_if(is_bare_numeric, ...)` — `is_bare_numeric` exported from
+- `mutate_if(is_bare_numeric, ...)`: `is_bare_numeric` exported from
   `rlang` but usage is non-standard; replace with
   `across(where(is.numeric), ...)`.
 
@@ -331,7 +331,7 @@ corrigendum was published correcting Table 1: Guess and Coppock (2020).
 
 | Condition | T2 Attitude SD | T2 Belief SD |
 |----|----|----|
-| Control | 0.04 *(wrong — SE of mean)* → **1.02** | 0.02 *(wrong)* → **0.46** |
+| Control | 0.04 *(wrong: SE of mean)* → **1.02** | 0.02 *(wrong)* → **0.46** |
 | Positive Information | 0.04 *(wrong)* → **0.99** | 0.02 *(wrong)* → **0.45** |
 | Negative Information | 0.04 *(wrong)* → **1.01** | 0.02 *(wrong)* → **0.49** |
 
@@ -373,7 +373,7 @@ of the outcome distribution. No substantive conclusions depend on Table
 | study1_W2Q1_neg_mean | NA | 0.62 | NA | Negative information mean gun control support |
 | study1_W2scale_control_sd | 0.04 | 1.02 | 0 | Corrigendum corrects SD: original/archive report SE of mean (~0.04) not SD (~1.02); rewrite computes weighted SD |
 | study1_W2scale_pos_sd | 0.04 | 0.99 | 0 | Corrigendum corrects SD: original/archive report SE of mean (~0.04) not SD (~0.99); rewrite computes weighted SD |
-| study1_W2scale_neg_sd | 0.04 | 1.01 | 0 | Corrigendum corrects SD: original/archive report SE of mean (~0.04) not SD (~1.01); rewrite gives 1.00 (rounds from 1.0046); corrigendum shows 1.01 — negligible rounding discrepancy in weighted SD formula |
+| study1_W2scale_neg_sd | 0.04 | 1.01 | 0 | Corrigendum corrects SD: original/archive report SE of mean (~0.04) not SD (~1.01); rewrite gives 1.00 (rounds from 1.0046); corrigendum shows 1.01, a negligible rounding discrepancy in weighted SD formula |
 | study1_W2Q1_control_sd | 0.02 | 0.46 | 0 | Corrigendum corrects SD: original/archive report SE of mean (~0.02) not SD (~0.46); rewrite computes weighted SD |
 | study1_W2Q1_pos_sd | 0.02 | 0.45 | 0 | Corrigendum corrects SD: original/archive report SE of mean (~0.02) not SD (~0.45); rewrite computes weighted SD |
 | study1_W2Q1_neg_sd | 0.02 | 0.49 | 0 | Corrigendum corrects SD: original/archive report SE of mean (~0.02) not SD (~0.49); rewrite computes weighted SD |
@@ -738,7 +738,7 @@ sits below every one of the ten runs, whose minimum is 0.977.
 | table_1 | study1_W2Q1_neg_mean | 0.62 | 0.621435706191726 | 1 | Negative information mean gun control support |
 | table_1 | study1_W2scale_control_sd | 1.02 | 1.02 | 1 | Corrigendum corrects SD: original/archive report SE of mean (~0.04) not SD (~1.02); rewrite computes weighted SD |
 | table_1 | study1_W2scale_pos_sd | 0.99 | 0.99 | 1 | Corrigendum corrects SD: original/archive report SE of mean (~0.04) not SD (~0.99); rewrite computes weighted SD |
-| table_1 | study1_W2scale_neg_sd | 1.01 | 1.00 | 0 | Corrigendum corrects SD: original/archive report SE of mean (~0.04) not SD (~1.01); rewrite gives 1.00 (rounds from 1.0046); corrigendum shows 1.01 — negligible rounding discrepancy in weighted SD formula |
+| table_1 | study1_W2scale_neg_sd | 1.01 | 1.00 | 0 | Corrigendum corrects SD: original/archive report SE of mean (~0.04) not SD (~1.01); rewrite gives 1.00 (rounds from 1.0046); corrigendum shows 1.01, a negligible rounding discrepancy in weighted SD formula |
 | table_1 | study1_W2Q1_control_sd | 0.46 | 0.46 | 1 | Corrigendum corrects SD: original/archive report SE of mean (~0.02) not SD (~0.46); rewrite computes weighted SD |
 | table_1 | study1_W2Q1_pos_sd | 0.45 | 0.45 | 1 | Corrigendum corrects SD: original/archive report SE of mean (~0.02) not SD (~0.45); rewrite computes weighted SD |
 | table_1 | study1_W2Q1_neg_sd | 0.49 | 0.49 | 1 | Corrigendum corrects SD: original/archive report SE of mean (~0.02) not SD (~0.49); rewrite computes weighted SD |

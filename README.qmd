@@ -56,7 +56,7 @@ Required packages: tidyverse, estimatr, rsample, dbarts, knitr, kableExtra, here
 
 **Citation**: Guess, A. and Coppock, A. (2020). Does counter-attitudinal information cause backlash? Results from three large survey experiments. *British Journal of Political Science*, 50(5), 1497--1515.
 
-**Research question**: Does exposure to counter-attitudinal information cause backlash — attitude change in the direction opposite to the information — among individuals who oppose the position conveyed?
+**Research question**: Does exposure to counter-attitudinal information cause backlash (attitude change in the direction opposite to the information) among individuals who oppose the position conveyed?
 
 **Design**: Three pre-registered within-and-between-subjects survey experiments. Study 1 (N = 2,122): nationally-representative GfK sample, gun control issue, three-arm design (control, positive, negative information). Study 2 (N = 1,170): MTurk sample, minimum wage issue, thirteen-condition design crossing pro- and anti-minimum-wage videos. Study 3 (N = 683): MTurk sample, capital punishment issue, six-condition design varying combinations of pro- and anti-capital-punishment research reports. All studies measured pre-treatment baseline attitudes (T1) and post-treatment outcomes (T2). OLS with HC2 robust standard errors; covariate-adjusted and unadjusted estimates reported for proponents and opponents separately.
 
@@ -188,10 +188,10 @@ The archive contains three `.RData` files (one per study) and six R scripts: `GC
 repro_df <- tibble::tribble(
   ~Script,                           ~Status,  ~Issue,
   "GC_helpers.R",                    "Runs",   "Clean (sourced by all scripts)",
-  "GC_Study_1_analysis.R",           "FAILS",  "sink() to 'Written Drafts/BJPS_R&R/tables/' — path does not exist",
+  "GC_Study_1_analysis.R",           "FAILS",  "sink() to 'Written Drafts/BJPS_R&R/tables/': the path does not exist",
   "GC_Study_2_analysis.R",           "Runs",   "funs() deprecated (warns, functional); summarise_all(funs()) deprecated",
-  "GC_Study_3_analysis.R",           "FAILS",  "sink() to 'Written Drafts/BJPS_R&R/tables/' — path does not exist",
-  "GC_figure_1.R",                   "Runs",   "Clean — outputs to console/display only; no ggsave",
+  "GC_Study_3_analysis.R",           "FAILS",  "sink() to 'Written Drafts/BJPS_R&R/tables/': the path does not exist",
+  "GC_figure_1.R",                   "Runs",   "Clean: outputs to console/display only; no ggsave",
   "GC_figure_2.R",                   "FAILS",  "Two causes: dbarts not installed, then .Random.seed not found",
   "GC_alternative_specifications.R", "FAILS",  "fix_ps() not found: source('GC_helpers.R') absent from script"
 )
@@ -218,11 +218,11 @@ Four of the six analysis scripts fail. All four are fixable from the deposit alo
 
 **Additional deprecations** (warnings, not errors):
 
-- `funs()` deprecated in dplyr 0.8.0 — `summarise_all(funs(mean, sd))` still works in dplyr 1.2.0. Replacement: `across()` with anonymous functions.
-- `reshape2::melt` / `dcast` — superseded by `pivot_longer` / `pivot_wider`.
-- `data_frame()` — superseded by `tibble()`.
-- `rm(list = ls())` at top of each script — unnecessary in clean sessions.
-- `mutate_if(is_bare_numeric, ...)` — `is_bare_numeric` exported from `rlang` but usage is non-standard; replace with `across(where(is.numeric), ...)`.
+- `funs()` deprecated in dplyr 0.8.0: `summarise_all(funs(mean, sd))` still works in dplyr 1.2.0. Replacement: `across()` with anonymous functions.
+- `reshape2::melt` / `dcast`: superseded by `pivot_longer` / `pivot_wider`.
+- `data_frame()`: superseded by `tibble()`.
+- `rm(list = ls())` at top of each script: unnecessary in clean sessions.
+- `mutate_if(is_bare_numeric, ...)`: `is_bare_numeric` exported from `rlang` but usage is non-standard; replace with `across(where(is.numeric), ...)`.
 
 **The deposit sets no seed anywhere, and that reaches further than Figure 2.** The three condition-summary tables each bootstrap their standard errors with `map(1:1000, ~sample_n(..., replace = TRUE))` and no `set.seed()` call before it, so the `r n_boot_cells` parenthesised cells of Tables 1, 4 and 7 are single unseeded draws. Every one of those cells is transcribed in `ground_truth/published_condition_cells.csv` and compared against the rewrite, and `r n_boot_agree` of them agree at the rewrite's own seed; every disagreement is one unit in the last printed digit. The `r n_det_cells` deterministic cells of the same three tables are a different matter, and all but one reproduce exactly. A reader comparing a rerun against the published page should expect the parenthesised cells to move and nothing else to.
 
@@ -236,7 +236,7 @@ Four of the six analysis scripts fail. All four are fixable from the deposit alo
 
 | Condition | T2 Attitude SD | T2 Belief SD |
 |---|---|---|
-| Control | 0.04 *(wrong — SE of mean)* → **1.02** | 0.02 *(wrong)* → **0.46** |
+| Control | 0.04 *(wrong: SE of mean)* → **1.02** | 0.02 *(wrong)* → **0.46** |
 | Positive Information | 0.04 *(wrong)* → **0.99** | 0.02 *(wrong)* → **0.45** |
 | Negative Information | 0.04 *(wrong)* → **1.01** | 0.02 *(wrong)* → **0.49** |
 
