@@ -83,12 +83,18 @@ pro_neg <- cell(t8, "Proponents (Covariates)", "negative_information")
 # `form` is an editorial judgment about the entry rather than a fact about this page's
 # typesetting: "full" where the published and corrected fields are whole sentences that
 # need setting as blocks, "brief" where the entry is a token replacement.
+#
+# `location` is where the defect sits in the published article, quoted from the section or
+# float heading that ground_truth/published_claims.csv gives for the claim the entry
+# corrects, prefixed with "published". This document never prints it: it is carried for the
+# CSV, which a remastered edition reads. Left empty the column arrives there as a logical
+# NA rather than a string, which is why every row carries one.
 entries <- tribble(
   ~entry, ~class, ~source, ~form, ~title, ~location, ~published, ~corrected, ~note,
 
   1, "float", "pipeline", "full",
   "Table 6 reprints Table 5",
-  "",
+  "published Table 6, p. 1506",
   "Table 6, \"Effects of information on favoring minimum wage raise,\" prints [[the contents of Table 5]], every cell identical, under a column header reading [[\"Dependent variable: T2 Amount\"]].",
   "[[This edition prints the Table 6 models the deposited GC_Study_2_analysis.R fits]], on favor_T2_recode, which are the estimates Figure 1's \"Study 2: T2 Favor\" panel plots.",
   paste(
@@ -102,7 +108,7 @@ entries <- tribble(
 
   2, "quantity", "pipeline", "full",
   "The Study 3 participant counts",
-  "",
+  "published Study 3, p. 1506",
   "A total of [[683]] subjects participated in the main survey (287 proponents and [[396]] opponents).",
   str_glue("A total of [[{sum(t7$n)}]] subjects participated in the main survey (287 proponents and [[{group_n(t8, 'Opponents')}]] opponents)."),
   str_glue(
@@ -115,7 +121,7 @@ entries <- tribble(
 
   3, "quantity", "pipeline", "full",
   "The Study 2 participant count",
-  "",
+  "published Study 2: Procedure, p. 1504",
   "Of the 1,500 recruited to the main survey, [[1,170]] participated.",
   str_glue("Of the 1,500 recruited to the main survey, [[{comma(sum(t4$n))}]] participated."),
   str_glue(
@@ -125,7 +131,7 @@ entries <- tribble(
 
   4, "quantity", "pipeline", "full",
   "The Study 3 positive information estimate among opponents",
-  "",
+  "published Study 3: Results, p. 1509",
   "Focusing on the covariate-adjusted models, we estimate that a one-unit increase in positive information causes an average increase in support for capital punishment of 0.015 scale points among proponents and [[0.068]] scale points among opponents, neither of which is statistically significant.",
   str_glue(
     "Focusing on the covariate-adjusted models, we estimate that a one-unit increase in ",
@@ -141,7 +147,7 @@ entries <- tribble(
 
   5, "quantity", "pipeline", "full",
   "The Study 3 negative information estimate among opponents",
-  "",
+  "published Study 3: Results, p. 1509",
   "Negative information has a strong negative effect among proponents (–0.326, p < 0.01), and a weakly negative effect among opponents ([[–0.042]], p = [[0.43]]).",
   str_glue(
     "Negative information has a strong negative effect among proponents ({pt3(pro_neg)}, ",
@@ -154,7 +160,7 @@ entries <- tribble(
 
   6, "quantity", "pipeline", "full",
   "The Study 3 movement from Con Con to Pro Pro among opponents",
-  "",
+  "published Study 3: Results, p. 1509",
   "These estimates imply that moving from the Con Con condition to the Pro Pro condition would cause proponents to move 2·0.015 + 2·0.326 = 0.682 scale points and opponents to move 2·[[0.068]] + 2·[[0.042]] = [[0.220]] scale points.",
   str_glue(
     "These estimates imply that moving from the Con Con condition to the Pro Pro condition ",
@@ -169,7 +175,7 @@ entries <- tribble(
 
   7, "cross_reference", "pipeline", "full",
   "The cross-reference to the binary support results",
-  "",
+  "published Study 1: Results, p. 1503",
   "In [[Table 2]], we turn to the binary gun control support dependent variable, which asks whether respondents support 'stricter gun control laws in the United States.'",
   "In [[Table 3]], we turn to the binary gun control support dependent variable, which asks whether respondents support 'stricter gun control laws in the United States.'",
   paste(
@@ -178,7 +184,7 @@ entries <- tribble(
 
   8, "typography", "pipeline", "brief",
   "The significance threshold in the Table 2 note",
-  "",
+  "published Table 2 note, p. 1502",
   "\\*p < 0.1; \\*\\*p < 0.05; \\*\\*\\*p [[>]] 0.01",
   "\\*p < 0.1; \\*\\*p < 0.05; \\*\\*\\*p [[<]] 0.01",
   str_glue(
