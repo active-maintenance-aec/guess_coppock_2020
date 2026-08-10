@@ -51,6 +51,13 @@ swing <- function(d, grp) {
   2 * (cell(d, grp, "positive_information") - cell(d, grp, "negative_information"))
 }
 
+# The opening paragraph counts the entries in words, as prose does, so the count is
+# spelled from the spine rather than typed beside it.
+spell <- function(n) {
+  c("one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+    "eleven", "twelve")[n]
+}
+
 opp_pos <- cell(t8, "Opponents (Covariates)", "positive_information")
 opp_neg <- cell(t8, "Opponents (Covariates)", "negative_information")
 opp_p <- cell(t8, "Opponents (Covariates)", "negative_information", "p.value")
@@ -58,7 +65,138 @@ pro_pos <- cell(t8, "Proponents (Covariates)", "positive_information")
 pro_neg <- cell(t8, "Proponents (Covariates)", "negative_information")
 ```
 
-This note lists eight corrections to "Does Counter-Attitudinal Information Cause Backlash? Results from Three Large Survey Experiments," published in the *British Journal of Political Science* 50(4), doi [10.1017/S0007123418000327](https://doi.org/10.1017/S0007123418000327). **None of them changes a conclusion of the paper.** The first is a table printed in place of another; three are participant counts that disagree with the article's own tables; three are Study 3 estimates restated in the text at a precision the tables do not show; and one is a cross-reference. The article's finding, that treatment effects across all three experiments run in the direction of the information rather than against it, is unaffected, and Figure 1 already plots the corrected Table 6 estimates rather than the ones that table prints.
+```{r entries}
+# THE ERRATA SPINE. Every correction is defined once, here, and rendered from this
+# tibble: into this note, and into errata_entries.csv at the bottom of the file, which
+# is what the README's count and any later remastered edition read. Before the spine
+# existed the same corrections were written out in prose in more than one place, which
+# is how two copies of one list drift apart without either looking wrong.
+#
+# [[...]] marks the span that changes, and is the only markup a field carries. Each
+# renderer resolves it its own way: bold here, \was{} in an edition. Everything else in
+# a field (escaped asterisks, en dashes, middots) is literal text, so the same string
+# can be set by either renderer.
+#
+# Numbering is APPEND-ONLY. An entry number can already have been cited by a reader, so
+# a later finding is added at the end and never interleaved, merged or renumbered.
+#
+# `form` is an editorial judgment about the entry rather than a fact about this page's
+# typesetting: "full" where the published and corrected fields are whole sentences that
+# need setting as blocks, "brief" where the entry is a token replacement.
+entries <- tribble(
+  ~entry, ~class, ~source, ~form, ~title, ~location, ~published, ~corrected, ~note,
+
+  1, "float", "pipeline", "full",
+  "Table 6 reprints Table 5",
+  "",
+  "Table 6, \"Effects of information on favoring minimum wage raise,\" prints [[the contents of Table 5]], every cell identical, under a column header reading [[\"Dependent variable: T2 Amount\"]].",
+  "[[This edition prints the Table 6 models the deposited GC_Study_2_analysis.R fits]], on favor_T2_recode, which are the estimates Figure 1's \"Study 2: T2 Favor\" panel plots.",
+  paste(
+    "Table 6, \"Effects of information on favoring minimum wage raise,\" prints the",
+    "contents of Table 5 rather than its own. Every cell is identical to Table 5's, and",
+    "the column header inside Table 6 reads \"Dependent variable: T2 Amount\" where the",
+    "table is captioned for the Favor outcome. The text is correct and the table is not:",
+    "the deposited `GC_Study_2_analysis.R` fits its Table 6 models on `favor_T2_recode`,",
+    "and Figure 1's \"Study 2: T2 Favor\" panel plots the estimates below rather than the",
+    "ones Table 6 prints. The corrected table follows."),
+
+  2, "quantity", "pipeline", "full",
+  "The Study 3 participant counts",
+  "",
+  "A total of [[683]] subjects participated in the main survey (287 proponents and [[396]] opponents).",
+  str_glue("A total of [[{sum(t7$n)}]] subjects participated in the main survey (287 proponents and [[{group_n(t8, 'Opponents')}]] opponents)."),
+  str_glue(
+    "The article's own Table 7 gives the six condition sizes as 117, 116, 112, 118, 121 ",
+    "and 102, which sum to {sum(t7$n)}, and Tables 8 and 9 report ",
+    "{group_n(t8, 'Opponents')} opponents. The deposited Study 3 data hold {sum(t7$n)} ",
+    "rows, of which {group_n(t8, 'Proponents')} are proponents, ",
+    "{group_n(t8, 'Opponents')} are opponents, and four carry no pre-treatment ",
+    "classification and so appear in Table 7 but in neither regression table."),
+
+  3, "quantity", "pipeline", "full",
+  "The Study 2 participant count",
+  "",
+  "Of the 1,500 recruited to the main survey, [[1,170]] participated.",
+  str_glue("Of the 1,500 recruited to the main survey, [[{comma(sum(t4$n))}]] participated."),
+  str_glue(
+    "The article's own Table 4 gives the seven condition sizes as 93, 162, 165, 195, 169, ",
+    "192 and 193, which sum to {comma(sum(t4$n))}, and the deposited Study 2 data hold ",
+    "{comma(sum(t4$n))} rows."),
+
+  4, "quantity", "pipeline", "full",
+  "The Study 3 positive information estimate among opponents",
+  "",
+  "Focusing on the covariate-adjusted models, we estimate that a one-unit increase in positive information causes an average increase in support for capital punishment of 0.015 scale points among proponents and [[0.068]] scale points among opponents, neither of which is statistically significant.",
+  str_glue(
+    "Focusing on the covariate-adjusted models, we estimate that a one-unit increase in ",
+    "positive information causes an average increase in support for capital punishment of ",
+    "{pt3(pro_pos)} scale points among proponents and [[{pt3(opp_pos)}]] scale points ",
+    "among opponents, neither of which is statistically significant."),
+  str_glue(
+    "The published sentence gives 0.068 for opponents. The specification the deposit fits, ",
+    "and which Table 8's fourth column reports, gives {pt3(opp_pos)}. Both round to the ",
+    "0.07 that Table 8 prints, so the disagreement is visible only at the precision the ",
+    "text itself uses. Dropping race from the covariate set gives 0.086, so the published ",
+    "figure comes from neither specification."),
+
+  5, "quantity", "pipeline", "full",
+  "The Study 3 negative information estimate among opponents",
+  "",
+  "Negative information has a strong negative effect among proponents (–0.326, p < 0.01), and a weakly negative effect among opponents ([[–0.042]], p = [[0.43]]).",
+  str_glue(
+    "Negative information has a strong negative effect among proponents ({pt3(pro_neg)}, ",
+    "p < 0.01), and a weakly negative effect among opponents ([[{pt3(opp_neg)}]], ",
+    "p = [[{pt2(opp_p)}]])."),
+  str_glue(
+    "The published sentence gives –0.042 and p = 0.43. Table 8's own fourth column, and ",
+    "the deposited specification behind it, give {pt3(opp_neg)} with p = {pt2(opp_p)}. ",
+    "The estimate is not significant at any conventional level on either figure."),
+
+  6, "quantity", "pipeline", "full",
+  "The Study 3 movement from Con Con to Pro Pro among opponents",
+  "",
+  "These estimates imply that moving from the Con Con condition to the Pro Pro condition would cause proponents to move 2·0.015 + 2·0.326 = 0.682 scale points and opponents to move 2·[[0.068]] + 2·[[0.042]] = [[0.220]] scale points.",
+  str_glue(
+    "These estimates imply that moving from the Con Con condition to the Pro Pro condition ",
+    "would cause proponents to move 2·{pt3(pro_pos)} + 2·{pt3(abs(pro_neg))} = ",
+    "{pt3(swing(t8, 'Proponents (Covariates)'))} scale points and opponents to move ",
+    "2·[[{pt3(opp_pos)}]] + 2·[[{pt3(abs(opp_neg))}]] = ",
+    "[[{pt3(swing(t8, 'Opponents (Covariates)'))}]] scale points."),
+  paste(
+    "The published sentence gives 2·0.068 + 2·0.042 = 0.220. The arithmetic is right and",
+    "the two inputs are the ones corrected in entries 4 and 5, so the total moves with",
+    "them."),
+
+  7, "cross_reference", "pipeline", "full",
+  "The cross-reference to the binary support results",
+  "",
+  "In [[Table 2]], we turn to the binary gun control support dependent variable, which asks whether respondents support 'stricter gun control laws in the United States.'",
+  "In [[Table 3]], we turn to the binary gun control support dependent variable, which asks whether respondents support 'stricter gun control laws in the United States.'",
+  paste(
+    "Table 2 is the composite scale table, discussed in the preceding paragraph, which",
+    "opens with the same words. The binary support models are Table 3."),
+
+  8, "typography", "pipeline", "brief",
+  "The significance threshold in the Table 2 note",
+  "",
+  "\\*p < 0.1; \\*\\*p < 0.05; \\*\\*\\*p [[>]] 0.01",
+  "\\*p < 0.1; \\*\\*p < 0.05; \\*\\*\\*p [[<]] 0.01",
+  str_glue(
+    "Three stars mark the most significant cells, not the least. Table 3's note, on the ",
+    "facing page, states the same threshold correctly. The starred cells are unaffected: ",
+    "the three-star coefficients in these tables have p-values of ",
+    "{sprintf('%.4f', cell(t3, 'Among Proponents (No Covariates)', 'Z_informationcon_information', 'p.value'))} ",
+    "and below.")
+) |>
+  mutate(across(c(title, published, corrected, note), as.character))
+
+stopifnot(nrow(entries) == max(entries$entry), !anyDuplicated(entries$entry))
+
+# The spine's markup, resolved for this document. Another renderer resolves it its own way.
+bold <- function(x) str_replace_all(x, "\\[\\[(.*?)\\]\\]", "**\\1**")
+```
+
+This note lists `r spell(nrow(entries))` corrections to "Does Counter-Attitudinal Information Cause Backlash? Results from Three Large Survey Experiments," published in the *British Journal of Political Science* 50(4), doi [10.1017/S0007123418000327](https://doi.org/10.1017/S0007123418000327). **None of them changes a conclusion of the paper.** The first is a table printed in place of another; three are participant counts that disagree with the article's own tables; three are Study 3 estimates restated in the text at a precision the tables do not show; and one is a cross-reference. The article's finding, that treatment effects across all three experiments run in the direction of the information rather than against it, is unaffected, and Figure 1 already plots the corrected Table 6 estimates rather than the ones that table prints.
 
 A separate corrigendum, published at *British Journal of Political Science* 50(4), 1517, doi [10.1017/S0007123419000024](https://doi.org/10.1017/S0007123419000024), corrects the standard deviations of Table 1. That correction is not repeated here.
 
@@ -66,9 +204,12 @@ Every number in a corrected sentence below is computed from the deposited replic
 
 One published figure is deliberately absent from this list. The article reports that "93 per cent of subjects have a positive treatment effect estimate when exposed to positive information." The deposited BART script sets no seed, so that figure is a single unseeded draw and the right comparison is against the spread of draws rather than against a point. Refitting at ten seeds under a current sampler puts the proportion between 97.7 and 99.6 per cent, above the published figure in every run, which is a discrepancy worth recording but not a number that can be corrected to a value the analysis would reproduce. It is documented in the repository's report instead.
 
-## 1. Table 6 reprints Table 5
-
-Table 6, "Effects of information on favoring minimum wage raise," prints the contents of Table 5 rather than its own. Every cell is identical to Table 5's, and the column header inside Table 6 reads "Dependent variable: T2 Amount" where the table is captioned for the Favor outcome. The text is correct and the table is not: the deposited `GC_Study_2_analysis.R` fits its Table 6 models on `favor_T2_recode`, and Figure 1's "Study 2: T2 Favor" panel plots the estimates below rather than the ones Table 6 prints. The corrected table follows.
+```{r entry-1, results="asis"}
+# The correction here is the float below, not a sentence, so the row's prose is its
+# note; the published and corrected fields name the defect for other renderers.
+e <- entries |> filter(entry == 1)
+cat("\n\n## ", e$entry, ". ", e$title, "\n\n", e$note, "\n", sep = "")
+```
 
 ```{r table6}
 star <- function(p) {
@@ -117,72 +258,18 @@ kable(tab, format = "latex", booktabs = TRUE, linesep = "", escape = FALSE,
   kableExtra::kable_styling(latex_options = "hold_position")
 ```
 
-## 2. The Study 3 participant counts
+```{r quoted-entries, results="asis"}
+# A heading is only a heading when a blank line precedes it, so every entry opens with
+# one; without it the "## 2." lands in the page as literal text.
+walk(2:max(entries$entry), function(i) {
+  e <- entries |> filter(entry == i)
+  cat("\n\n## ", e$entry, ". ", e$title, "\n\n> ", bold(e$published),
+      "\n\nCorrected:\n\n> ", bold(e$corrected), "\n\n", e$note, "\n", sep = "")
+})
+```
 
-> A total of **683** subjects participated in the main survey (287 proponents and **396** opponents).
-
-Corrected:
-
-> A total of **`r sum(t7$n)`** subjects participated in the main survey (287 proponents and **`r group_n(t8, "Opponents")`** opponents).
-
-The article's own Table 7 gives the six condition sizes as 117, 116, 112, 118, 121 and 102, which sum to `r sum(t7$n)`, and Tables 8 and 9 report `r group_n(t8, "Opponents")` opponents. The deposited Study 3 data hold `r sum(t7$n)` rows, of which `r group_n(t8, "Proponents")` are proponents, `r group_n(t8, "Opponents")` are opponents, and four carry no pre-treatment classification and so appear in Table 7 but in neither regression table.
-
-## 3. The Study 2 participant count
-
-> Of the 1,500 recruited to the main survey, **1,170** participated.
-
-Corrected:
-
-> Of the 1,500 recruited to the main survey, **`r comma(sum(t4$n))`** participated.
-
-The article's own Table 4 gives the seven condition sizes as 93, 162, 165, 195, 169, 192 and 193, which sum to `r comma(sum(t4$n))`, and the deposited Study 2 data hold `r comma(sum(t4$n))` rows.
-
-## 4. The Study 3 positive information estimate among opponents
-
-> Focusing on the covariate-adjusted models, we estimate that a one-unit increase in positive information causes an average increase in support for capital punishment of 0.015 scale points among proponents and **0.068** scale points among opponents, neither of which is statistically significant.
-
-Corrected:
-
-> Focusing on the covariate-adjusted models, we estimate that a one-unit increase in positive information causes an average increase in support for capital punishment of `r pt3(pro_pos)` scale points among proponents and **`r pt3(opp_pos)`** scale points among opponents, neither of which is statistically significant.
-
-The published sentence gives 0.068 for opponents. The specification the deposit fits, and which Table 8's fourth column reports, gives `r pt3(opp_pos)`. Both round to the 0.07 that Table 8 prints, so the disagreement is visible only at the precision the text itself uses. Dropping race from the covariate set gives 0.086, so the published figure comes from neither specification.
-
-## 5. The Study 3 negative information estimate among opponents
-
-> Negative information has a strong negative effect among proponents (–0.326, p < 0.01), and a weakly negative effect among opponents (**–0.042**, p = **0.43**).
-
-Corrected:
-
-> Negative information has a strong negative effect among proponents (`r pt3(pro_neg)`, p < 0.01), and a weakly negative effect among opponents (**`r pt3(opp_neg)`**, p = **`r pt2(opp_p)`**).
-
-The published sentence gives –0.042 and p = 0.43. Table 8's own fourth column, and the deposited specification behind it, give `r pt3(opp_neg)` with p = `r pt2(opp_p)`. The estimate is not significant at any conventional level on either figure.
-
-## 6. The Study 3 movement from Con Con to Pro Pro among opponents
-
-> These estimates imply that moving from the Con Con condition to the Pro Pro condition would cause proponents to move 2·0.015 + 2·0.326 = 0.682 scale points and opponents to move 2·**0.068** + 2·**0.042** = **0.220** scale points.
-
-Corrected:
-
-> These estimates imply that moving from the Con Con condition to the Pro Pro condition would cause proponents to move 2·`r pt3(pro_pos)` + 2·`r pt3(abs(pro_neg))` = `r pt3(swing(t8, "Proponents (Covariates)"))` scale points and opponents to move 2·**`r pt3(opp_pos)`** + 2·**`r pt3(abs(opp_neg))`** = **`r pt3(swing(t8, "Opponents (Covariates)"))`** scale points.
-
-The published sentence gives 2·0.068 + 2·0.042 = 0.220. The arithmetic is right and the two inputs are the ones corrected in entries 4 and 5, so the total moves with them.
-
-## 7. The cross-reference to the binary support results
-
-> In **Table 2**, we turn to the binary gun control support dependent variable, which asks whether respondents support 'stricter gun control laws in the United States.'
-
-Corrected:
-
-> In **Table 3**, we turn to the binary gun control support dependent variable, which asks whether respondents support 'stricter gun control laws in the United States.'
-
-Table 2 is the composite scale table, discussed in the preceding paragraph, which opens with the same words. The binary support models are Table 3.
-
-## 8. The significance threshold in the Table 2 note
-
-> \*p < 0.1; \*\*p < 0.05; \*\*\*p **>** 0.01
-
-Corrected:
-
-> \*p < 0.1; \*\*p < 0.05; \*\*\*p **<** 0.01
-
-Three stars mark the most significant cells, not the least. Table 3's note, on the facing page, states the same threshold correctly. The starred cells are unaffected: the three-star coefficients in these tables have p-values of `r sprintf("%.4f", cell(t3, "Among Proponents (No Covariates)", "Z_informationcon_information", "p.value"))` and below.
+```{r emit-spine}
+# The machine-readable spine, written wherever this document is rendered. The README's
+# count reads it rather than keeping its own, so the two cannot drift.
+write_csv(entries, here("errata_entries.csv"))
+```
