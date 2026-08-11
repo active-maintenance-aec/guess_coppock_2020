@@ -89,8 +89,14 @@ pro_neg <- cell(t8, "Proponents (Covariates)", "negative_information")
 # corrects, prefixed with "published". This document never prints it: it is carried for the
 # CSV, which a remastered edition reads. Left empty the column arrives there as a logical
 # NA rather than a string, which is why every row carries one.
+#
+# `claim_ids` names the ground truth rows the entry corrects, semicolon separated, and it is
+# what makes "has this finding been published?" a query over the corpus rather than a reading
+# of every note. It is empty where the entry has no ground truth row: a reference list is not
+# an extraction claim. Every id listed here is checked against the ground truth by
+# ground_truth/claims_gate.R, which refuses to finish on a dangling one.
 entries <- tribble(
-  ~entry, ~class, ~source, ~form, ~title, ~location, ~published, ~corrected, ~note,
+  ~entry, ~class, ~source, ~form, ~title, ~location, ~published, ~corrected, ~note, ~claim_ids,
 
   1, "float", "pipeline", "full",
   "Table 6 reprints Table 5",
@@ -105,6 +111,10 @@ entries <- tribble(
     "the deposited `GC_Study_2_analysis.R` fits its Table 6 models on `favor_T2_recode`,",
     "and Figure 1's \"Study 2: T2 Favor\" panel plots the estimates below rather than the",
     "ones Table 6 prints. The corrected table follows."),
+  paste0("study2_favor_opp_pos_unadj;study2_favor_opp_neg_unadj;study2_favor_opp_pos_adj;",
+         "study2_favor_opp_neg_adj;study2_favor_mod_pos_unadj;study2_favor_mod_neg_unadj;",
+         "study2_favor_mod_pos_adj;study2_favor_mod_neg_adj;study2_favor_pro_pos_unadj;",
+         "study2_favor_pro_neg_unadj;study2_favor_pro_pos_adj;study2_favor_pro_neg_adj"),
 
   2, "quantity", "pipeline", "full",
   "The Study 3 participant counts",
@@ -118,6 +128,7 @@ entries <- tribble(
     "rows, of which {group_n(t8, 'Proponents')} are proponents, ",
     "{group_n(t8, 'Opponents')} are opponents, and four carry no pre-treatment ",
     "classification and so appear in Table 7 but in neither regression table."),
+  "study3_N_main;study3_N_opponents_text",
 
   3, "quantity", "pipeline", "full",
   "The Study 2 participant count",
@@ -128,6 +139,7 @@ entries <- tribble(
     "The article's own Table 4 gives the seven condition sizes as 93, 162, 165, 195, 169, ",
     "192 and 193, which sum to {comma(sum(t4$n))}, and the deposited Study 2 data hold ",
     "{comma(sum(t4$n))} rows."),
+  "study2_N_participated",
 
   4, "quantity", "pipeline", "full",
   "The Study 3 positive information estimate among opponents",
@@ -144,6 +156,7 @@ entries <- tribble(
     "0.07 that Table 8 prints, so the disagreement is visible only at the precision the ",
     "text itself uses. Dropping race from the covariate set gives 0.086, so the published ",
     "figure comes from neither specification."),
+  "study3_text_opp_pos_adj",
 
   5, "quantity", "pipeline", "full",
   "The Study 3 negative information estimate among opponents",
@@ -157,6 +170,7 @@ entries <- tribble(
     "The published sentence gives –0.042 and p = 0.43. Table 8's own fourth column, and ",
     "the deposited specification behind it, give {pt3(opp_neg)} with p = {pt2(opp_p)}. ",
     "The estimate is not significant at any conventional level on either figure."),
+  "study3_text_opp_neg_adj;study3_text_opp_neg_pvalue",
 
   6, "quantity", "pipeline", "full",
   "The Study 3 movement from Con Con to Pro Pro among opponents",
@@ -172,6 +186,7 @@ entries <- tribble(
     "The published sentence gives 2·0.068 + 2·0.042 = 0.220. The arithmetic is right and",
     "the two inputs are the ones corrected in entries 4 and 5, so the total moves with",
     "them."),
+  "study3_text_opp_swing",
 
   7, "cross_reference", "pipeline", "full",
   "The cross-reference to the binary support results",
@@ -181,6 +196,7 @@ entries <- tribble(
   paste(
     "Table 2 is the composite scale table, discussed in the preceding paragraph, which",
     "opens with the same words. The binary support models are Table 3."),
+  "study1_table_3_reference",
 
   8, "typography", "pipeline", "brief",
   "The significance threshold in the Table 2 note",
@@ -192,9 +208,10 @@ entries <- tribble(
     "facing page, states the same threshold correctly. The starred cells are unaffected: ",
     "the three-star coefficients in these tables have p-values of ",
     "{sprintf('%.4f', cell(t3, 'Among Proponents (No Covariates)', 'Z_informationcon_information', 'p.value'))} ",
-    "and below.")
+    "and below."),
+  "study1_table_2_note_threshold"
 ) |>
-  mutate(across(c(title, published, corrected, note), as.character))
+  mutate(across(c(title, published, corrected, note, claim_ids), as.character))
 
 stopifnot(nrow(entries) == max(entries$entry), !anyDuplicated(entries$entry))
 
