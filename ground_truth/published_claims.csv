@@ -1,187 +1,187 @@
-claim_id,location,claim_type,value_paper,digits,needs_block,claim,notes
-abstract_n_experiments,"Abstract, p. 1497",structural,3,0,TRUE,Survey experiments the article reports,
-abstract_n_mturk,"Abstract, p. 1497",definitional,2,0,FALSE,Experiments fielded on Mechanical Turk,Platform is recorded in no pipeline output
-abstract_n_representative,"Abstract, p. 1497",definitional,1,0,FALSE,Experiments fielded on a nationally representative sample,Platform is recorded in no pipeline output
-intro_theoretical_perspectives,"Expectations of Backlash, p. 1499",definitional,4,0,FALSE,Theoretical perspectives that predict or allow backlash,A property of the literature review
-intro_woodporter_versions,"Expectations of Backlash, p. 1500",transcribed,36,0,FALSE,Versions of the Nyhan and Reifler design executed by Wood and Porter (2018),Copied from the cited study
-intro_woodporter_backfire,"Expectations of Backlash, p. 1500",transcribed,1,0,FALSE,Wood and Porter versions finding evidence of backfire,Copied from the cited study
-intro_n_experiments,"Expectations of Backlash, p. 1500",structural,3,0,TRUE,Randomized experiments presented in the article,
-intro_n_issues,"Expectations of Backlash, p. 1500",structural,3,0,TRUE,Distinct issues covered,
-measure_potential_outcomes,"Measuring Backlash, p. 1500",definitional,3,0,FALSE,Potential outcomes each individual is endowed with,Notation rather than a quantity the deposit records
-measure_treatment_effects,"Measuring Backlash, p. 1500",definitional,2,0,FALSE,Individual-level treatment effects defined,Notation
-approach_platforms,"Research Approach, p. 1501",definitional,2,0,FALSE,Survey platforms used,
-study1_N_total,"Study 1: Procedure, p. 1501",pipeline,2122,0,TRUE,Study 1 sample size,
-study1_field_start_day,"Study 1: Procedure, p. 1501",definitional,22,0,FALSE,First day of the Study 1 field period in June 2016,The deposit carries no field dates
-study1_field_end_day,"Study 1: Procedure, p. 1501",definitional,28,0,FALSE,Last day of the Study 1 field period in June 2016,The deposit carries no field dates
-study1_days_after_shooting,"Study 1: Procedure, p. 1501",definitional,10,0,FALSE,Days between the Orlando shooting and the Study 1 field period,The deposit carries no field dates
-study1_prewave_days_low,"Study 1: Procedure, p. 1501",definitional,3,0,FALSE,Earliest day of the preliminary wave relative to the shooting,The deposit carries no field dates
-study1_prewave_days_high,"Study 1: Procedure, p. 1501",definitional,10,0,FALSE,Latest day of the preliminary wave relative to the shooting,The deposit carries no field dates
-study1_n_policy_questions,"Study 1: Procedure, p. 1501",definitional,4,0,FALSE,Gun control policy questions combined into the composite index,The deposit ships the constructed index rather than its items
-study1_n_conditions,"Study 1: Procedure, p. 1501",pipeline,3,0,TRUE,Treatment conditions in Study 1,
-study1_n_stimulus_outcomes,"Study 1: Procedure, p. 1502",definitional,4,0,FALSE,Outcome variables shown in the fictitious article's graphical evidence,A property of the stimulus
-study1_kramer_perry_year,"Study 1: Procedure, p. 1502",definitional,2014,0,FALSE,Publication year of the fictitious article shown to subjects,A property of the stimulus
-study1_table_1_cells,"Table 1, p. 1502 and corrigendum p. 1517",pipeline,15,0,TRUE,Deterministic cells of Table 1 as corrected by the corrigendum,Counts of Ns and means and standard deviations
-study1_table_1_boot_cells,"Table 1, p. 1502 and corrigendum p. 1517",pipeline,12,0,TRUE,Bootstrapped standard error cells of Table 1 as corrected by the corrigendum,Single unseeded draws in the deposit
-study1_N_control,"Table 1, p. 1502",pipeline,730,0,TRUE,Control group N,
-study1_N_pos_info,"Table 1, p. 1502",pipeline,702,0,TRUE,Positive information group N,
-study1_N_neg_info,"Table 1, p. 1502",pipeline,690,0,TRUE,Negative information group N,
-study1_W2scale_control_mean,"Table 1, p. 1502",pipeline,-0.03,2,TRUE,Control group mean composite scale,
-study1_W2scale_pos_mean,"Table 1, p. 1502",pipeline,0.06,2,TRUE,Positive information mean composite scale,
-study1_W2scale_neg_mean,"Table 1, p. 1502",pipeline,0.00,2,TRUE,Negative information mean composite scale,
-study1_W2Q1_control_mean,"Table 1, p. 1502",pipeline,0.69,2,TRUE,Control group mean gun control support,
-study1_W2Q1_pos_mean,"Table 1, p. 1502",pipeline,0.72,2,TRUE,Positive information mean gun control support,
-study1_W2Q1_neg_mean,"Table 1, p. 1502",pipeline,0.62,2,TRUE,Negative information mean gun control support,
-study1_W2scale_control_sd,"Corrigendum, p. 1517",pipeline,1.02,2,TRUE,Control group SD of the composite scale,Corrigendum value; the article printed the SE of the mean
-study1_W2scale_pos_sd,"Corrigendum, p. 1517",pipeline,0.99,2,TRUE,Positive information SD of the composite scale,Corrigendum value
-study1_W2scale_neg_sd,"Corrigendum, p. 1517",pipeline,1.01,2,TRUE,Negative information SD of the composite scale,Corrigendum value
-study1_W2Q1_control_sd,"Corrigendum, p. 1517",pipeline,0.46,2,TRUE,Control group SD of gun control support,Corrigendum value
-study1_W2Q1_pos_sd,"Corrigendum, p. 1517",pipeline,0.45,2,TRUE,Positive information SD of gun control support,Corrigendum value
-study1_W2Q1_neg_sd,"Corrigendum, p. 1517",pipeline,0.49,2,TRUE,Negative information SD of gun control support,Corrigendum value
-study1_sds_do_not_vary,"Study 1: Procedure, p. 1502",descriptive,,0,TRUE,The outcome standard deviations do not appear to vary by treatment condition,Evaluated against the corrigendum's own SD column
-study1_W2scale_opp_pos_unadj,"Table 2, p. 1502",pipeline,0.05,2,TRUE,Opponents: positive information on the composite scale (unadjusted),
-study1_W2scale_opp_neg_unadj,"Table 2, p. 1502",pipeline,0.04,2,TRUE,Opponents: negative information on the composite scale (unadjusted),
-study1_W2scale_opp_const_unadj,"Table 2, p. 1502",pipeline,-0.91,2,TRUE,Opponents: constant (unadjusted),
-study1_W2scale_opp_pos_adj,"Table 2, p. 1502",pipeline,0.05,2,TRUE,Opponents: positive information on the composite scale (adjusted),
-study1_W2scale_opp_neg_adj,"Table 2, p. 1502",pipeline,-0.003,3,TRUE,Opponents: negative information on the composite scale (adjusted),
-study1_N_opponents,"Table 2, p. 1502",pipeline,718,0,TRUE,Opponents N in Table 2,
-study1_W2scale_pro_pos_unadj,"Table 2, p. 1502",pipeline,0.06,2,TRUE,Proponents: positive information on the composite scale (unadjusted),
-study1_W2scale_pro_neg_unadj,"Table 2, p. 1502",pipeline,0.04,2,TRUE,Proponents: negative information on the composite scale (unadjusted),
-study1_W2scale_pro_const_unadj,"Table 2, p. 1502",pipeline,0.41,2,TRUE,Proponents: constant (unadjusted),
-study1_N_proponents,"Table 2, p. 1502",pipeline,1359,0,TRUE,Proponents N in Table 2,
-study1_table_2_note_threshold,"Table 2 note, p. 1502",descriptive,0.01,2,TRUE,Significance threshold marked by three stars in the Table 2 note,The note prints the inequality the wrong way round
-study1_table_3_reference,"Study 1: Results, p. 1503",structural,2,0,TRUE,Table number the text gives for the binary gun control support results,
-study1_W2Q1_opp_pos_unadj,"Table 3, p. 1503",pipeline,0.03,2,TRUE,Opponents: positive information on gun control support (unadjusted),
-study1_W2Q1_opp_neg_unadj,"Table 3, p. 1503",pipeline,-0.02,2,TRUE,Opponents: negative information on gun control support (unadjusted),
-study1_W2Q1_opp_pos_adj,"Table 3, p. 1503",pipeline,0.02,2,TRUE,Opponents: positive information on gun control support (adjusted),
-study1_W2Q1_opp_neg_adj,"Table 3, p. 1503",pipeline,-0.03,2,TRUE,Opponents: negative information on gun control support (adjusted),
-study1_W2Q1_pro_pos_unadj,"Table 3, p. 1503",pipeline,0.01,2,TRUE,Proponents: positive information on gun control support (unadjusted),
-study1_W2Q1_pro_neg_unadj,"Table 3, p. 1503",pipeline,-0.08,2,TRUE,Proponents: negative information on gun control support (unadjusted),
-study1_W2Q1_pro_pos_adj,"Table 3, p. 1503",pipeline,0.01,2,TRUE,Proponents: positive information on gun control support (adjusted),
-study1_W2Q1_pro_neg_adj,"Table 3, p. 1503",pipeline,-0.07,2,TRUE,Proponents: negative information on gun control support (adjusted),
-study1_N_opp_Q1,"Table 3, p. 1503",pipeline,724,0,TRUE,Opponents N in Table 3,
-study1_N_pro_Q1,"Table 3, p. 1503",pipeline,1375,0,TRUE,Proponents N in Table 3,
-study2_N_pool,"Study 2: Procedure, p. 1504",definitional,2979,0,FALSE,Respondents recruited to the Study 2 pre-treatment survey,The deposit ships the main survey only
-study2_N_invited,"Study 2: Procedure, p. 1504",definitional,1500,0,FALSE,Respondents invited to the Study 2 main survey,The deposit ships the main survey only
-study2_N_participated,"Study 2: Procedure, p. 1504",pipeline,1170,0,TRUE,Respondents who participated in the Study 2 main survey,
-study2_n_videos,"Study 2: Procedure, p. 1504",definitional,6,0,FALSE,Videos used in Study 2,A property of the stimulus
-study2_n_conditions,"Study 2: Procedure, p. 1504",definitional,13,0,FALSE,Conditions subjects were randomized into,The deposit collapses these into the seven groups of Table 4
-study2_n_orderings,"Study 2: Procedure, p. 1504",definitional,12,0,FALSE,Orderings of the four persuasive videos,A property of the design
-study2_n_persuasive_videos,"Study 2: Procedure, p. 1504",definitional,4,0,FALSE,Persuasive videos,A property of the stimulus
-study2_amount_min,"Study 2: Procedure, p. 1504",definitional,0.00,2,FALSE,Lower bound of the Amount response box in dollars,Question wording
-study2_amount_max,"Study 2: Procedure, p. 1504",definitional,25.00,2,FALSE,Upper bound of the Amount response box in dollars,Question wording
-study2_current_min_wage,"Study 2: Procedure, p. 1504",transcribed,7.25,2,FALSE,Federal minimum wage quoted in the Favor question,Question wording
-study2_favor_scale_low,"Study 2: Procedure, p. 1504",definitional,1,0,FALSE,Lowest point of the Favor scale,Question wording
-study2_favor_scale_high,"Study 2: Procedure, p. 1504",definitional,7,0,FALSE,Highest point of the Favor scale,Question wording
-study2_con_score,"Study 2: Analytic Strategy, p. 1504",definitional,-1,0,FALSE,Information content score of the Con Con conditions,The deposit carries positive and negative information separately
-study2_procon_score,"Study 2: Analytic Strategy, p. 1504",definitional,0,0,FALSE,Information content score of the Pro Con and Placebo conditions,
-study2_propro_score,"Study 2: Analytic Strategy, p. 1504",definitional,1,0,FALSE,Information content score of the Pro Pro conditions,
-study2_opponent_favor_threshold,"Study 2: Analytic Strategy, p. 1504",definitional,4,0,FALSE,Favor response at or below which a subject is an opponent,
-study2_median_amount,"Study 2: Analytic Strategy, p. 1504",definitional,10.00,2,FALSE,Median pre-treatment Amount response in dollars,Median of the pre-treatment pool which the deposit does not ship
-study2_table_4_cells,"Table 4, p. 1505",pipeline,49,0,TRUE,Deterministic cells of Table 4,Counts of Ns and information content and means and standard deviations
-study2_table_4_boot_cells,"Table 4, p. 1505",pipeline,28,0,TRUE,Bootstrapped standard error cells of Table 4,Single unseeded draws in the deposit
-study2_N_placebo,"Table 4, p. 1505",pipeline,93,0,TRUE,Placebo group N,
-study2_N_conyoung_conold,"Table 4, p. 1505",pipeline,162,0,TRUE,Con Young / Con Old group N,
-study2_N_proold_conold,"Table 4, p. 1505",pipeline,165,0,TRUE,Pro Old / Con Old group N,
-study2_N_proold_conyoung,"Table 4, p. 1505",pipeline,195,0,TRUE,Pro Old / Con Young group N,
-study2_N_proyoung_conold,"Table 4, p. 1505",pipeline,169,0,TRUE,Pro Young / Con Old group N,
-study2_N_proyoung_conyoung,"Table 4, p. 1505",pipeline,192,0,TRUE,Pro Young / Con Young group N,
-study2_N_proyoung_proold,"Table 4, p. 1505",pipeline,193,0,TRUE,Pro Young / Pro Old group N,
-study2_placebo_sd_test,"Study 2: Analytic Strategy, p. 1505",pipeline,0.01,2,TRUE,Significance level of the placebo versus Pro Old / Con Old standard deviation difference,The deposit ships no randomization inference code
-study2_opp_pos_unadj,"Table 5, p. 1505",pipeline,0.43,2,TRUE,Opponents: positive information on preferred amount (unadjusted),
-study2_opp_neg_unadj,"Table 5, p. 1505",pipeline,-0.61,2,TRUE,Opponents: negative information on preferred amount (unadjusted),
-study2_opp_pos_adj,"Table 5, p. 1505",pipeline,0.60,2,TRUE,Opponents: positive information on preferred amount (adjusted),
-study2_opp_neg_adj,"Table 5, p. 1505",pipeline,-0.70,2,TRUE,Opponents: negative information on preferred amount (adjusted),
-study2_pro_pos_unadj,"Table 5, p. 1505",pipeline,1.31,2,TRUE,Proponents: positive information on preferred amount (unadjusted),
-study2_pro_neg_unadj,"Table 5, p. 1505",pipeline,-1.93,2,TRUE,Proponents: negative information on preferred amount (unadjusted),
-study2_pro_pos_adj,"Table 5, p. 1505",pipeline,1.40,2,TRUE,Proponents: positive information on preferred amount (adjusted),
-study2_pro_neg_adj,"Table 5, p. 1505",pipeline,-1.70,2,TRUE,Proponents: negative information on preferred amount (adjusted),
-study2_N_opponents,"Table 5, p. 1505",pipeline,343,0,TRUE,Opponents N in Table 5,
-study2_N_proponents,"Table 5, p. 1505",pipeline,470,0,TRUE,Proponents N in Table 5,
-study2_N_moderates,"Table 5, p. 1505",pipeline,356,0,TRUE,Moderates N in Table 5,
-study2_favor_opp_pos_unadj,"Table 6, p. 1506",pipeline,0.43,2,TRUE,Opponents: positive information on favoring a raise (unadjusted),
-study2_favor_opp_neg_unadj,"Table 6, p. 1506",pipeline,-0.61,2,TRUE,Opponents: negative information on favoring a raise (unadjusted),
-study2_favor_opp_pos_adj,"Table 6, p. 1506",pipeline,0.60,2,TRUE,Opponents: positive information on favoring a raise (adjusted),
-study2_favor_opp_neg_adj,"Table 6, p. 1506",pipeline,-0.70,2,TRUE,Opponents: negative information on favoring a raise (adjusted),
-study2_favor_mod_pos_unadj,"Table 6, p. 1506",pipeline,1.88,2,TRUE,Moderates: positive information on favoring a raise (unadjusted),
-study2_favor_mod_neg_unadj,"Table 6, p. 1506",pipeline,-0.83,2,TRUE,Moderates: negative information on favoring a raise (unadjusted),
-study2_favor_mod_pos_adj,"Table 6, p. 1506",pipeline,1.51,2,TRUE,Moderates: positive information on favoring a raise (adjusted),
-study2_favor_mod_neg_adj,"Table 6, p. 1506",pipeline,-0.93,2,TRUE,Moderates: negative information on favoring a raise (adjusted),
-study2_favor_pro_pos_unadj,"Table 6, p. 1506",pipeline,1.31,2,TRUE,Proponents: positive information on favoring a raise (unadjusted),
-study2_favor_pro_neg_unadj,"Table 6, p. 1506",pipeline,-1.93,2,TRUE,Proponents: negative information on favoring a raise (unadjusted),
-study2_favor_pro_pos_adj,"Table 6, p. 1506",pipeline,1.40,2,TRUE,Proponents: positive information on favoring a raise (adjusted),
-study2_favor_pro_neg_adj,"Table 6, p. 1506",pipeline,-1.70,2,TRUE,Proponents: negative information on favoring a raise (adjusted),
-study2_favor_all_signed,"Study 2: Results, p. 1506",descriptive,,0,TRUE,All coefficients in Table 6 are correctly signed,
-study2_favor_sig_exception,"Study 2: Results, p. 1506",descriptive,,0,TRUE,Every Table 6 information coefficient except negative information among opponents is significant,
-study3_lord_year,"Study 3, p. 1506",transcribed,1977,0,FALSE,Publication year of the fictitious articles in the original Lord et al. design,A property of the cited study
-study3_updated_year,"Study 3, p. 1506",definitional,2012,0,FALSE,Publication year the fictitious articles were updated to,A property of the stimulus
-study3_N_t1,"Study 3, p. 1506",definitional,1659,0,FALSE,MTurk subjects recruited to the Study 3 T1 survey,The deposit ships the main survey only
-study3_N_eligible,"Study 3, p. 1506",definitional,933,0,FALSE,Subjects whose T1 responses were clear and consistent,The deposit ships the main survey only
-study3_proponent_low,"Study 3, p. 1506",definitional,5,0,FALSE,Lowest T1 answer defining a proponent,
-study3_proponent_high,"Study 3, p. 1506",definitional,7,0,FALSE,Highest T1 answer defining a proponent,
-study3_scale_points,"Study 3, p. 1506",definitional,7,0,FALSE,Points on the T1 attitude and belief scales,
-study3_opponent_low,"Study 3, p. 1506",definitional,1,0,FALSE,Lowest T1 answer defining an opponent,
-study3_opponent_high,"Study 3, p. 1506",definitional,3,0,FALSE,Highest T1 answer defining an opponent,
-study3_N_main,"Study 3, p. 1506",pipeline,683,0,TRUE,Subjects who participated in the Study 3 main survey,
-study3_N_proponents_text,"Study 3, p. 1506",pipeline,287,0,TRUE,Proponents in the Study 3 main survey,
-study3_N_opponents_text,"Study 3, p. 1506",pipeline,396,0,TRUE,Opponents in the Study 3 main survey,
-study3_attitude_scale_low,"Study 3, p. 1506",definitional,1,0,FALSE,Lowest point of the T2 Attitude scale,Question wording
-study3_attitude_scale_high,"Study 3, p. 1506",definitional,7,0,FALSE,Highest point of the T2 Attitude scale,Question wording
-study3_belief_scale_low,"Study 3, p. 1506",definitional,1,0,FALSE,Lowest point of the T2 Belief scale,Question wording
-study3_belief_scale_high,"Study 3, p. 1506",definitional,7,0,FALSE,Highest point of the T2 Belief scale,Question wording
-study3_table_7_cells,"Table 7, p. 1507",pipeline,42,0,TRUE,Deterministic cells of Table 7,Counts of Ns and information content and means and standard deviations
-study3_table_7_boot_cells,"Table 7, p. 1507",pipeline,24,0,TRUE,Bootstrapped standard error cells of Table 7,Single unseeded draws in the deposit
-study3_N_CC,"Table 7, p. 1507",pipeline,117,0,TRUE,Con Con group N,
-study3_N_CN,"Table 7, p. 1507",pipeline,116,0,TRUE,Con Null group N,
-study3_N_NN,"Table 7, p. 1507",pipeline,112,0,TRUE,Null Null group N,
-study3_N_PC,"Table 7, p. 1507",pipeline,118,0,TRUE,Pro Con group N,
-study3_N_PN,"Table 7, p. 1507",pipeline,121,0,TRUE,Pro Null group N,
-study3_N_PP,"Table 7, p. 1507",pipeline,102,0,TRUE,Pro Pro group N,
-study3_n_conditions,"Study 3: Procedure, p. 1507",pipeline,6,0,TRUE,Treatment conditions in Study 3,
-study3_n_state_pairs,"Study 3: Procedure, p. 1507",definitional,10,0,FALSE,Neighbouring state pairs in the cross-sectional report,A property of the stimulus
-study3_n_states_timeseries,"Study 3: Procedure, p. 1507",definitional,14,0,FALSE,States in the time-series report,A property of the stimulus
-study3_propro_score,"Study 3: Procedure, p. 1507",pipeline,2,0,TRUE,Positive information content of two Pro reports,
-study3_pronull_score,"Study 3: Procedure, p. 1507",pipeline,1,0,TRUE,Positive information content of one Pro and one Null report,
-study3_sd_test_level,"Study 3: Procedure, p. 1507",pipeline,0.05,2,TRUE,Level at which the standard deviation differences are generally not significant,The deposit ships no randomization inference code
-study3_sd_test_pvalue,"Study 3: Procedure, p. 1507",pipeline,0.04,2,TRUE,Randomization inference p-value for the Null Null versus Pro Null standard deviation difference,The deposit ships no randomization inference code
-study3_n_intermediate_dvs,"Study 3: Analytic Strategy, p. 1507",definitional,7,0,FALSE,Intermediate dependent variables per report,The deposit ships the endline outcomes used here
-study3_n_endline_dvs,"Study 3: Analytic Strategy, p. 1507",pipeline,2,0,TRUE,Endline dependent variables,
-study3_n_report_combinations,"Study 3: Analytic Strategy, p. 1507",definitional,18,0,FALSE,Combinations of research reports subjects could have seen,A property of the design
-study3_pro_pos_unadj,"Table 8, p. 1508",pipeline,0.05,2,TRUE,Proponents: positive information on support (unadjusted),
-study3_pro_neg_unadj,"Table 8, p. 1508",pipeline,-0.27,2,TRUE,Proponents: negative information on support (unadjusted),
-study3_pro_pos_adj,"Table 8, p. 1508",pipeline,0.01,2,TRUE,Proponents: positive information on support (adjusted),
-study3_pro_neg_adj,"Table 8, p. 1508",pipeline,-0.33,2,TRUE,Proponents: negative information on support (adjusted),
-study3_opp_pos_unadj,"Table 8, p. 1508",pipeline,0.12,2,TRUE,Opponents: positive information on support (unadjusted),
-study3_opp_neg_unadj,"Table 8, p. 1508",pipeline,0.01,2,TRUE,Opponents: negative information on support (unadjusted),
-study3_opp_pos_adj,"Table 8, p. 1508",pipeline,0.07,2,TRUE,Opponents: positive information on support (adjusted),
-study3_opp_neg_adj,"Table 8, p. 1508",pipeline,-0.04,2,TRUE,Opponents: negative information on support (adjusted),
-study3_N_proponents,"Table 8, p. 1508",pipeline,287,0,TRUE,Proponents N in Table 8,
-study3_N_opponents,"Table 8, p. 1508",pipeline,395,0,TRUE,Opponents N in Table 8,
-study3_pro_pos_unadj_deter,"Table 9, p. 1508",pipeline,0.15,2,TRUE,Proponents: positive information on deterrence belief (unadjusted),
-study3_pro_neg_unadj_deter,"Table 9, p. 1508",pipeline,-0.35,2,TRUE,Proponents: negative information on deterrence belief (unadjusted),
-study3_pro_pos_adj_deter,"Table 9, p. 1508",pipeline,0.12,2,TRUE,Proponents: positive information on deterrence belief (adjusted),
-study3_pro_neg_adj_deter,"Table 9, p. 1508",pipeline,-0.36,2,TRUE,Proponents: negative information on deterrence belief (adjusted),
-study3_opp_pos_unadj_deter,"Table 9, p. 1508",pipeline,0.35,2,TRUE,Opponents: positive information on deterrence belief (unadjusted),
-study3_opp_neg_unadj_deter,"Table 9, p. 1508",pipeline,-0.16,2,TRUE,Opponents: negative information on deterrence belief (unadjusted),
-study3_opp_pos_adj_deter,"Table 9, p. 1508",pipeline,0.31,2,TRUE,Opponents: positive information on deterrence belief (adjusted),
-study3_opp_neg_adj_deter,"Table 9, p. 1508",pipeline,-0.20,2,TRUE,Opponents: negative information on deterrence belief (adjusted),
-study3_text_pro_pos_adj,"Study 3: Results, p. 1509",pipeline,0.015,3,TRUE,Proponents: positive information on support at three decimals,
-study3_text_opp_pos_adj,"Study 3: Results, p. 1509",pipeline,0.068,3,TRUE,Opponents: positive information on support at three decimals,
-study3_text_pro_neg_adj,"Study 3: Results, p. 1509",pipeline,-0.326,3,TRUE,Proponents: negative information on support at three decimals,
-study3_text_opp_neg_adj,"Study 3: Results, p. 1509",pipeline,-0.042,3,TRUE,Opponents: negative information on support at three decimals,
-study3_text_opp_neg_pvalue,"Study 3: Results, p. 1509",pipeline,0.43,2,TRUE,Opponents: p-value of the negative information coefficient on support,
-study3_text_pro_swing,"Study 3: Results, p. 1509",pipeline,0.682,3,TRUE,Movement from Con Con to Pro Pro in support among proponents,
-study3_text_opp_swing,"Study 3: Results, p. 1509",pipeline,0.220,3,TRUE,Movement from Con Con to Pro Pro in support among opponents,
-study3_subject_type_test,"Study 3: Results, p. 1509",pipeline,0.05,2,TRUE,Level at which treatment effects differ by subject type,
-study3_deterrence_swing,"Study 3: Results, p. 1509",descriptive,,0,TRUE,Moving from Con Con to Pro Pro moves deterrence belief by about a whole scale point for both groups,
-summary_n_tables_plotted,"Summary of Results, p. 1509",structural,6,0,TRUE,Tables whose covariate-adjusted estimates Figure 1 plots,
-n_estimates_total,"Summary of Results, p. 1509",pipeline,24,0,TRUE,Treatment effect estimates plotted in Figure 1,
-n_correctly_signed,"Summary of Results, p. 1509",pipeline,23,0,TRUE,Figure 1 estimates that are correctly signed,
-binom_test_pvalue,"Summary of Results, p. 1509",pipeline,0.001,6,TRUE,Binomial test p-value against equal probability of correct and incorrect signing,Stated as a threshold
-n_sig_at_05,"Summary of Results, p. 1509",pipeline,11,0,TRUE,Figure 1 estimates significant at the 0.05 level,
-bart_credible_interval,"Exploring Treatment Effect Heterogeneity, p. 1510",definitional,95,0,FALSE,Credible interval width in per cent drawn on Figure 2,Verified at the point of use: the 0.025 and 0.975 quantile calls in bart_helpers.R
-pct_pos_te_under_pos_treatment,"Exploring Treatment Effect Heterogeneity, p. 1510",pipeline,93,1,TRUE,Subjects with a positive treatment effect estimate under positive information in per cent,
-pct_neg_te_under_neg_treatment,"Exploring Treatment Effect Heterogeneity, p. 1510",pipeline,77,1,TRUE,Subjects with a negative treatment effect estimate under negative information in per cent,
-bart_wrong_sign_intervals,"Exploring Treatment Effect Heterogeneity, p. 1510",descriptive,,0,TRUE,No incorrectly signed BART estimate has a credible interval excluding zero,
-figure_1_interval,"Figure 1 caption, p. 1510",pipeline,95,0,TRUE,Confidence interval width in per cent drawn on Figure 1,
-discussion_followup_days,"Discussion, p. 1512",definitional,10,0,FALSE,Days after the experiment at which follow-up responses were collected,The deposit's T3 responses carry no timestamp
-discussion_followup_studies,"Discussion, p. 1512",definitional,2,0,FALSE,Studies in which follow-up responses were collected,
+claim_id,location,claim_type,value_paper,digits,expect,needs_block,claim,notes
+abstract_n_experiments,"Abstract, p. 1497",structural,3,0,,TRUE,Survey experiments the article reports,
+abstract_n_mturk,"Abstract, p. 1497",definitional,2,0,,FALSE,Experiments fielded on Mechanical Turk,Platform is recorded in no pipeline output
+abstract_n_representative,"Abstract, p. 1497",definitional,1,0,,FALSE,Experiments fielded on a nationally representative sample,Platform is recorded in no pipeline output
+intro_theoretical_perspectives,"Expectations of Backlash, p. 1499",definitional,4,0,,FALSE,Theoretical perspectives that predict or allow backlash,A property of the literature review
+intro_woodporter_versions,"Expectations of Backlash, p. 1500",transcribed,36,0,,FALSE,Versions of the Nyhan and Reifler design executed by Wood and Porter (2018),Copied from the cited study
+intro_woodporter_backfire,"Expectations of Backlash, p. 1500",transcribed,1,0,,FALSE,Wood and Porter versions finding evidence of backfire,Copied from the cited study
+intro_n_experiments,"Expectations of Backlash, p. 1500",structural,3,0,,TRUE,Randomized experiments presented in the article,
+intro_n_issues,"Expectations of Backlash, p. 1500",structural,3,0,,TRUE,Distinct issues covered,
+measure_potential_outcomes,"Measuring Backlash, p. 1500",definitional,3,0,,FALSE,Potential outcomes each individual is endowed with,Notation rather than a quantity the deposit records
+measure_treatment_effects,"Measuring Backlash, p. 1500",definitional,2,0,,FALSE,Individual-level treatment effects defined,Notation
+approach_platforms,"Research Approach, p. 1501",definitional,2,0,,FALSE,Survey platforms used,
+study1_N_total,"Study 1: Procedure, p. 1501",pipeline,2122,0,,TRUE,Study 1 sample size,
+study1_field_start_day,"Study 1: Procedure, p. 1501",definitional,22,0,,FALSE,First day of the Study 1 field period in June 2016,The deposit carries no field dates
+study1_field_end_day,"Study 1: Procedure, p. 1501",definitional,28,0,,FALSE,Last day of the Study 1 field period in June 2016,The deposit carries no field dates
+study1_days_after_shooting,"Study 1: Procedure, p. 1501",definitional,10,0,,FALSE,Days between the Orlando shooting and the Study 1 field period,The deposit carries no field dates
+study1_prewave_days_low,"Study 1: Procedure, p. 1501",definitional,3,0,,FALSE,Earliest day of the preliminary wave relative to the shooting,The deposit carries no field dates
+study1_prewave_days_high,"Study 1: Procedure, p. 1501",definitional,10,0,,FALSE,Latest day of the preliminary wave relative to the shooting,The deposit carries no field dates
+study1_n_policy_questions,"Study 1: Procedure, p. 1501",definitional,4,0,,FALSE,Gun control policy questions combined into the composite index,The deposit ships the constructed index rather than its items
+study1_n_conditions,"Study 1: Procedure, p. 1501",pipeline,3,0,,TRUE,Treatment conditions in Study 1,
+study1_n_stimulus_outcomes,"Study 1: Procedure, p. 1502",definitional,4,0,,FALSE,Outcome variables shown in the fictitious article's graphical evidence,A property of the stimulus
+study1_kramer_perry_year,"Study 1: Procedure, p. 1502",definitional,2014,0,,FALSE,Publication year of the fictitious article shown to subjects,A property of the stimulus
+study1_table_1_cells,"Table 1, p. 1502 and corrigendum p. 1517",pipeline,15,0,derived,TRUE,Deterministic cells of Table 1 as corrected by the corrigendum,"The block computes how many of the corrigendum's fifteen deterministic Table 1 cells the rewrite reproduces, which is not a token the article prints. 14 of 15 reproduce; the exception is the negative information SD of the composite scale. Recorded in the ground truth as defect_locus = rewrite."
+study1_table_1_boot_cells,"Table 1, p. 1502 and corrigendum p. 1517",pipeline,12,0,derived,TRUE,Bootstrapped standard error cells of Table 1 as corrected by the corrigendum,"The block computes how many of the corrigendum's twelve bootstrapped Table 1 standard error cells the rewrite reproduces, which is not a token the article prints. The deposit sets no seed anywhere, so each published cell is one unseeded draw and cannot be reproduced as a point value; 11 of 12 agree at the rewrite's seed. Recorded in the ground truth as defect_locus = archive."
+study1_N_control,"Table 1, p. 1502",pipeline,730,0,,TRUE,Control group N,
+study1_N_pos_info,"Table 1, p. 1502",pipeline,702,0,,TRUE,Positive information group N,
+study1_N_neg_info,"Table 1, p. 1502",pipeline,690,0,,TRUE,Negative information group N,
+study1_W2scale_control_mean,"Table 1, p. 1502",pipeline,-0.03,2,,TRUE,Control group mean composite scale,
+study1_W2scale_pos_mean,"Table 1, p. 1502",pipeline,0.06,2,,TRUE,Positive information mean composite scale,
+study1_W2scale_neg_mean,"Table 1, p. 1502",pipeline,0.00,2,,TRUE,Negative information mean composite scale,
+study1_W2Q1_control_mean,"Table 1, p. 1502",pipeline,0.69,2,,TRUE,Control group mean gun control support,
+study1_W2Q1_pos_mean,"Table 1, p. 1502",pipeline,0.72,2,,TRUE,Positive information mean gun control support,
+study1_W2Q1_neg_mean,"Table 1, p. 1502",pipeline,0.62,2,,TRUE,Negative information mean gun control support,
+study1_W2scale_control_sd,"Corrigendum, p. 1517",pipeline,1.02,2,,TRUE,Control group SD of the composite scale,Corrigendum value; the article printed the SE of the mean
+study1_W2scale_pos_sd,"Corrigendum, p. 1517",pipeline,0.99,2,,TRUE,Positive information SD of the composite scale,Corrigendum value
+study1_W2scale_neg_sd,"Corrigendum, p. 1517",pipeline,1.01,2,range,TRUE,Negative information SD of the composite scale,"Corrigendum value. Not comparable at printed precision: the rewrite computes 1.0046, which prints as 1.00, against the corrigendum's 1.01, and the gap is a rounding convention in the weighted standard deviation formula rather than a disagreement about the quantity. The corrigendum itself corrects the original's reported standard error of the mean to a standard deviation. Recorded in the ground truth as defect_locus = rewrite, and this note's opening paragraph states that the corrigendum's correction is not repeated here."
+study1_W2Q1_control_sd,"Corrigendum, p. 1517",pipeline,0.46,2,,TRUE,Control group SD of gun control support,Corrigendum value
+study1_W2Q1_pos_sd,"Corrigendum, p. 1517",pipeline,0.45,2,,TRUE,Positive information SD of gun control support,Corrigendum value
+study1_W2Q1_neg_sd,"Corrigendum, p. 1517",pipeline,0.49,2,,TRUE,Negative information SD of gun control support,Corrigendum value
+study1_sds_do_not_vary,"Study 1: Procedure, p. 1502",descriptive,,0,,TRUE,The outcome standard deviations do not appear to vary by treatment condition,Evaluated against the corrigendum's own SD column
+study1_W2scale_opp_pos_unadj,"Table 2, p. 1502",pipeline,0.05,2,,TRUE,Opponents: positive information on the composite scale (unadjusted),
+study1_W2scale_opp_neg_unadj,"Table 2, p. 1502",pipeline,0.04,2,,TRUE,Opponents: negative information on the composite scale (unadjusted),
+study1_W2scale_opp_const_unadj,"Table 2, p. 1502",pipeline,-0.91,2,,TRUE,Opponents: constant (unadjusted),
+study1_W2scale_opp_pos_adj,"Table 2, p. 1502",pipeline,0.05,2,,TRUE,Opponents: positive information on the composite scale (adjusted),
+study1_W2scale_opp_neg_adj,"Table 2, p. 1502",pipeline,-0.003,3,,TRUE,Opponents: negative information on the composite scale (adjusted),
+study1_N_opponents,"Table 2, p. 1502",pipeline,718,0,,TRUE,Opponents N in Table 2,
+study1_W2scale_pro_pos_unadj,"Table 2, p. 1502",pipeline,0.06,2,,TRUE,Proponents: positive information on the composite scale (unadjusted),
+study1_W2scale_pro_neg_unadj,"Table 2, p. 1502",pipeline,0.04,2,,TRUE,Proponents: negative information on the composite scale (unadjusted),
+study1_W2scale_pro_const_unadj,"Table 2, p. 1502",pipeline,0.41,2,,TRUE,Proponents: constant (unadjusted),
+study1_N_proponents,"Table 2, p. 1502",pipeline,1359,0,,TRUE,Proponents N in Table 2,
+study1_table_2_note_threshold,"Table 2 note, p. 1502",descriptive,0.01,2,,TRUE,Significance threshold marked by three stars in the Table 2 note,The note prints the inequality the wrong way round
+study1_table_3_reference,"Study 1: Results, p. 1503",structural,2,0,,TRUE,Table number the text gives for the binary gun control support results,
+study1_W2Q1_opp_pos_unadj,"Table 3, p. 1503",pipeline,0.03,2,,TRUE,Opponents: positive information on gun control support (unadjusted),
+study1_W2Q1_opp_neg_unadj,"Table 3, p. 1503",pipeline,-0.02,2,,TRUE,Opponents: negative information on gun control support (unadjusted),
+study1_W2Q1_opp_pos_adj,"Table 3, p. 1503",pipeline,0.02,2,,TRUE,Opponents: positive information on gun control support (adjusted),
+study1_W2Q1_opp_neg_adj,"Table 3, p. 1503",pipeline,-0.03,2,,TRUE,Opponents: negative information on gun control support (adjusted),
+study1_W2Q1_pro_pos_unadj,"Table 3, p. 1503",pipeline,0.01,2,,TRUE,Proponents: positive information on gun control support (unadjusted),
+study1_W2Q1_pro_neg_unadj,"Table 3, p. 1503",pipeline,-0.08,2,,TRUE,Proponents: negative information on gun control support (unadjusted),
+study1_W2Q1_pro_pos_adj,"Table 3, p. 1503",pipeline,0.01,2,,TRUE,Proponents: positive information on gun control support (adjusted),
+study1_W2Q1_pro_neg_adj,"Table 3, p. 1503",pipeline,-0.07,2,,TRUE,Proponents: negative information on gun control support (adjusted),
+study1_N_opp_Q1,"Table 3, p. 1503",pipeline,724,0,,TRUE,Opponents N in Table 3,
+study1_N_pro_Q1,"Table 3, p. 1503",pipeline,1375,0,,TRUE,Proponents N in Table 3,
+study2_N_pool,"Study 2: Procedure, p. 1504",definitional,2979,0,,FALSE,Respondents recruited to the Study 2 pre-treatment survey,The deposit ships the main survey only
+study2_N_invited,"Study 2: Procedure, p. 1504",definitional,1500,0,,FALSE,Respondents invited to the Study 2 main survey,The deposit ships the main survey only
+study2_N_participated,"Study 2: Procedure, p. 1504",pipeline,1170,0,,TRUE,Respondents who participated in the Study 2 main survey,
+study2_n_videos,"Study 2: Procedure, p. 1504",definitional,6,0,,FALSE,Videos used in Study 2,A property of the stimulus
+study2_n_conditions,"Study 2: Procedure, p. 1504",definitional,13,0,,FALSE,Conditions subjects were randomized into,The deposit collapses these into the seven groups of Table 4
+study2_n_orderings,"Study 2: Procedure, p. 1504",definitional,12,0,,FALSE,Orderings of the four persuasive videos,A property of the design
+study2_n_persuasive_videos,"Study 2: Procedure, p. 1504",definitional,4,0,,FALSE,Persuasive videos,A property of the stimulus
+study2_amount_min,"Study 2: Procedure, p. 1504",definitional,0.00,2,,FALSE,Lower bound of the Amount response box in dollars,Question wording
+study2_amount_max,"Study 2: Procedure, p. 1504",definitional,25.00,2,,FALSE,Upper bound of the Amount response box in dollars,Question wording
+study2_current_min_wage,"Study 2: Procedure, p. 1504",transcribed,7.25,2,,FALSE,Federal minimum wage quoted in the Favor question,Question wording
+study2_favor_scale_low,"Study 2: Procedure, p. 1504",definitional,1,0,,FALSE,Lowest point of the Favor scale,Question wording
+study2_favor_scale_high,"Study 2: Procedure, p. 1504",definitional,7,0,,FALSE,Highest point of the Favor scale,Question wording
+study2_con_score,"Study 2: Analytic Strategy, p. 1504",definitional,-1,0,,FALSE,Information content score of the Con Con conditions,The deposit carries positive and negative information separately
+study2_procon_score,"Study 2: Analytic Strategy, p. 1504",definitional,0,0,,FALSE,Information content score of the Pro Con and Placebo conditions,
+study2_propro_score,"Study 2: Analytic Strategy, p. 1504",definitional,1,0,,FALSE,Information content score of the Pro Pro conditions,
+study2_opponent_favor_threshold,"Study 2: Analytic Strategy, p. 1504",definitional,4,0,,FALSE,Favor response at or below which a subject is an opponent,
+study2_median_amount,"Study 2: Analytic Strategy, p. 1504",definitional,10.00,2,,FALSE,Median pre-treatment Amount response in dollars,Median of the pre-treatment pool which the deposit does not ship
+study2_table_4_cells,"Table 4, p. 1505",pipeline,49,0,,TRUE,Deterministic cells of Table 4,Counts of Ns and information content and means and standard deviations
+study2_table_4_boot_cells,"Table 4, p. 1505",pipeline,28,0,derived,TRUE,Bootstrapped standard error cells of Table 4,"The block computes how many of Table 4's twenty-eight bootstrapped standard error cells the rewrite reproduces, which is not a token the article prints. The deposit sets no seed, so each is one unseeded draw; 11 of 28 agree at the rewrite's seed and every disagreement is one unit in the last printed digit. Recorded in the ground truth as defect_locus = archive."
+study2_N_placebo,"Table 4, p. 1505",pipeline,93,0,,TRUE,Placebo group N,
+study2_N_conyoung_conold,"Table 4, p. 1505",pipeline,162,0,,TRUE,Con Young / Con Old group N,
+study2_N_proold_conold,"Table 4, p. 1505",pipeline,165,0,,TRUE,Pro Old / Con Old group N,
+study2_N_proold_conyoung,"Table 4, p. 1505",pipeline,195,0,,TRUE,Pro Old / Con Young group N,
+study2_N_proyoung_conold,"Table 4, p. 1505",pipeline,169,0,,TRUE,Pro Young / Con Old group N,
+study2_N_proyoung_conyoung,"Table 4, p. 1505",pipeline,192,0,,TRUE,Pro Young / Con Young group N,
+study2_N_proyoung_proold,"Table 4, p. 1505",pipeline,193,0,,TRUE,Pro Young / Pro Old group N,
+study2_placebo_sd_test,"Study 2: Analytic Strategy, p. 1505",pipeline,0.01,2,,TRUE,Significance level of the placebo versus Pro Old / Con Old standard deviation difference,The deposit ships no randomization inference code
+study2_opp_pos_unadj,"Table 5, p. 1505",pipeline,0.43,2,,TRUE,Opponents: positive information on preferred amount (unadjusted),
+study2_opp_neg_unadj,"Table 5, p. 1505",pipeline,-0.61,2,,TRUE,Opponents: negative information on preferred amount (unadjusted),
+study2_opp_pos_adj,"Table 5, p. 1505",pipeline,0.60,2,,TRUE,Opponents: positive information on preferred amount (adjusted),
+study2_opp_neg_adj,"Table 5, p. 1505",pipeline,-0.70,2,,TRUE,Opponents: negative information on preferred amount (adjusted),
+study2_pro_pos_unadj,"Table 5, p. 1505",pipeline,1.31,2,,TRUE,Proponents: positive information on preferred amount (unadjusted),
+study2_pro_neg_unadj,"Table 5, p. 1505",pipeline,-1.93,2,,TRUE,Proponents: negative information on preferred amount (unadjusted),
+study2_pro_pos_adj,"Table 5, p. 1505",pipeline,1.40,2,,TRUE,Proponents: positive information on preferred amount (adjusted),
+study2_pro_neg_adj,"Table 5, p. 1505",pipeline,-1.70,2,,TRUE,Proponents: negative information on preferred amount (adjusted),
+study2_N_opponents,"Table 5, p. 1505",pipeline,343,0,,TRUE,Opponents N in Table 5,
+study2_N_proponents,"Table 5, p. 1505",pipeline,470,0,,TRUE,Proponents N in Table 5,
+study2_N_moderates,"Table 5, p. 1505",pipeline,356,0,,TRUE,Moderates N in Table 5,
+study2_favor_opp_pos_unadj,"Table 6, p. 1506",pipeline,0.43,2,,TRUE,Opponents: positive information on favoring a raise (unadjusted),
+study2_favor_opp_neg_unadj,"Table 6, p. 1506",pipeline,-0.61,2,,TRUE,Opponents: negative information on favoring a raise (unadjusted),
+study2_favor_opp_pos_adj,"Table 6, p. 1506",pipeline,0.60,2,,TRUE,Opponents: positive information on favoring a raise (adjusted),
+study2_favor_opp_neg_adj,"Table 6, p. 1506",pipeline,-0.70,2,,TRUE,Opponents: negative information on favoring a raise (adjusted),
+study2_favor_mod_pos_unadj,"Table 6, p. 1506",pipeline,1.88,2,,TRUE,Moderates: positive information on favoring a raise (unadjusted),
+study2_favor_mod_neg_unadj,"Table 6, p. 1506",pipeline,-0.83,2,,TRUE,Moderates: negative information on favoring a raise (unadjusted),
+study2_favor_mod_pos_adj,"Table 6, p. 1506",pipeline,1.51,2,,TRUE,Moderates: positive information on favoring a raise (adjusted),
+study2_favor_mod_neg_adj,"Table 6, p. 1506",pipeline,-0.93,2,,TRUE,Moderates: negative information on favoring a raise (adjusted),
+study2_favor_pro_pos_unadj,"Table 6, p. 1506",pipeline,1.31,2,,TRUE,Proponents: positive information on favoring a raise (unadjusted),
+study2_favor_pro_neg_unadj,"Table 6, p. 1506",pipeline,-1.93,2,,TRUE,Proponents: negative information on favoring a raise (unadjusted),
+study2_favor_pro_pos_adj,"Table 6, p. 1506",pipeline,1.40,2,,TRUE,Proponents: positive information on favoring a raise (adjusted),
+study2_favor_pro_neg_adj,"Table 6, p. 1506",pipeline,-1.70,2,,TRUE,Proponents: negative information on favoring a raise (adjusted),
+study2_favor_all_signed,"Study 2: Results, p. 1506",descriptive,,0,,TRUE,All coefficients in Table 6 are correctly signed,
+study2_favor_sig_exception,"Study 2: Results, p. 1506",descriptive,,0,,TRUE,Every Table 6 information coefficient except negative information among opponents is significant,
+study3_lord_year,"Study 3, p. 1506",transcribed,1977,0,,FALSE,Publication year of the fictitious articles in the original Lord et al. design,A property of the cited study
+study3_updated_year,"Study 3, p. 1506",definitional,2012,0,,FALSE,Publication year the fictitious articles were updated to,A property of the stimulus
+study3_N_t1,"Study 3, p. 1506",definitional,1659,0,,FALSE,MTurk subjects recruited to the Study 3 T1 survey,The deposit ships the main survey only
+study3_N_eligible,"Study 3, p. 1506",definitional,933,0,,FALSE,Subjects whose T1 responses were clear and consistent,The deposit ships the main survey only
+study3_proponent_low,"Study 3, p. 1506",definitional,5,0,,FALSE,Lowest T1 answer defining a proponent,
+study3_proponent_high,"Study 3, p. 1506",definitional,7,0,,FALSE,Highest T1 answer defining a proponent,
+study3_scale_points,"Study 3, p. 1506",definitional,7,0,,FALSE,Points on the T1 attitude and belief scales,
+study3_opponent_low,"Study 3, p. 1506",definitional,1,0,,FALSE,Lowest T1 answer defining an opponent,
+study3_opponent_high,"Study 3, p. 1506",definitional,3,0,,FALSE,Highest T1 answer defining an opponent,
+study3_N_main,"Study 3, p. 1506",pipeline,683,0,,TRUE,Subjects who participated in the Study 3 main survey,
+study3_N_proponents_text,"Study 3, p. 1506",pipeline,287,0,,TRUE,Proponents in the Study 3 main survey,
+study3_N_opponents_text,"Study 3, p. 1506",pipeline,396,0,,TRUE,Opponents in the Study 3 main survey,
+study3_attitude_scale_low,"Study 3, p. 1506",definitional,1,0,,FALSE,Lowest point of the T2 Attitude scale,Question wording
+study3_attitude_scale_high,"Study 3, p. 1506",definitional,7,0,,FALSE,Highest point of the T2 Attitude scale,Question wording
+study3_belief_scale_low,"Study 3, p. 1506",definitional,1,0,,FALSE,Lowest point of the T2 Belief scale,Question wording
+study3_belief_scale_high,"Study 3, p. 1506",definitional,7,0,,FALSE,Highest point of the T2 Belief scale,Question wording
+study3_table_7_cells,"Table 7, p. 1507",pipeline,42,0,,TRUE,Deterministic cells of Table 7,Counts of Ns and information content and means and standard deviations
+study3_table_7_boot_cells,"Table 7, p. 1507",pipeline,24,0,derived,TRUE,Bootstrapped standard error cells of Table 7,"The block computes how many of Table 7's twenty-four bootstrapped standard error cells the rewrite reproduces, which is not a token the article prints. The deposit sets no seed, so each is one unseeded draw; 20 of 24 agree at the rewrite's seed. Recorded in the ground truth as defect_locus = archive."
+study3_N_CC,"Table 7, p. 1507",pipeline,117,0,,TRUE,Con Con group N,
+study3_N_CN,"Table 7, p. 1507",pipeline,116,0,,TRUE,Con Null group N,
+study3_N_NN,"Table 7, p. 1507",pipeline,112,0,,TRUE,Null Null group N,
+study3_N_PC,"Table 7, p. 1507",pipeline,118,0,,TRUE,Pro Con group N,
+study3_N_PN,"Table 7, p. 1507",pipeline,121,0,,TRUE,Pro Null group N,
+study3_N_PP,"Table 7, p. 1507",pipeline,102,0,,TRUE,Pro Pro group N,
+study3_n_conditions,"Study 3: Procedure, p. 1507",pipeline,6,0,,TRUE,Treatment conditions in Study 3,
+study3_n_state_pairs,"Study 3: Procedure, p. 1507",definitional,10,0,,FALSE,Neighbouring state pairs in the cross-sectional report,A property of the stimulus
+study3_n_states_timeseries,"Study 3: Procedure, p. 1507",definitional,14,0,,FALSE,States in the time-series report,A property of the stimulus
+study3_propro_score,"Study 3: Procedure, p. 1507",pipeline,2,0,,TRUE,Positive information content of two Pro reports,
+study3_pronull_score,"Study 3: Procedure, p. 1507",pipeline,1,0,,TRUE,Positive information content of one Pro and one Null report,
+study3_sd_test_level,"Study 3: Procedure, p. 1507",pipeline,0.05,2,,TRUE,Level at which the standard deviation differences are generally not significant,The deposit ships no randomization inference code
+study3_sd_test_pvalue,"Study 3: Procedure, p. 1507",pipeline,0.04,2,,TRUE,Randomization inference p-value for the Null Null versus Pro Null standard deviation difference,The deposit ships no randomization inference code
+study3_n_intermediate_dvs,"Study 3: Analytic Strategy, p. 1507",definitional,7,0,,FALSE,Intermediate dependent variables per report,The deposit ships the endline outcomes used here
+study3_n_endline_dvs,"Study 3: Analytic Strategy, p. 1507",pipeline,2,0,,TRUE,Endline dependent variables,
+study3_n_report_combinations,"Study 3: Analytic Strategy, p. 1507",definitional,18,0,,FALSE,Combinations of research reports subjects could have seen,A property of the design
+study3_pro_pos_unadj,"Table 8, p. 1508",pipeline,0.05,2,,TRUE,Proponents: positive information on support (unadjusted),
+study3_pro_neg_unadj,"Table 8, p. 1508",pipeline,-0.27,2,,TRUE,Proponents: negative information on support (unadjusted),
+study3_pro_pos_adj,"Table 8, p. 1508",pipeline,0.01,2,,TRUE,Proponents: positive information on support (adjusted),
+study3_pro_neg_adj,"Table 8, p. 1508",pipeline,-0.33,2,,TRUE,Proponents: negative information on support (adjusted),
+study3_opp_pos_unadj,"Table 8, p. 1508",pipeline,0.12,2,,TRUE,Opponents: positive information on support (unadjusted),
+study3_opp_neg_unadj,"Table 8, p. 1508",pipeline,0.01,2,,TRUE,Opponents: negative information on support (unadjusted),
+study3_opp_pos_adj,"Table 8, p. 1508",pipeline,0.07,2,,TRUE,Opponents: positive information on support (adjusted),
+study3_opp_neg_adj,"Table 8, p. 1508",pipeline,-0.04,2,,TRUE,Opponents: negative information on support (adjusted),
+study3_N_proponents,"Table 8, p. 1508",pipeline,287,0,,TRUE,Proponents N in Table 8,
+study3_N_opponents,"Table 8, p. 1508",pipeline,395,0,,TRUE,Opponents N in Table 8,
+study3_pro_pos_unadj_deter,"Table 9, p. 1508",pipeline,0.15,2,,TRUE,Proponents: positive information on deterrence belief (unadjusted),
+study3_pro_neg_unadj_deter,"Table 9, p. 1508",pipeline,-0.35,2,,TRUE,Proponents: negative information on deterrence belief (unadjusted),
+study3_pro_pos_adj_deter,"Table 9, p. 1508",pipeline,0.12,2,,TRUE,Proponents: positive information on deterrence belief (adjusted),
+study3_pro_neg_adj_deter,"Table 9, p. 1508",pipeline,-0.36,2,,TRUE,Proponents: negative information on deterrence belief (adjusted),
+study3_opp_pos_unadj_deter,"Table 9, p. 1508",pipeline,0.35,2,,TRUE,Opponents: positive information on deterrence belief (unadjusted),
+study3_opp_neg_unadj_deter,"Table 9, p. 1508",pipeline,-0.16,2,,TRUE,Opponents: negative information on deterrence belief (unadjusted),
+study3_opp_pos_adj_deter,"Table 9, p. 1508",pipeline,0.31,2,,TRUE,Opponents: positive information on deterrence belief (adjusted),
+study3_opp_neg_adj_deter,"Table 9, p. 1508",pipeline,-0.20,2,,TRUE,Opponents: negative information on deterrence belief (adjusted),
+study3_text_pro_pos_adj,"Study 3: Results, p. 1509",pipeline,0.015,3,,TRUE,Proponents: positive information on support at three decimals,
+study3_text_opp_pos_adj,"Study 3: Results, p. 1509",pipeline,0.068,3,,TRUE,Opponents: positive information on support at three decimals,
+study3_text_pro_neg_adj,"Study 3: Results, p. 1509",pipeline,-0.326,3,,TRUE,Proponents: negative information on support at three decimals,
+study3_text_opp_neg_adj,"Study 3: Results, p. 1509",pipeline,-0.042,3,,TRUE,Opponents: negative information on support at three decimals,
+study3_text_opp_neg_pvalue,"Study 3: Results, p. 1509",pipeline,0.43,2,,TRUE,Opponents: p-value of the negative information coefficient on support,
+study3_text_pro_swing,"Study 3: Results, p. 1509",pipeline,0.682,3,,TRUE,Movement from Con Con to Pro Pro in support among proponents,
+study3_text_opp_swing,"Study 3: Results, p. 1509",pipeline,0.220,3,,TRUE,Movement from Con Con to Pro Pro in support among opponents,
+study3_subject_type_test,"Study 3: Results, p. 1509",pipeline,0.05,2,,TRUE,Level at which treatment effects differ by subject type,
+study3_deterrence_swing,"Study 3: Results, p. 1509",descriptive,,0,,TRUE,Moving from Con Con to Pro Pro moves deterrence belief by about a whole scale point for both groups,
+summary_n_tables_plotted,"Summary of Results, p. 1509",structural,6,0,,TRUE,Tables whose covariate-adjusted estimates Figure 1 plots,
+n_estimates_total,"Summary of Results, p. 1509",pipeline,24,0,,TRUE,Treatment effect estimates plotted in Figure 1,
+n_correctly_signed,"Summary of Results, p. 1509",pipeline,23,0,,TRUE,Figure 1 estimates that are correctly signed,
+binom_test_pvalue,"Summary of Results, p. 1509",pipeline,0.001,6,range,TRUE,Binomial test p-value against equal probability of correct and incorrect signing,"Stated as a threshold. The article states this p-value as a bound, ""p < 0.001"", rather than as a value, so equality against the bound is the wrong test; the block prints it at six decimals so a reader can see it clears the bound."
+n_sig_at_05,"Summary of Results, p. 1509",pipeline,11,0,,TRUE,Figure 1 estimates significant at the 0.05 level,
+bart_credible_interval,"Exploring Treatment Effect Heterogeneity, p. 1510",definitional,95,0,,FALSE,Credible interval width in per cent drawn on Figure 2,Verified at the point of use: the 0.025 and 0.975 quantile calls in bart_helpers.R
+pct_pos_te_under_pos_treatment,"Exploring Treatment Effect Heterogeneity, p. 1510",pipeline,93,1,range,TRUE,Subjects with a positive treatment effect estimate under positive information in per cent,"The deposited BART script sets no seed, so the published 93 is one unseeded draw and the comparison is against the ten-seed spread, which runs 97.7 to 99.6 and lies wholly above it. Documented in the repository's report rather than corrected, since no value the analysis reproduces would be the correction."
+pct_neg_te_under_neg_treatment,"Exploring Treatment Effect Heterogeneity, p. 1510",pipeline,77,1,range,TRUE,Subjects with a negative treatment effect estimate under negative information in per cent,"The deposited BART script sets no seed, so the published 77 is one unseeded draw and the comparison is against the ten-seed spread, which runs 75.6 to 79.5 and contains it."
+bart_wrong_sign_intervals,"Exploring Treatment Effect Heterogeneity, p. 1510",descriptive,,0,,TRUE,No incorrectly signed BART estimate has a credible interval excluding zero,
+figure_1_interval,"Figure 1 caption, p. 1510",pipeline,95,0,,TRUE,Confidence interval width in per cent drawn on Figure 1,
+discussion_followup_days,"Discussion, p. 1512",definitional,10,0,,FALSE,Days after the experiment at which follow-up responses were collected,The deposit's T3 responses carry no timestamp
+discussion_followup_studies,"Discussion, p. 1512",definitional,2,0,,FALSE,Studies in which follow-up responses were collected,

@@ -58,6 +58,32 @@ spell <- function(n) {
     "eleven", "twelve")[n]
 }
 
+# Entry 1's correction is the float below rather than a sentence, so its corrected values
+# are the cells that table prints and not tokens inside a [[...]] span. The twelve claim ids
+# and the twelve values are generated from one map here, in one order, because a hand-typed
+# pair of parallel lists is the thing that goes wrong: the ids and the values would still
+# have the right lengths after a transposition and nothing would read as broken.
+favor_cells <- tribble(
+  ~claim_id,                     ~group,                       ~term,
+  "study2_favor_opp_pos_unadj",  "Opponents (No Covariates)",  "positive_information",
+  "study2_favor_opp_neg_unadj",  "Opponents (No Covariates)",  "negative_information",
+  "study2_favor_opp_pos_adj",    "Opponents (Covariates)",     "positive_information",
+  "study2_favor_opp_neg_adj",    "Opponents (Covariates)",     "negative_information",
+  "study2_favor_mod_pos_unadj",  "Moderates (No Covariates)",  "positive_information",
+  "study2_favor_mod_neg_unadj",  "Moderates (No Covariates)",  "negative_information",
+  "study2_favor_mod_pos_adj",    "Moderates (Covariates)",     "positive_information",
+  "study2_favor_mod_neg_adj",    "Moderates (Covariates)",     "negative_information",
+  "study2_favor_pro_pos_unadj",  "Proponents (No Covariates)", "positive_information",
+  "study2_favor_pro_neg_unadj",  "Proponents (No Covariates)", "negative_information",
+  "study2_favor_pro_pos_adj",    "Proponents (Covariates)",    "positive_information",
+  "study2_favor_pro_neg_adj",    "Proponents (Covariates)",    "negative_information"
+) |>
+  mutate(value = map2_chr(group, term, \(g, t) sprintf("%.2f", cell(t6, g, t))))
+
+# The minus sign here is the hyphen the extraction writes, not the en dash the page sets:
+# this column is compared as a number by maintained/in_text_claims.R, where the note's
+# typography is the wrong convention. The float above keeps the page's en dash.
+
 opp_pos <- cell(t8, "Opponents (Covariates)", "positive_information")
 opp_neg <- cell(t8, "Opponents (Covariates)", "negative_information")
 opp_p <- cell(t8, "Opponents (Covariates)", "negative_information", "p.value")
@@ -96,7 +122,7 @@ pro_neg <- cell(t8, "Proponents (Covariates)", "negative_information")
 # an extraction claim. Every id listed here is checked against the ground truth by
 # ground_truth/claims_gate.R, which refuses to finish on a dangling one.
 entries <- tribble(
-  ~entry, ~class, ~source, ~form, ~title, ~location, ~published, ~corrected, ~note, ~claim_ids,
+  ~entry, ~class, ~source, ~form, ~title, ~location, ~published, ~corrected, ~note, ~claim_ids, ~corrected_values,
 
   1, "float", "pipeline", "full",
   "Table 6 reprints Table 5",
@@ -111,10 +137,8 @@ entries <- tribble(
     "the deposited `GC_Study_2_analysis.R` fits its Table 6 models on `favor_T2_recode`,",
     "and Figure 1's \"Study 2: T2 Favor\" panel plots the estimates below rather than the",
     "ones Table 6 prints. The corrected table follows."),
-  paste0("study2_favor_opp_pos_unadj;study2_favor_opp_neg_unadj;study2_favor_opp_pos_adj;",
-         "study2_favor_opp_neg_adj;study2_favor_mod_pos_unadj;study2_favor_mod_neg_unadj;",
-         "study2_favor_mod_pos_adj;study2_favor_mod_neg_adj;study2_favor_pro_pos_unadj;",
-         "study2_favor_pro_neg_unadj;study2_favor_pro_pos_adj;study2_favor_pro_neg_adj"),
+  str_c(favor_cells$claim_id, collapse = ";"),
+  str_c(favor_cells$value, collapse = ";"),
 
   2, "quantity", "pipeline", "full",
   "The Study 3 participant counts",
@@ -129,6 +153,7 @@ entries <- tribble(
     "{group_n(t8, 'Opponents')} are opponents, and four carry no pre-treatment ",
     "classification and so appear in Table 7 but in neither regression table."),
   "study3_N_main;study3_N_opponents_text",
+  str_c(sum(t7$n), ";", group_n(t8, "Opponents")),
 
   3, "quantity", "pipeline", "full",
   "The Study 2 participant count",
@@ -140,6 +165,7 @@ entries <- tribble(
     "192 and 193, which sum to {comma(sum(t4$n))}, and the deposited Study 2 data hold ",
     "{comma(sum(t4$n))} rows."),
   "study2_N_participated",
+  as.character(sum(t4$n)),
 
   4, "quantity", "pipeline", "full",
   "The Study 3 positive information estimate among opponents",
@@ -157,6 +183,7 @@ entries <- tribble(
     "text itself uses. Dropping race from the covariate set gives 0.086, so the published ",
     "figure comes from neither specification."),
   "study3_text_opp_pos_adj",
+  sprintf("%.3f", opp_pos),
 
   5, "quantity", "pipeline", "full",
   "The Study 3 negative information estimate among opponents",
@@ -171,6 +198,7 @@ entries <- tribble(
     "the deposited specification behind it, give {pt3(opp_neg)} with p = {pt2(opp_p)}. ",
     "The estimate is not significant at any conventional level on either figure."),
   "study3_text_opp_neg_adj;study3_text_opp_neg_pvalue",
+  str_c(sprintf("%.3f", opp_neg), ";", sprintf("%.2f", opp_p)),
 
   6, "quantity", "pipeline", "full",
   "The Study 3 movement from Con Con to Pro Pro among opponents",
@@ -187,6 +215,7 @@ entries <- tribble(
     "the two inputs are the ones corrected in entries 4 and 5, so the total moves with",
     "them."),
   "study3_text_opp_swing",
+  sprintf("%.3f", swing(t8, "Opponents (Covariates)")),
 
   7, "cross_reference", "pipeline", "full",
   "The cross-reference to the binary support results",
@@ -197,6 +226,7 @@ entries <- tribble(
     "Table 2 is the composite scale table, discussed in the preceding paragraph, which",
     "opens with the same words. The binary support models are Table 3."),
   "study1_table_3_reference",
+  "3",
 
   8, "typography", "pipeline", "brief",
   "The significance threshold in the Table 2 note",
@@ -209,11 +239,81 @@ entries <- tribble(
     "the three-star coefficients in these tables have p-values of ",
     "{sprintf('%.4f', cell(t3, 'Among Proponents (No Covariates)', 'Z_informationcon_information', 'p.value'))} ",
     "and below."),
-  "study1_table_2_note_threshold"
+  "study1_table_2_note_threshold",
+  NA_character_
 ) |>
-  mutate(across(c(title, published, corrected, note, claim_ids), as.character))
+  mutate(across(c(title, published, corrected, note, claim_ids, corrected_values),
+                as.character))
 
 stopifnot(nrow(entries) == max(entries$entry), !anyDuplicated(entries$entry))
+
+# Gate: corrected_values agrees with what the entry actually publishes ----
+# The column and the correction are built from one expression, so they begin in agreement
+# and this gate exists for the edit that separates them: a value moved from one marked span
+# to another, a span reworded to carry a second number, a claim id appended without its
+# value.
+#
+# A sentence entry is checked against its own [[...]] spans, by position where the counts
+# line up and against SOME span where they do not, since an entry may mark a label as well
+# as a number. Entry 1 is exempt because its correction is the float below rather than a
+# sentence: its spans are prose naming the defect and carry no numbers at all. What stands
+# in for the check there is that its ids and its values are generated from one map, in one
+# order, a few chunks above.
+marked_spans <- function(x) str_match_all(x, "\\[\\[(.*?)\\]\\]")[[1]][, 2]
+
+# A sentence sets a number the way the page sets it, with an en dash for the minus sign and
+# a comma between the thousands. The column sets it the way the extraction writes it, since
+# maintained/in_text_claims.R compares that column as a number and parses neither. Both are
+# typography rather than part of the value, so they are normalised away before the
+# containment test instead of being allowed to decide it. Everything else about the value,
+# its precision above all, still has to match.
+as_compared <- function(x) {
+  x |>
+    str_replace_all("\u2013", "-") |>
+    str_replace_all("(?<=\\d),(?=\\d{3})", "")
+}
+
+quantified <- entries |>
+  filter(!is.na(corrected_values)) |>
+  mutate(ids = str_split(claim_ids, ";"), values = str_split(corrected_values, ";"),
+         spans = map(corrected, marked_spans))
+
+stopifnot(all(lengths(quantified$ids) == lengths(quantified$values)))
+
+sentences <- quantified |> filter(class != "float")
+
+value_placed <- pmap_lgl(sentences, function(...) {
+  e <- list(...)
+  if (length(e$values) == length(e$spans)) {
+    all(map2_lgl(e$values, e$spans, \(v, s) str_detect(as_compared(s), fixed(v))))
+  } else {
+    all(map_lgl(e$values, \(v) any(map_lgl(e$spans, \(s) str_detect(as_compared(s), fixed(v))))))
+  }
+})
+
+if (!all(value_placed)) {
+  print(sentences |> filter(!value_placed) |> select(entry, title, corrected_values, corrected))
+  stop("An entry's corrected_values are not in the spans of its corrected sentence.")
+}
+
+# Entry 1's values are the cells the corrected float prints, so they are checked against the
+# table's own source rather than against prose.
+stopifnot(identical(
+  str_split(entries$corrected_values[entries$entry == 1], ";")[[1]],
+  favor_cells$value
+))
+
+# An entry that moves a claim's value has to say what the value becomes, and an entry that
+# moves none may not carry one. Three classes move a value here: a quantity in a sentence,
+# the float that reprints the wrong table, and the cross-reference whose claim is the table
+# number itself. A typography entry changes a comparison operator and no claim's value, so
+# it carries NA. maintained/in_text_claims.R is passed this same list as quantity_classes.
+moves_value <- c("quantity", "float", "cross_reference")
+stopifnot(
+  all(!is.na(entries$corrected_values[entries$class %in% moves_value])),
+  all(is.na(entries$corrected_values[!entries$class %in% moves_value])),
+  all(is.na(entries$corrected_values) | !is.na(entries$claim_ids))
+)
 
 # The spine's markup, resolved for this document. Another renderer resolves it its own way.
 bold <- function(x) str_replace_all(x, "\\[\\[(.*?)\\]\\]", "**\\1**")

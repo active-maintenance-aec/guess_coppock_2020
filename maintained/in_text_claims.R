@@ -24,6 +24,7 @@
 #   the quote.
 
 source(here::here("maintained", "helpers.R"))
+library(excheckr)
 
 options(width = 200)
 
@@ -52,23 +53,48 @@ published_cells <- read_csv(here::here("ground_truth", "published_condition_cell
                             col_types = cols(.default = col_character(),
                                              value_paper = col_character()))
 
-# claim: print one claim line in the form the coverage gate parses. The precision
-# comes from the extraction, so a value printed here lies against the published
-# page without being rounded a second time.
-claim <- function(id, value, label) {
-  digits <- claims$digits[claims$claim_id == id]
-  claim_type <- claims$claim_type[claims$claim_id == id]
-  stopifnot(length(digits) == 1, length(claim_type) == 1)
-  # A descriptive claim prints a truth value, not a quantity, so the article's own
-  # precision does not apply to it.
-  if (claim_type == "descriptive") digits <- 0L
-  printed <- if (length(value) != 1 || is.na(value)) {
-    "NA"
-  } else {
-    sprintf(paste0("%.", digits, "f"), value)
-  }
-  cat("CLAIM ", id, " = ", printed, " || ", label, "\n", sep = "")
-}
+# The corrections this paper's errata note publishes, read from the spine errata.qmd writes
+# rather than from the note's prose. A claim an entry names is scored against the correction
+# and not against the sentence the article prints, so a corrected claim that drifted back to
+# the published value stops the run instead of quietly reading as a match.
+errata_entries <- read_csv(here::here("errata_entries.csv"),
+                           col_types = cols(.default = col_character()))
+
+# The scoring machinery comes from excheckr, which carries the verdict ladder, the typography
+# parser and the printed form this file used to define for itself. What is passed here is
+# what the package cannot know: the extraction, the errata spine, which errata classes move a
+# claim's value, and the shape of the printed line. format = "id" is the
+# CLAIM <id> = <value> || [verdict] <label> line ground_truth/claims_gate.R parses, and it
+# must stay exactly that.
+#
+# Three classes move a value in this note. A quantity states one in a sentence. Entry 1 is a
+# float: Table 6 reprints Table 5, and the correction is the table the note sets rather than
+# a sentence, so its twelve cells are corrected claims whose values live in the float. Entry
+# 7 is a cross-reference whose claim IS the table number, so correcting the reference
+# corrects the value. A typography entry turns one comparison operator round and moves no
+# claim's value, so it declares none.
+#
+# The label stays at the call site rather than being fetched from the extraction's claim
+# column, because most of this file's labels are glued at run time and report the evidence
+# behind a descriptive claim: which coefficients were correctly signed, what the ten-seed
+# spread was. That sentence is about the check rather than about the article.
+#
+# Four claims declare expect = "absent" at their own call sites rather than in the extraction,
+# because the package refuses that rung in a column: a claim asserting the deposit has no
+# counterpart for it must be visible where the value would have been. All four are the same
+# absence, that the archive ships no randomization inference code.
+#
+# The precision is NOT read off the typography here, unlike the two claims files converted
+# before this one. This extraction's digits column disagrees with claim_digits(value_paper)
+# on three rows and it is right on all three: the article states a p-value as the bound
+# "p < 0.001" and the block prints six decimals to show the value clears it, and the two BART
+# percentages are printed to a tenth against a page that prints whole per cents, because the
+# comparison is against a ten-seed spread quoted to a tenth. Those three declare their own
+# digits at the call site, where the reason is visible, and so do the six descriptive blocks,
+# which print a truth value the article's precision does not apply to.
+claim_start(published = claims, errata = errata_entries, format = "id",
+            quantity_classes = c("quantity", "float", "cross_reference"),
+            expect_column = "expect")
 
 # cell: one coefficient out of a regression table's output. The assertion is what
 # stops a widened output file from turning a scalar into a vector and a claim into
@@ -224,7 +250,8 @@ claim("study1_W2Q1_neg_sd", t1_row("Negative Information", "W2_Q1_sd"),
 # fortieth of a scale point on either outcome.
 sd_spread <- max(diff(range(t1$W2_scale_sd)), diff(range(t1$W2_Q1_sd)))
 claim("study1_sds_do_not_vary", as.numeric(sd_spread < 0.05),
-      str_glue("SDs vary by at most {sprintf('%.3f', sd_spread)} across conditions"))
+      str_glue("SDs vary by at most {sprintf('%.3f', sd_spread)} across conditions"),
+      digits = 0)
 
 # Table 2 ----
 
@@ -267,7 +294,8 @@ claim("study1_N_proponents", group_n(t2, "Proponents"), "Table 2, proponents N")
 starred_p <- t3$p.value[t3$group == "Among Proponents (Covariates)" &
                           t3$term == "Z_informationcon_information"]
 claim("study1_table_2_note_threshold", as.numeric(starred_p > 0.01),
-      str_glue("a three-star cell has p = {sprintf('%.4f', starred_p)}, which is below 0.01, not above it"))
+      str_glue("a three-star cell has p = {sprintf('%.4f', starred_p)}, which is below 0.01, not above it"),
+      digits = 0)
 
 # Study 1: Results ----
 
@@ -344,7 +372,8 @@ claim("study2_N_proyoung_proold", t4_n("Pro Young / Pro Old"), "Table 4, Pro You
 # the pipeline can show is that the two conditions' bootstrapped standard errors
 # do not overlap, which is not the test the sentence describes.
 claim("study2_placebo_sd_test", NA_real_,
-      "no counterpart in the deposit: the archive ships no randomization inference code")
+      "no counterpart in the deposit: the archive ships no randomization inference code",
+      expect = "absent")
 
 # Table 5 ----
 
@@ -409,7 +438,8 @@ t6_info <- t6 |> filter(term %in% c("positive_information", "negative_informatio
 t6_signed <- t6_info |>
   mutate(correct = if_else(term == "positive_information", estimate > 0, estimate < 0))
 claim("study2_favor_all_signed", as.numeric(all(t6_signed$correct)),
-      str_glue("{sum(t6_signed$correct)} of {nrow(t6_signed)} Table 6 information coefficients correctly signed"))
+      str_glue("{sum(t6_signed$correct)} of {nrow(t6_signed)} Table 6 information coefficients correctly signed"),
+      digits = 0)
 
 t6_exceptions <- t6_info |>
   filter(p.value >= 0.05) |>
@@ -417,7 +447,8 @@ t6_exceptions <- t6_info |>
 claim("study2_favor_sig_exception",
       as.numeric(all(t6_exceptions$term == "negative_information") &
                    all(str_detect(t6_exceptions$group, "Opponents"))),
-      str_glue("the {nrow(t6_exceptions)} Table 6 information coefficients with p at or above 0.05 are all negative information among opponents"))
+      str_glue("the {nrow(t6_exceptions)} Table 6 information coefficients with p at or above 0.05 are all negative information among opponents"),
+      digits = 0)
 
 # Study 3: Procedure ----
 
@@ -467,9 +498,11 @@ claim("study3_pronull_score", min(t7$positive_information[t7$positive_informatio
 #  in standard deviations between the Null Null and Pro Null conditions for the
 #  Support dependent variable (p = 0.04)."
 claim("study3_sd_test_level", NA_real_,
-      "no counterpart in the deposit: the archive ships no randomization inference code")
+      "no counterpart in the deposit: the archive ships no randomization inference code",
+      expect = "absent")
 claim("study3_sd_test_pvalue", NA_real_,
-      "no counterpart in the deposit: the archive ships no randomization inference code")
+      "no counterpart in the deposit: the archive ships no randomization inference code",
+      expect = "absent")
 
 # "Each report is associated with seven intermediate dependent variables in
 #  addition to the two endline dependent variables."
@@ -555,7 +588,8 @@ claim("study3_text_opp_swing", swing(t8, "Opponents (Covariates)"),
 # subject type, so nothing in output/ tests this. Estimating one here would be a
 # refit, which the second instrument may not do.
 claim("study3_subject_type_test", NA_real_,
-      "no counterpart in the deposit: the archive fits no treatment by subject type interaction")
+      "no counterpart in the deposit: the archive fits no treatment by subject type interaction",
+      expect = "absent")
 
 # "For both groups, moving from Con Con to Pro Pro results in an entire scale
 #  point's worth of movement."
@@ -563,7 +597,8 @@ det_pro <- swing(t9, "Proponents (Covariates)")
 det_opp <- swing(t9, "Opponents (Covariates)")
 claim("study3_deterrence_swing",
       as.numeric(abs(det_pro - 1) < 0.1 & abs(det_opp - 1) < 0.1),
-      str_glue("Table 9 gives {sprintf('%.2f', det_pro)} scale points for proponents and {sprintf('%.2f', det_opp)} for opponents"))
+      str_glue("Table 9 gives {sprintf('%.2f', det_pro)} scale points for proponents and {sprintf('%.2f', det_opp)} for opponents"),
+      digits = 0)
 
 # Summary of Results ----
 
@@ -581,7 +616,8 @@ claim("n_estimates_total", nrow(f1), "treatment effect estimates plotted in Figu
 claim("n_correctly_signed", stat("n_correctly_signed"),
       "Figure 1 estimates whose sign matches the direction of the information")
 claim("binom_test_pvalue", stat("binom_test_pvalue"),
-      "binomial test p-value, which the article states as below 0.001")
+      "binomial test p-value, which the article states as below 0.001",
+      digits = 6)
 
 # "Eleven of the twenty-four treatment effect estimates are statistically
 #  significant at p <0.05 or better."
@@ -601,10 +637,12 @@ pos_range <- range(seeds$prop_correctly_signed[seeds$treatment == "Positive Info
 neg_range <- range(seeds$prop_correctly_signed[seeds$treatment == "Negative Information"])
 claim("pct_pos_te_under_pos_treatment",
       100 * mean(f2$tau_hat[f2$treatment == "Positive Information"] > 0),
-      str_glue("per cent positive under positive information; ten seeds run {sprintf('%.1f', 100 * pos_range[1])} to {sprintf('%.1f', 100 * pos_range[2])} and the published 93 lies below all of them"))
+      str_glue("per cent positive under positive information; ten seeds run {sprintf('%.1f', 100 * pos_range[1])} to {sprintf('%.1f', 100 * pos_range[2])} and the published 93 lies below all of them"),
+      digits = 1)
 claim("pct_neg_te_under_neg_treatment",
       100 * mean(f2$tau_hat[f2$treatment == "Negative Information"] < 0),
-      str_glue("per cent negative under negative information; ten seeds run {sprintf('%.1f', 100 * neg_range[1])} to {sprintf('%.1f', 100 * neg_range[2])} and the published 77 sits inside that range"))
+      str_glue("per cent negative under negative information; ten seeds run {sprintf('%.1f', 100 * neg_range[1])} to {sprintf('%.1f', 100 * neg_range[2])} and the published 77 sits inside that range"),
+      digits = 1)
 
 # "In none of the cases for which a subject was predicted to have an incorrectly
 #  signed treatment effect does the 95 per cent confidence interval exclude 0."
@@ -613,7 +651,8 @@ wrong_signed <- f2 |>
            (treatment == "Negative Information" & tau_hat > 0))
 n_excluding_zero <- sum(wrong_signed$ci_lower > 0 | wrong_signed$ci_upper < 0)
 claim("bart_wrong_sign_intervals", as.numeric(n_excluding_zero == 0),
-      str_glue("{n_excluding_zero} of {nrow(wrong_signed)} incorrectly signed estimates have an interval excluding zero"))
+      str_glue("{n_excluding_zero} of {nrow(wrong_signed)} incorrectly signed estimates have an interval excluding zero"),
+      digits = 0)
 
 # Figure 1 caption ----
 
@@ -624,3 +663,14 @@ claim("bart_wrong_sign_intervals", as.numeric(n_excluding_zero == 0),
 f1_level <- with(f1[1, ], 100 * (2 * pt((conf.high - estimate) / std.error, df) - 1))
 claim("figure_1_interval", f1_level,
       "confidence level implied by Figure 1's own interval, estimate, standard error and degrees of freedom")
+
+# Gates ----
+# The verdicts above are assertions only if something reads them. assert_claims() is what
+# reads them: no claim ended on a failing verdict, every claim a quantity erratum names was
+# printed and printed as corrected, the claims printed are exactly those the extraction
+# declares need a block, and the verdict counts partition the claims.
+assert_claims()
+
+# The exemptions are counted, never merely allowed. A file that let the unasserted set grow
+# in silence would report the same clean run whether it checked every claim or none.
+invisible(claim_summary())
