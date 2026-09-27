@@ -853,7 +853,7 @@ the maintained rewrite.
 | Package    | Version |
 |:-----------|:--------|
 | tidyverse  | 2.0.0   |
-| estimatr   | 1.0.6   |
+| estimatr   | 2.0.1   |
 | rsample    | 1.3.2   |
 | dbarts     | 0.9.33  |
 | knitr      | 1.51    |
