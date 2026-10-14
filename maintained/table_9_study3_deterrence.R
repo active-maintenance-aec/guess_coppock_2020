@@ -37,7 +37,8 @@ extract_rows <- function(fit, label) {
         term == "(Intercept)"                        ~ "Constant"
       ),
       group = label,
-      N = fit$nobs
+      N = fit$nobs,
+      r2 = summary(fit)$r.squared
     )
 }
 
@@ -55,7 +56,7 @@ write_csv(results, here::here("maintained", "output", "table_9_study3_deterrence
 
 # Display table ----
 display <- results |>
-  select(term_label, group, estimate, std.error, N) |>
+  select(term_label, group, estimate, std.error, N, r2) |>
   pivot_wider(names_from = group, values_from = c(estimate, std.error)) |>
   arrange(factor(term_label, levels = c("Positive Information (0 to 2)",
                                         "Negative Information (0 to 2)",
