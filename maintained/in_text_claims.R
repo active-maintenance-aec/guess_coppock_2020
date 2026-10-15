@@ -576,10 +576,17 @@ claim("study3_text_opp_neg_pvalue",
 swing <- function(d, grp) {
   2 * (cell(d, grp, "positive_information") - cell(d, grp, "negative_information"))
 }
-claim("study3_text_pro_swing", swing(t8, "Proponents (Covariates)"),
-      "twice the sum of the two adjusted proponent coefficients in Table 8")
-claim("study3_text_opp_swing", swing(t8, "Opponents (Covariates)"),
-      "twice the sum of the two adjusted opponent coefficients in Table 8")
+# The sentence's arithmetic is done on its own printed inputs, three decimals each,
+# so the total is too: 2*0.074 + 2*0.040 is 0.228, where the unrounded inputs give
+# 0.227 (errata entry 6).
+swing_printed <- function(d, grp) {
+  2 * (round(cell(d, grp, "positive_information"), 3) -
+         round(cell(d, grp, "negative_information"), 3))
+}
+claim("study3_text_pro_swing", swing_printed(t8, "Proponents (Covariates)"),
+      "twice the sum of the two adjusted proponent coefficients in Table 8, each at the three decimals printed")
+claim("study3_text_opp_swing", swing_printed(t8, "Opponents (Covariates)"),
+      "twice the sum of the two adjusted opponent coefficients in Table 8, each at the three decimals printed")
 
 # "While the treatment effects do appear to differ by subject type (p < 0.05), we
 #  do not observe the 'incorrectly' signed treatment effects that backlash would

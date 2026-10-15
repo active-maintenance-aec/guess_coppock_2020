@@ -477,7 +477,7 @@ of the outcome distribution. No substantive conclusions depend on Table
 | study3_text_opp_neg_adj | NA | -0.042 | NA | The text prints -0.042 where the deposited specification gives -0.040. Both round to the -0.04 that Table 8 prints |
 | study3_text_opp_neg_pvalue | NA | 0.43 | NA | The text prints p = 0.43 where the deposited specification gives 0.46 |
 | study3_text_pro_swing | NA | 0.682 | NA | Twice the sum of the two covariate-adjusted proponent coefficients, as the text computes it |
-| study3_text_opp_swing | NA | 0.220 | NA | Twice the sum of the two covariate-adjusted opponent coefficients gives 0.227, not the 0.220 the text prints; it inherits the two coefficient errors above |
+| study3_text_opp_swing | NA | 0.220 | NA | Twice the sum of the two covariate-adjusted opponent coefficients, each at the three decimals the sentence prints, gives 2*0.074 + 2*0.040 = 0.228 (0.227 from the unrounded coefficients), not the 0.220 the text prints; it inherits the two coefficient errors above |
 | study3_subject_type_test | NA | 0.05 | NA | The deposit fits no model interacting treatment with subject type, so this test has no counterpart in the archive or the rewrite |
 | study3_deterrence_swing | NA | NA | NA | Holds: the same computation on Table 9 gives 0.96 scale points for proponents and 1.03 for opponents |
 | n_estimates_total | NA | 24 | NA | Treatment effect estimates plotted in Figure 1 |
@@ -582,12 +582,13 @@ and are checked there.
 
 ## Errata
 
-Eight statements in the published article are wrong: contradicted by the
-deposited data, by the article’s own tables, or by the float they point
-at. They are collected, with the corrected sentence in each case
-computed from `maintained/output/` at render time, in
-**`guess_coppock_2020_errata.pdf`** at the root of this repository,
-built from `errata.qmd`. None of them changes a conclusion.
+Nine statements in the published article are wrong: contradicted by the
+deposited data, by the article’s own tables, by the float they point at,
+or by the authors’ own corrigendum. They are collected, with every
+corrected value but the corrigendum’s computed from `maintained/output/`
+at render time, in **`guess_coppock_2020_errata.pdf`** at the root of
+this repository, built from `errata.qmd`. None of them changes a
+conclusion.
 
 The largest is Table 6. “Effects of information on favoring minimum wage
 raise” prints the contents of Table 5 rather than its own, cell for
@@ -603,8 +604,11 @@ where its own Table 4 sums to 1,169, and Study 3 at 683 subjects and 396
 opponents where Table 7 sums to 686 and Tables 8 and 9 report 395. Three
 are Study 3 estimates that the Results text states to three decimals, a
 precision the tables do not print, where the deposited specification
-gives different values. The last is a cross-reference to Table 2 that
-should be to Table 3.
+gives different values. One is a cross-reference to Table 2 that should
+be to Table 3, and one is Table 2’s note setting the three-star
+threshold as p \> 0.01. The last is the authors’ own corrigendum (doi
+10.1017/S0007123419000024), carried so the errata are a complete
+account: Table 1’s SD columns printed the standard errors of the means.
 
 The published “93 per cent” is deliberately not among them, for the
 reason given above: it comes from an unseeded procedure, so there is no
@@ -833,8 +837,8 @@ sits below every one of the ten runs, whose minimum is 0.977.
 | text | study3_text_pro_neg_adj | -0.326 | -0.326248527919576 | 1 | Proponents: negative information on support, covariate adjusted, at the three decimals the text prints |
 | text | study3_text_opp_neg_adj | -0.042 | -0.039517816867248 | 0 | The text prints -0.042 where the deposited specification gives -0.040. Both round to the -0.04 that Table 8 prints |
 | text | study3_text_opp_neg_pvalue | 0.43 | 0.462278884588384 | 0 | The text prints p = 0.43 where the deposited specification gives 0.46 |
-| text | study3_text_pro_swing | 0.682 | 0.68193475037021 | 1 | Twice the sum of the two covariate-adjusted proponent coefficients, as the text computes it |
-| text | study3_text_opp_swing | 0.220 | 0.226991254110413 | 0 | Twice the sum of the two covariate-adjusted opponent coefficients gives 0.227, not the 0.220 the text prints; it inherits the two coefficient errors above |
+| text | study3_text_pro_swing | 0.682 | 0.682 | 1 | Twice the sum of the two covariate-adjusted proponent coefficients, as the text computes it |
+| text | study3_text_opp_swing | 0.220 | 0.228 | 0 | Twice the sum of the two covariate-adjusted opponent coefficients, each at the three decimals the sentence prints, gives 2*0.074 + 2*0.040 = 0.228 (0.227 from the unrounded coefficients), not the 0.220 the text prints; it inherits the two coefficient errors above |
 | figure_1 | n_estimates_total | 24 | 24 | 1 | Treatment effect estimates plotted in Figure 1 |
 | figure_1 | n_correctly_signed | 23 | 23 | 1 | 23 of 24 treatment effect estimates correctly signed |
 | figure_1 | binom_test_pvalue | 0.001 | 0.00000298 | 1 | Binomial test p \< 0.001 (exact: 2.98e-06) |

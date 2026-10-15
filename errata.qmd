@@ -18,8 +18,10 @@ here::i_am("errata.qmd")
 
 out <- function(f) read_csv(here("maintained", "output", f), show_col_types = FALSE)
 
+t1 <- out("table_1_study1_conditions.csv")
 t3 <- out("table_3_study1_gun_support.csv")
 t4 <- out("table_4_study2_conditions.csv")
+t5 <- out("table_5_study2_amount.csv")
 t6 <- out("table_6_study2_favor.csv")
 t7 <- out("table_7_study3_conditions.csv")
 t8 <- out("table_8_study3_support.csv")
@@ -47,8 +49,12 @@ pt3 <- function(x) str_replace(sprintf("%.3f", x), "^-", "–")
 pt2 <- function(x) str_replace(sprintf("%.2f", x), "^-", "–")
 comma <- function(x) format(x, big.mark = ",", trim = TRUE)
 
+# The published sentence does its arithmetic on its own printed inputs, three decimals
+# each, and so does the corrected one: 2·0.074 + 2·0.040 is 0.228, where the unrounded
+# inputs give 0.227. maintained/in_text_claims.R computes the claim the same way.
 swing <- function(d, grp) {
-  2 * (cell(d, grp, "positive_information") - cell(d, grp, "negative_information"))
+  2 * (round(cell(d, grp, "positive_information"), 3) -
+         round(cell(d, grp, "negative_information"), 3))
 }
 
 # The opening paragraph counts the entries in words, as prose does, so the count is
@@ -83,6 +89,42 @@ favor_cells <- tribble(
 # The minus sign here is the hyphen the extraction writes, not the en dash the page sets:
 # this column is compared as a number by maintained/in_text_claims.R, where the note's
 # typography is the wrong convention. The float above keeps the page's en dash.
+
+# Entry 1's note answers what the corrected table was holding up: p. 1506 says of it that
+# "with the exception of negative information among opponents, all these coefficients are
+# statistically significant." Read against the table the page printed (Table 5's contents)
+# and against the corrected one, cell by cell, at the page's own 0.1 threshold.
+info_cells <- function(d) {
+  d |>
+    filter(term %in% c("positive_information", "negative_information")) |>
+    mutate(opponents_negative = str_detect(group, "^Opponents") &
+             term == "negative_information",
+           signed = if_else(term == "positive_information", estimate > 0, estimate < 0))
+}
+fav <- info_cells(t6)
+stopifnot(nrow(fav) == 12, all(fav$signed),
+          all(fav$p.value[fav$opponents_negative] >= 0.1),
+          all(fav$p.value[!fav$opponents_negative] < 0.1))
+amt <- info_cells(t5)
+amt_opp_pos <- amt |> filter(group == "Opponents (No Covariates)", term == "positive_information")
+amt_opp_neg <- amt |> filter(group == "Opponents (Covariates)", term == "negative_information")
+fav_opp_neg <- fav |> filter(opponents_negative) |> arrange(desc(str_detect(group, "No Covariates")))
+stopifnot(amt_opp_pos$p.value >= 0.1, amt_opp_neg$p.value < 0.05)
+est_p <- function(e, p) str_glue("{pt2(e)} (p = {sprintf('%.2f', p)})")
+
+# Entry 9 is the corrigendum's Table 1. Its note says what the corrected standard
+# deviations do to the sentence on p. 1502 that they "do not appear to vary by treatment
+# condition and are very precisely estimated." T2 Belief is binary, so its standard
+# deviation follows its mean.
+t1_row <- function(cond, column) {
+  hits <- t1[[column]][t1$condition == cond]
+  stopifnot(length(hits) == 1)
+  hits
+}
+belief_gap <- t1_row("Negative Information", "W2_Q1_sd") - t1_row("Positive Information", "W2_Q1_sd")
+belief_gap_se <- sqrt(t1_row("Negative Information", "W2_Q1_sd_bse")^2 +
+                        t1_row("Positive Information", "W2_Q1_sd_bse")^2)
+attitude_sd <- range(t1$W2_scale_sd)
 
 opp_pos <- cell(t8, "Opponents (Covariates)", "positive_information")
 opp_neg <- cell(t8, "Opponents (Covariates)", "negative_information")
@@ -136,7 +178,19 @@ entries <- tribble(
     "table is captioned for the Favor outcome. The text is correct and the table is not:",
     "the deposited `GC_Study_2_analysis.R` fits its Table 6 models on `favor_T2_recode`,",
     "and Figure 1's \"Study 2: T2 Favor\" panel plots the estimates below rather than the",
-    "ones Table 6 prints. The corrected table follows."),
+    "ones Table 6 prints.") |>
+  str_c(str_glue(
+    " The sentence after the table on p. 1506, \"With the exception of negative ",
+    "information among opponents, all these coefficients are statistically ",
+    "significant,\" is false twice of the table the page prints: among opponents ",
+    "positive information without covariates is {est_p(amt_opp_pos$estimate, amt_opp_pos$p.value)}, ",
+    "and negative information with covariates is {est_p(amt_opp_neg$estimate, amt_opp_neg$p.value)}. ",
+    "Of the corrected table it holds cell for cell. All twelve information ",
+    "coefficients are correctly signed, and the only two not significant at the 0.1 ",
+    "level are opponents' negative information, ",
+    "{est_p(fav_opp_neg$estimate[1], fav_opp_neg$p.value[1])} without covariates and ",
+    "{est_p(fav_opp_neg$estimate[2], fav_opp_neg$p.value[2])} with them. The correction ",
+    "makes the text true. The corrected table follows.")),
   str_c(favor_cells$claim_id, collapse = ";"),
   str_c(favor_cells$value, collapse = ";"),
 
@@ -210,10 +264,11 @@ entries <- tribble(
     "{pt3(swing(t8, 'Proponents (Covariates)'))} scale points and opponents to move ",
     "2·[[{pt3(opp_pos)}]] + 2·[[{pt3(abs(opp_neg))}]] = ",
     "[[{pt3(swing(t8, 'Opponents (Covariates)'))}]] scale points."),
-  paste(
-    "The published sentence gives 2·0.068 + 2·0.042 = 0.220. The arithmetic is right and",
-    "the two inputs are the ones corrected in entries 4 and 5, so the total moves with",
-    "them."),
+  str_glue(
+    "The published sentence gives 2·0.068 + 2·0.042 = 0.220. The arithmetic is right and ",
+    "the two inputs are the ones corrected in entries 4 and 5, so the total moves with ",
+    "them. It is computed from the inputs as printed, as the published total was; from ",
+    "their unrounded values it is {pt3(2 * (opp_pos - opp_neg))}."),
   "study3_text_opp_swing",
   sprintf("%.3f", swing(t8, "Opponents (Covariates)")),
 
@@ -240,6 +295,36 @@ entries <- tribble(
     "{sprintf('%.4f', cell(t3, 'Among Proponents (No Covariates)', 'Z_informationcon_information', 'p.value'))} ",
     "and below."),
   "study1_table_2_note_threshold",
+  NA_character_,
+
+  # The corrigendum's correction, carried so this note is a complete account of what the
+  # published article gets wrong (as peyton_huber_coppock_2022 carries its corrigendum's).
+  # Its corrected side is the authors' own table, so no claim's value moves: the two claims
+  # it names count how many of the corrigendum's cells the deposit reproduces.
+  9, "corrigendum", "publisher record", "full",
+  "Table 1's standard deviations",
+  "published Table 1, p. 1502",
+  "Table 1 prints [[the standard errors of the means]] in its two SD columns, [[(0.00)]] as their standard errors, and [[no condition label]] on its first row.",
+  "[[Table 1 as the corrigendum corrects it]]: the standard deviation of each outcome in each condition, with its bootstrapped standard error, and the first row labelled Control.",
+  str_glue(
+    "A corrigendum the authors published at *British Journal of Political Science* 50(4), ",
+    "1517, doi 10.1017/S0007123419000024, ",
+    "corrects Table 1 for a coding error that made the standard deviations and their ",
+    "standard errors inaccurate, and this edition sets its table. The SD columns the ",
+    "page prints repeat the standard errors of the means beside them. The corrected T2 ",
+    "Attitude standard deviations run from {sprintf('%.2f', attitude_sd[1])} to ",
+    "{sprintf('%.2f', attitude_sd[2])}, which bears out the text's \"the standard ",
+    "deviations of the outcomes do not appear to vary by treatment condition and are very ",
+    "precisely estimated.\" The T2 Belief standard deviations do vary, and could not fail ",
+    "to: the outcome is binary, so its standard deviation follows its mean, and means of ",
+    "{sprintf('%.2f', t1_row('Negative Information', 'W2_Q1_mean'))} under negative ",
+    "information and {sprintf('%.2f', t1_row('Positive Information', 'W2_Q1_mean'))} under ",
+    "positive give ",
+    "standard deviations of {sprintf('%.2f', t1_row('Negative Information', 'W2_Q1_sd'))} ",
+    "and {sprintf('%.2f', t1_row('Positive Information', 'W2_Q1_sd'))}, a difference ",
+    "{sprintf('%.1f', belief_gap / belief_gap_se)} times its bootstrapped standard error. ",
+    "No estimate in the article uses these standard deviations."),
+  "study1_table_1_cells;study1_table_1_boot_cells",
   NA_character_
 ) |>
   mutate(across(c(title, published, corrected, note, claim_ids, corrected_values),
@@ -319,9 +404,9 @@ stopifnot(
 bold <- function(x) str_replace_all(x, "\\[\\[(.*?)\\]\\]", "**\\1**")
 ```
 
-This note lists `r spell(nrow(entries))` corrections to "Does Counter-Attitudinal Information Cause Backlash? Results from Three Large Survey Experiments," published in the *British Journal of Political Science* 50(4), doi [10.1017/S0007123418000327](https://doi.org/10.1017/S0007123418000327). **None of them changes a conclusion of the paper.** The first is a table printed in place of another; three are participant counts that disagree with the article's own tables; three are Study 3 estimates restated in the text at a precision the tables do not show; and one is a cross-reference. The article's finding, that treatment effects across all three experiments run in the direction of the information rather than against it, is unaffected, and Figure 1 already plots the corrected Table 6 estimates rather than the ones that table prints.
+This note lists `r spell(nrow(entries))` corrections to "Does Counter-Attitudinal Information Cause Backlash? Results from Three Large Survey Experiments," published in the *British Journal of Political Science* 50(4), doi [10.1017/S0007123418000327](https://doi.org/10.1017/S0007123418000327). **None of them changes a conclusion of the paper.** The first is a table printed in place of another; three are participant counts that disagree with the article's own tables; three are Study 3 estimates restated in the text at a precision the tables do not show; one is a cross-reference; one is a significance threshold; and the last is the authors' own corrigendum to Table 1. The article's finding, that treatment effects across all three experiments run in the direction of the information rather than against it, is unaffected, and Figure 1 already plots the corrected Table 6 estimates rather than the ones that table prints.
 
-A separate corrigendum, published at *British Journal of Political Science* 50(4), 1517, doi [10.1017/S0007123419000024](https://doi.org/10.1017/S0007123419000024), corrects the standard deviations of Table 1. That correction is not repeated here.
+Entry 9 is the correction a separate corrigendum made, at *British Journal of Political Science* 50(4), 1517, doi [10.1017/S0007123419000024](https://doi.org/10.1017/S0007123419000024), to the standard deviations of Table 1. It is carried here so this note is a complete account of what the published article gets wrong.
 
 Every number in a corrected sentence below is computed from the deposited replication archive ([10.7910/DVN/J7WNTM](https://doi.org/10.7910/DVN/J7WNTM)) at the time this document is rendered, including the numbers that were not wrong. The code and output supporting each correction are at [github.com/active-maintenance-aec/guess_coppock_2020](https://github.com/active-maintenance-aec/guess_coppock_2020). Bold marks what has changed.
 

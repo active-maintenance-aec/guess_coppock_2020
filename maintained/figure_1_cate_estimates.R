@@ -136,7 +136,14 @@ g <- ggplot(gg_df, aes(x = term, y = estimate, group = subset, shape = subset)) 
                  position = position_dodge(width = 0.5), show.legend = TRUE) +
   facet_wrap(~ dv, scales = "free", nrow = 3) +
   geom_hline(yintercept = 0, linetype = "dashed") +
-  ylab("Conditional Average Treatment Effect Estimates (Covariate Adjusted Models)") +
+  # The published figure is the press's redrawing of GC_figure_1.R's, and its
+  # arrangement governs: negative information first, sentence-case labels,
+  # opponents as circles and proponents as triangles, the legend opponents first.
+  scale_x_discrete(limits = c("Negative Information", "Positive Information"),
+                   labels = c("Negative information", "Positive information")) +
+  scale_shape_manual(values = c(Proponents = 17, Opponents = 16),
+                     breaks = c("Opponents", "Proponents")) +
+  ylab("Conditional Average Treatment Effect estimates (covariate-adjusted models)") +
   theme_bw() +
   theme(
     strip.background  = element_blank(),
