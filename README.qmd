@@ -314,7 +314,7 @@ Coverage is not even. Tables 1, 4 and 7 are covered cell by cell, all `r n_det_c
 
 ## Errata
 
-`r spell_count(n_errata)` statements in the published article are wrong: contradicted by the deposited data, by the article's own tables, by the float they point at, or by the authors' own corrigendum. They are collected, with every corrected value but the corrigendum's computed from `maintained/output/` at render time, in **`guess_coppock_2020_errata.pdf`** at the root of this repository, built from `errata.qmd`. None of them changes a conclusion.
+`r spell_count(n_errata)` statements in the published article are wrong: contradicted by the deposited data, by the article's own tables, by the float they point at, by the authors' own corrigendum, or, for two reference-list entries, by the Crossref record of the cited work. They are collected, with every corrected value but the corrigendum's computed from `maintained/output/` at render time, in **`guess_coppock_2020_errata.pdf`** at the root of this repository, built from `errata.qmd`. None of them changes a conclusion.
 
 The largest is Table 6. "Effects of information on favoring minimum wage raise" prints the contents of Table 5 rather than its own, cell for cell, with the column header inside it reading "Dependent variable: T2 Amount". The deposited `GC_Study_2_analysis.R` fits its Table 6 models on the Favor outcome, and Figure 1's "Study 2: T2 Favor" panel plots those estimates rather than the ones the table prints, so the text is right and the table is not. The corrected table is reprinted in the errata.
 

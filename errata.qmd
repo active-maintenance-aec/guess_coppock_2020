@@ -325,6 +325,30 @@ entries <- tribble(
     "{sprintf('%.1f', belief_gap / belief_gap_se)} times its bootstrapped standard error. ",
     "No estimate in the article uses these standard deviations."),
   "study1_table_1_cells;study1_table_1_boot_cells",
+  NA_character_,
+
+  # Entries 10 and 11 come from the reference audit's re-run of 2026-10-29, which learned to
+  # read a page range printed as its first page alone. Each corrected range is given in full,
+  # as the list gives nearly all of its others. A reference list is not an extraction claim,
+  # so neither has a claim_id or moves a value.
+  10, "bibliographic", "reference_audit", "brief",
+  "The Chipman, George and McCulloch (2007) reference prints a first page in place of a page range",
+  "published references, p. 1513",
+  "Advances in Neural Information Processing Systems 19, [[265]].",
+  "Advances in Neural Information Processing Systems 19, [[265–272]].",
+  paste("Crossref, doi 10.7551/mitpress/7503.003.0038, gives the chapter's pages in",
+        "Advances in Neural Information Processing Systems 19 as 265 to 272."),
+  "",
+  NA_character_,
+
+  11, "bibliographic", "reference_audit", "brief",
+  "The Gelman and Loken (2016) reference prints a first page in place of a page range",
+  "published references, p. 1514",
+  "The Best Writing on Mathematics 2015, [[305]].",
+  "The Best Writing on Mathematics 2015, [[305–318]].",
+  paste("Crossref, doi 10.1515/9781400873371-028, gives the chapter's pages in The Best",
+        "Writing on Mathematics 2015 as 305 to 318."),
+  "",
   NA_character_
 ) |>
   mutate(across(c(title, published, corrected, note, claim_ids, corrected_values),
@@ -404,7 +428,7 @@ stopifnot(
 bold <- function(x) str_replace_all(x, "\\[\\[(.*?)\\]\\]", "**\\1**")
 ```
 
-This note lists `r spell(nrow(entries))` corrections to "Does Counter-Attitudinal Information Cause Backlash? Results from Three Large Survey Experiments," published in the *British Journal of Political Science* 50(4), doi [10.1017/S0007123418000327](https://doi.org/10.1017/S0007123418000327). **None of them changes a conclusion of the paper.** The first is a table printed in place of another; three are participant counts that disagree with the article's own tables; three are Study 3 estimates restated in the text at a precision the tables do not show; one is a cross-reference; one is a significance threshold; and the last is the authors' own corrigendum to Table 1. The article's finding, that treatment effects across all three experiments run in the direction of the information rather than against it, is unaffected, and Figure 1 already plots the corrected Table 6 estimates rather than the ones that table prints.
+This note lists `r spell(nrow(entries))` corrections to "Does Counter-Attitudinal Information Cause Backlash? Results from Three Large Survey Experiments," published in the *British Journal of Political Science* 50(4), doi [10.1017/S0007123418000327](https://doi.org/10.1017/S0007123418000327). **None of them changes a conclusion of the paper.** The first is a table printed in place of another; three are participant counts that disagree with the article's own tables; three are Study 3 estimates restated in the text at a precision the tables do not show; one is a cross-reference; one is a significance threshold; one is the authors' own corrigendum to Table 1; and the last two are reference-list entries that print a first page in place of a page range. The article's finding, that treatment effects across all three experiments run in the direction of the information rather than against it, is unaffected, and Figure 1 already plots the corrected Table 6 estimates rather than the ones that table prints.
 
 Entry 9 is the correction a separate corrigendum made, at *British Journal of Political Science* 50(4), 1517, doi [10.1017/S0007123419000024](https://doi.org/10.1017/S0007123419000024), to the standard deviations of Table 1. It is carried here so this note is a complete account of what the published article gets wrong.
 

@@ -582,9 +582,10 @@ and are checked there.
 
 ## Errata
 
-Nine statements in the published article are wrong: contradicted by the
-deposited data, by the article’s own tables, by the float they point at,
-or by the authors’ own corrigendum. They are collected, with every
+Eleven statements in the published article are wrong: contradicted by
+the deposited data, by the article’s own tables, by the float they point
+at, by the authors’ own corrigendum, or, for two reference-list entries,
+by the Crossref record of the cited work. They are collected, with every
 corrected value but the corrigendum’s computed from `maintained/output/`
 at render time, in **`guess_coppock_2020_errata.pdf`** at the root of
 this repository, built from `errata.qmd`. None of them changes a
@@ -854,16 +855,16 @@ the maintained rewrite.
 
 ## R Environment
 
-| Package    | Version |
-|:-----------|:--------|
-| tidyverse  | 2.0.0   |
-| estimatr   | 2.0.1   |
-| rsample    | 1.3.2   |
-| dbarts     | 0.9.33  |
-| knitr      | 1.51    |
-| kableExtra | 1.4.0   |
-| here       | 1.0.2   |
+| Package    | Version    |
+|:-----------|:-----------|
+| tidyverse  | 2.0.0      |
+| estimatr   | 2.0.1.9000 |
+| rsample    | 1.3.2      |
+| dbarts     | 0.9.33     |
+| knitr      | 1.51       |
+| kableExtra | 1.4.0      |
+| here       | 1.0.2      |
 
 Key package versions
 
-R version: R version 4.6.0 (2026-04-24)
+R version: R version 4.6.1 (2026-06-24)
