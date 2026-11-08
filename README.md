@@ -221,8 +221,9 @@ Settling it would mean installing 0.9-3 under the R of the day, which
 this rewrite does not attempt. Either way the number as published lies
 outside everything a current, correct sampler produces, which is the
 fact a reader today needs. Because there is no seed, there is also no
-single value it could be corrected to, which is why it is recorded here
-and not in the errata.
+single value it could be corrected to, which is why the errata carry it
+as entry 12, a note that quotes the sentence and corrects nothing,
+rather than as a correction.
 
 **The error runs against the paper’s own interest.** A rate of 0.99
 correctly signed individual effects is stronger evidence of treatment
@@ -611,9 +612,11 @@ threshold as p \> 0.01. The last is the authors’ own corrigendum (doi
 10.1017/S0007123419000024), carried so the errata are a complete
 account: Table 1’s SD columns printed the standard errors of the means.
 
-The published “93 per cent” is deliberately not among them, for the
-reason given above: it comes from an unseeded procedure, so there is no
-value it could be corrected to.
+The published “93 per cent” is not among them, for the reason given
+above: it comes from an unseeded procedure, so there is no value it
+could be corrected to. The errata carry it as entry 12, a note that
+quotes the sentence and corrects nothing, and that entry’s reason is the
+one given above.
 
 ------------------------------------------------------------------------
 

@@ -57,8 +57,11 @@ published_cells <- read_csv(here::here("ground_truth", "published_condition_cell
 # rather than from the note's prose. A claim an entry names is scored against the correction
 # and not against the sentence the article prints, so a corrected claim that drifted back to
 # the published value stops the run instead of quietly reading as a match.
+# A note (form == "note") corrects nothing and carries no value to score against, so only the
+# corrections are passed on.
 errata_entries <- read_csv(here::here("errata_entries.csv"),
-                           col_types = cols(.default = col_character()))
+                           col_types = cols(.default = col_character())) |>
+  filter(form != "note")
 
 # The scoring machinery comes from excheckr, which carries the verdict ladder, the typography
 # parser and the printed form this file used to define for itself. What is passed here is

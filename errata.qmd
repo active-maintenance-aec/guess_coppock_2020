@@ -26,6 +26,20 @@ t6 <- out("table_6_study2_favor.csv")
 t7 <- out("table_7_study3_conditions.csv")
 t8 <- out("table_8_study3_support.csv")
 
+# Entry 12 sets the published BART proportions against the rewrite's and against the
+# spread of the ten-seed refit, all read from maintained/output/.
+summ <- out("text_summary_stats.csv")
+bart_seeds <- out("text_bart_seed_sensitivity.csv")
+stat <- function(s) {
+  hits <- summ$value[summ$statistic == s]
+  stopifnot(length(hits) == 1)
+  hits
+}
+seed_range <- function(trt) range(bart_seeds$prop_correctly_signed[bart_seeds$treatment == trt])
+n_seeds <- n_distinct(bart_seeds$seed)
+bart_pos_seeds <- seed_range("Positive Information")
+bart_neg_seeds <- seed_range("Negative Information")
+
 # Every number in a corrected sentence below is computed here, from the deposited
 # archive, at the time this document is rendered. That includes the numbers that were
 # not wrong: a token carried over from the published sentence is inherited on trust,
@@ -352,6 +366,41 @@ entries <- tribble(
   paste("Crossref, doi 10.1515/9781400873371-028, gives the chapter's pages in The Best",
         "Writing on Mathematics 2015 as 305 to 318."),
   "",
+  NA_character_,
+
+  # CARRIED, NOT CORRECTED. The page's 93 is wrong against everything the analysis produces,
+  # but the deposited BART script sets no seed, so the published figure is one unseeded draw
+  # and there is no single value it could be corrected to without writing the authors'
+  # sentence around a number nobody can reproduce. `form` is "note": the entry quotes the
+  # passage and proposes no change, and its `corrected` column is NA. The 0.990 the deposited
+  # script gives when a seed is prepended is typed, from README.qmd 173 and notes.md 96; the
+  # rewrite's value and the seed range are read from maintained/output/.
+  12, "quantity", "pipeline", "note",
+  "The BART proportion of positive treatment effect estimates under positive information",
+  "p. 1510, Figure 2",
+  "[[93 per cent]] of subjects have a positive treatment effect estimate when exposed to positive information and 77 per cent have a negative treatment effect estimate when exposed to negative information.",
+  NA_character_,
+  str_glue(
+    "The deposited BART script sets no seed, so each of the two published proportions is one ",
+    "unseeded draw and the right comparison is against the spread of draws rather than against ",
+    "a point. The maintained rewrite, which pins the sampler to one thread and sets a seed, ",
+    "gives {sprintf('%.3f', as.numeric(stat('bart_prop_positive_under_pos_info')))} for the ",
+    "first, the deposited script with a seed prepended gives 0.990, and a refit at ",
+    "{spell(n_seeds)} seeds runs from {sprintf('%.4f', bart_pos_seeds[1])} to ",
+    "{sprintf('%.4f', bart_pos_seeds[2])}, so the published 93 lies below every one of the ",
+    "{spell(n_seeds)} runs. The 77 holds: the rewrite gives ",
+    "{sprintf('%.3f', as.numeric(stat('bart_prop_negative_under_neg_info')))}, and the seeds ",
+    "run from {sprintf('%.1f', 100 * bart_neg_seeds[1])} to ",
+    "{sprintf('%.1f', 100 * bart_neg_seeds[2])} per cent. The likelier explanation for the ",
+    "gap is the sampler and not the analysis. The archive was deposited when ",
+    "`dbarts` 0.9-3 was current, and its NEWS file records four later repairs to multithreaded ",
+    "sampling, which the deposited script, with no seed and no thread count, is exposed to. ",
+    "That hypothesis is untested. Because no seed exists, no single corrected value can be ",
+    "given, which is why the sentence is carried here and not corrected. No conclusion of the ",
+    "paper changes: a share this near one is stronger evidence that treatment effects ",
+    "run in the direction of the information than 93 per cent would be, so the sentence ",
+    "understates what the analysis found."),
+  "pct_pos_te_under_pos_treatment",
   NA_character_
 ) |>
   mutate(across(c(title, published, corrected, note, claim_ids, corrected_values),
@@ -423,8 +472,15 @@ stopifnot(identical(
 moves_value <- c("quantity", "float", "cross_reference")
 # Entry 8 reprints Table 1 as the published corrigendum corrects it (decision 16): its
 # cells come from the publisher's record, not from maintained/output/, so it carries none.
+#
+# form == "note" declares that the entry quotes a passage and proposes no change to it, so it
+# has no corrected side and moves no value, whatever its class. The two have to agree: a note
+# carrying corrected text would print a correction the form says is not there.
+stopifnot(is.na(entries$corrected) == (entries$form == "note"))
 stopifnot(
-  all(!is.na(entries$corrected_values[entries$class %in% moves_value & entries$entry != 8])),
+  all(!is.na(entries$corrected_values[entries$class %in% moves_value & entries$entry != 8 &
+                                        entries$form != "note"])),
+  all(is.na(entries$corrected_values[entries$form == "note"])),
   all(is.na(entries$corrected_values[!entries$class %in% moves_value])),
   all(is.na(entries$corrected_values) | !is.na(entries$claim_ids))
 )
@@ -433,13 +489,13 @@ stopifnot(
 bold <- function(x) str_replace_all(x, "\\[\\[(.*?)\\]\\]", "**\\1**")
 ```
 
-This note lists `r spell(nrow(entries))` corrections to "Does Counter-Attitudinal Information Cause Backlash? Results from Three Large Survey Experiments," published in the *British Journal of Political Science* 50(4), doi [10.1017/S0007123418000327](https://doi.org/10.1017/S0007123418000327). **None of them changes a conclusion of the paper.** Three are participant counts that disagree with the article's own tables; three are Study 3 estimates restated in the text at a precision the tables do not show; one is a table printed in place of another; one is a cross-reference; one is the authors' own corrigendum to Table 1; one is a significance threshold; and the last two are reference-list entries that print a first page in place of a page range. The article's finding, that treatment effects across all three experiments run in the direction of the information rather than against it, is unaffected, and Figure 1 already plots the corrected Table 6 estimates rather than the ones that table prints.
+This note lists `r spell(sum(entries$form != "note"))` corrections to "Does Counter-Attitudinal Information Cause Backlash? Results from Three Large Survey Experiments," published in the *British Journal of Political Science* 50(4), doi [10.1017/S0007123418000327](https://doi.org/10.1017/S0007123418000327): three are participant counts that disagree with the article's own tables; three are Study 3 estimates restated in the text at a precision the tables do not show; one is a table printed in place of another; one is a cross-reference; one is the authors' own corrigendum to Table 1; one is a significance threshold; and the last two are reference-list entries that print a first page in place of a page range. It also carries `r spell(sum(entries$form == "note"))` entry of a second kind, which quotes a passage and proposes no change to it: a BART proportion that no seed exists to correct. **No correction and no note here changes a conclusion of the paper.** The article's finding, that treatment effects across all three experiments run in the direction of the information rather than against it, is unaffected, and Figure 1 already plots the corrected Table 6 estimates rather than the ones that table prints.
 
 Entry 8 is the correction a separate corrigendum made, at *British Journal of Political Science* 50(4), 1517, doi [10.1017/S0007123419000024](https://doi.org/10.1017/S0007123419000024), to the standard deviations of Table 1. It is carried here so this note is a complete account of what the published article gets wrong.
 
 Every number in a corrected sentence below is computed from the deposited replication archive ([10.7910/DVN/J7WNTM](https://doi.org/10.7910/DVN/J7WNTM)) at the time this document is rendered, including the numbers that were not wrong. The code and output supporting each correction are at [github.com/active-maintenance-aec/guess_coppock_2020](https://github.com/active-maintenance-aec/guess_coppock_2020). Bold marks what has changed.
 
-One published figure is deliberately absent from this list. The article reports that "93 per cent of subjects have a positive treatment effect estimate when exposed to positive information." The deposited BART script sets no seed, so that figure is a single unseeded draw and the right comparison is against the spread of draws rather than against a point. Refitting at ten seeds under a current sampler puts the proportion between 97.7 and 99.6 per cent, above the published figure in every run, which is a discrepancy worth recording but not a number that can be corrected to a value the analysis would reproduce. It is documented in the repository's report instead.
+One published figure is carried and not corrected, as entry 12 below: the article's "93 per cent of subjects have a positive treatment effect estimate when exposed to positive information." The deposited BART script sets no seed, so that figure is a single unseeded draw, and the analysis offers no value it could be corrected to. The full working is in the repository's report.
 
 ```{r entries-1-5, results="asis"}
 # A heading is only a heading when a blank line precedes it, so every entry opens with
@@ -447,7 +503,11 @@ One published figure is deliberately absent from this list. The article reports 
 emit <- function(i) {
   e <- entries |> filter(entry == i)
   cat("\n\n## ", e$entry, ". ", e$title, "\n\n> ", bold(e$published),
-      "\n\nCorrected:\n\n> ", bold(e$corrected), "\n\n", e$note, "\n", sep = "")
+      sep = "")
+  # A note entry has no corrected side, and that absence is the whole of the form: an empty
+  # "Corrected:" block would read as a correction to nothing.
+  if (e$form != "note") cat("\n\nCorrected:\n\n> ", bold(e$corrected), sep = "")
+  cat("\n\n", e$note, "\n", sep = "")
 }
 walk(1:5, emit)
 ```
@@ -507,7 +567,19 @@ kable(tab, format = "latex", booktabs = TRUE, linesep = "", escape = FALSE,
 ```
 
 ```{r quoted-entries, results="asis"}
-walk(7:max(entries$entry), emit)
+walk(7:max(entries$entry[entries$form != "note"]), emit)
+```
+
+# Carried, and not corrected
+
+The `r spell(sum(entries$form == "note"))` entry below is different in kind from the `r spell(sum(entries$form != "note"))` corrections in this note. It quotes a passage this edition reprints exactly as the paper published it, and proposes no change to it.
+
+The passage is a proportion the article reports from a BART fit whose deposited script sets no seed. The published figure is one unseeded draw, and the analysis produces no single value it could be corrected to, so any corrected sentence would be the editor's number set in the authors' prose.
+
+It is recorded here because an edition that silently reproduced it would leave a reader unable to tell a faithful reprint from an uncorrected error.
+
+```{r entries-carried, results="asis"}
+walk(entries$entry[entries$form == "note"], emit)
 ```
 
 ```{r emit-spine}
