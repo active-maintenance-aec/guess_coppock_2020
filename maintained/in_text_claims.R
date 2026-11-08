@@ -67,7 +67,7 @@ errata_entries <- read_csv(here::here("errata_entries.csv"),
 # CLAIM <id> = <value> || [verdict] <label> line ground_truth/claims_gate.R parses, and it
 # must stay exactly that.
 #
-# Three classes move a value in this note. A quantity states one in a sentence. Entry 1 is a
+# Three classes move a value in this note. A quantity states one in a sentence. Entry 6 is a
 # float: Table 6 reprints Table 5, and the correction is the table the note sets rather than
 # a sentence, so its twelve cells are corrected claims whose values live in the float. Entry
 # 7 is a cross-reference whose claim IS the table number, so correcting the reference
@@ -578,7 +578,7 @@ swing <- function(d, grp) {
 }
 # The sentence's arithmetic is done on its own printed inputs, three decimals each,
 # so the total is too: 2*0.074 + 2*0.040 is 0.228, where the unrounded inputs give
-# 0.227 (errata entry 6).
+# 0.227 (errata entry 5).
 swing_printed <- function(d, grp) {
   2 * (round(cell(d, grp, "positive_information"), 3) -
          round(cell(d, grp, "negative_information"), 3))
