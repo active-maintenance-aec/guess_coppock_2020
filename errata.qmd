@@ -461,10 +461,24 @@ if (!all(value_placed)) {
 
 # Entry 6's values are the cells the corrected float prints, so they are checked against the
 # table's own source rather than against prose.
-stopifnot(identical(
+float_placed <- identical(
   str_split(entries$corrected_values[entries$entry == 6], ";")[[1]],
   favor_cells$value
-))
+)
+stopifnot(float_placed)
+
+# Both placement checks are written to the spine as values_in_spans, one logical per entry:
+# TRUE where every corrected value is the token the corrected text prints, NA for an entry
+# that carries no values. Entry 6's tokens are the cells of the float it sets.
+entries <- entries |>
+  left_join(
+    bind_rows(
+      tibble(entry = sentences$entry, values_in_spans = value_placed),
+      tibble(entry = 6, values_in_spans = float_placed)
+    ),
+    by = "entry"
+  )
+stopifnot(identical(is.na(entries$values_in_spans), is.na(entries$corrected_values)))
 
 # An entry that moves a claim's value has to say what the value becomes, and an entry that
 # moves none may not carry one. Three classes move a value here: a quantity in a sentence,

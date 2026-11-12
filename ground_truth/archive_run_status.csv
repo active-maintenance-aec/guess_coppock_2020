@@ -1,0 +1,13 @@
+pass,script,role,exit_status,outcome,stopped_at
+as_shipped,GC_Study_1_analysis.R,analysis,1,error,"Error: `starprep()` was removed in estimatr 2.0. It prepared fits for stargazer, which is no longer maintained."
+as_shipped,GC_Study_2_analysis.R,analysis,1,error,"Error: `starprep()` was removed in estimatr 2.0. It prepared fits for stargazer, which is no longer maintained."
+as_shipped,GC_Study_3_analysis.R,analysis,1,error,"Error in file(file, if (append) ""a"" else ""w"") : cannot open the connection"
+as_shipped,GC_figure_1.R,analysis,0,clean,NA
+as_shipped,GC_figure_2.R,analysis,1,error,Error in .Object$initialize(...) : object '.Random.seed' not found Calls: dbarts ... new -> initialize -> initialize -> <Anonymous> -> .Call
+as_shipped,GC_alternative_specifications.R,analysis,1,error,"Error: `starprep()` was removed in estimatr 2.0. It prepared fits for stargazer, which is no longer maintained."
+stripped,GC_Study_1_analysis.R,analysis,1,error,"Error: `starprep()` was removed in estimatr 2.0. It prepared fits for stargazer, which is no longer maintained."
+stripped,GC_Study_2_analysis.R,analysis,1,error,"Error: `starprep()` was removed in estimatr 2.0. It prepared fits for stargazer, which is no longer maintained."
+stripped,GC_Study_3_analysis.R,analysis,1,error,"Error in file(file, if (append) ""a"" else ""w"") : cannot open the connection"
+stripped,GC_figure_1.R,analysis,0,clean,NA
+stripped,GC_figure_2.R,analysis,1,error,Error in .Object$initialize(...) : object '.Random.seed' not found Calls: dbarts ... new -> initialize -> initialize -> <Anonymous> -> .Call
+stripped,GC_alternative_specifications.R,analysis,1,error,"Error: `starprep()` was removed in estimatr 2.0. It prepared fits for stargazer, which is no longer maintained."

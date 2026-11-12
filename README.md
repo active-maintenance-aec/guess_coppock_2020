@@ -18,7 +18,10 @@
 - [Maintained Rewrite Verification](#maintained-rewrite-verification)
 - [R Environment](#r-environment)
 
-**Archived at Zenodo:** [doi:10.5281/zenodo.24168395](https://doi.org/10.5281/zenodo.24168395). This DOI always resolves to the latest release of the maintained version.
+**Archived at Zenodo:**
+[doi:10.5281/zenodo.24168395](https://doi.org/10.5281/zenodo.24168395).
+This DOI always resolves to the latest release of the maintained
+version.
 
 *Drafted by Claude Opus 5 under the supervision of Alex Coppock.*
 
@@ -360,71 +363,71 @@ of the outcome distribution. No substantive conclusions depend on Table
 ## Ground Truth Verification
 
 | claim | value_script | value_paper | match | notes |
-|:---|:---|:---|---:|:---|
-| study1_N_total | 2122 | 2122 | 1 | Study 1 GfK sample N |
+|:---|:---|:---|:---|:---|
+| study1_N_total | 2122 | 2122 | TRUE | Study 1 GfK sample N |
 | study1_n_conditions | NA | 3 | NA | Three treatment conditions, one row per condition in the Table 1 output |
 | study1_table_1_cells | NA | 15 | NA | Deterministic cells of the corrigendum’s Table 1: Ns, means and SDs. 14 of 15 reproduce; the exception is the negative information SD of the composite scale, which the rewrite gives as 1.00 against a published 1.01 |
 | study1_table_1_boot_cells | NA | 12 | NA | Bootstrapped SE cells of the corrigendum’s Table 1. The deposit sets no seed anywhere, so each published cell is one unseeded draw and cannot be reproduced as a point value; 11 of 12 agree at the rewrite’s seed |
-| study1_N_control | 730 | 730 | 1 | Control group N |
-| study1_N_pos_info | 702 | 702 | 1 | Positive information group N |
-| study1_N_neg_info | 690 | 690 | 1 | Negative information group N |
-| study1_W2scale_control_mean | -0.03 | -0.03 | 1 | Control group mean composite scale; rewrite: -0.027 rounds to -0.03 |
-| study1_W2scale_pos_mean | 0.06 | 0.06 | 1 | Positive info mean composite scale; rewrite: 0.056 rounds to 0.06 |
-| study1_W2scale_neg_mean | 0.00 | 0.00 | 1 | Negative info mean composite scale; rewrite: 0.003 rounds to 0.00 |
+| study1_N_control | 730 | 730 | TRUE | Control group N |
+| study1_N_pos_info | 702 | 702 | TRUE | Positive information group N |
+| study1_N_neg_info | 690 | 690 | TRUE | Negative information group N |
+| study1_W2scale_control_mean | -0.03 | -0.03 | TRUE | Control group mean composite scale; rewrite: -0.027 rounds to -0.03 |
+| study1_W2scale_pos_mean | 0.06 | 0.06 | TRUE | Positive info mean composite scale; rewrite: 0.056 rounds to 0.06 |
+| study1_W2scale_neg_mean | 0.00 | 0.00 | TRUE | Negative info mean composite scale; rewrite: 0.003 rounds to 0.00 |
 | study1_W2Q1_control_mean | NA | 0.69 | NA | Control group mean gun control support |
 | study1_W2Q1_pos_mean | NA | 0.72 | NA | Positive information mean gun control support |
 | study1_W2Q1_neg_mean | NA | 0.62 | NA | Negative information mean gun control support |
-| study1_W2scale_control_sd | 0.04 | 1.02 | 0 | Corrigendum corrects SD: original/archive report SE of mean (~0.04) not SD (~1.02); rewrite computes weighted SD |
-| study1_W2scale_pos_sd | 0.04 | 0.99 | 0 | Corrigendum corrects SD: original/archive report SE of mean (~0.04) not SD (~0.99); rewrite computes weighted SD |
-| study1_W2scale_neg_sd | 0.04 | 1.01 | 0 | Corrigendum corrects SD: original/archive report SE of mean (~0.04) not SD (~1.01); rewrite gives 1.00 (rounds from 1.0046); corrigendum shows 1.01, a negligible rounding discrepancy in weighted SD formula |
-| study1_W2Q1_control_sd | 0.02 | 0.46 | 0 | Corrigendum corrects SD: original/archive report SE of mean (~0.02) not SD (~0.46); rewrite computes weighted SD |
-| study1_W2Q1_pos_sd | 0.02 | 0.45 | 0 | Corrigendum corrects SD: original/archive report SE of mean (~0.02) not SD (~0.45); rewrite computes weighted SD |
-| study1_W2Q1_neg_sd | 0.02 | 0.49 | 0 | Corrigendum corrects SD: original/archive report SE of mean (~0.02) not SD (~0.49); rewrite computes weighted SD |
+| study1_W2scale_control_sd | 0.04 | 1.02 | FALSE | Corrigendum corrects SD: original/archive report SE of mean (~0.04) not SD (~1.02); rewrite computes weighted SD |
+| study1_W2scale_pos_sd | 0.04 | 0.99 | FALSE | Corrigendum corrects SD: original/archive report SE of mean (~0.04) not SD (~0.99); rewrite computes weighted SD |
+| study1_W2scale_neg_sd | 0.04 | 1.01 | FALSE | Corrigendum corrects SD: original/archive report SE of mean (~0.04) not SD (~1.01); rewrite gives 1.00 (rounds from 1.0046); corrigendum shows 1.01, a negligible rounding discrepancy in weighted SD formula |
+| study1_W2Q1_control_sd | 0.02 | 0.46 | FALSE | Corrigendum corrects SD: original/archive report SE of mean (~0.02) not SD (~0.46); rewrite computes weighted SD |
+| study1_W2Q1_pos_sd | 0.02 | 0.45 | FALSE | Corrigendum corrects SD: original/archive report SE of mean (~0.02) not SD (~0.45); rewrite computes weighted SD |
+| study1_W2Q1_neg_sd | 0.02 | 0.49 | FALSE | Corrigendum corrects SD: original/archive report SE of mean (~0.02) not SD (~0.49); rewrite computes weighted SD |
 | study1_sds_do_not_vary | NA | NA | NA | Holds against the corrigendum’s own SD column: the composite scale SDs span 0.03 and the support SDs 0.04 across the three conditions |
-| study1_W2scale_opp_pos_unadj | 0.05 | 0.05 | 1 | Among opponents: pos info coef composite scale unadjusted; rewrite: 0.051 |
-| study1_W2scale_opp_neg_unadj | 0.04 | 0.04 | 1 | Among opponents: neg info coef composite scale unadjusted; rewrite: 0.039 |
-| study1_W2scale_opp_const_unadj | -0.91 | -0.91 | 1 | Among opponents: constant unadjusted; rewrite: -0.908 |
-| study1_W2scale_opp_pos_adj | 0.05 | 0.05 | 1 | Among opponents: pos info coef composite scale adjusted; rewrite: 0.049 |
-| study1_W2scale_opp_neg_adj | -0.003 | -0.003 | 1 | Among opponents: neg info coef composite scale adjusted; rewrite: -0.0026 |
-| study1_N_opponents | 718 | 718 | 1 | N opponents in Table 2 |
-| study1_W2scale_pro_pos_unadj | 0.06 | 0.06 | 1 | Among proponents: pos info coef composite scale unadjusted; rewrite: 0.055 |
-| study1_W2scale_pro_neg_unadj | 0.04 | 0.04 | 1 | Among proponents: neg info coef composite scale unadjusted; rewrite: 0.041 |
-| study1_W2scale_pro_const_unadj | 0.41 | 0.41 | 1 | Among proponents: constant unadjusted; rewrite: 0.413 |
-| study1_N_proponents | 1359 | 1359 | 1 | N proponents in Table 2 |
+| study1_W2scale_opp_pos_unadj | 0.05 | 0.05 | TRUE | Among opponents: pos info coef composite scale unadjusted; rewrite: 0.051 |
+| study1_W2scale_opp_neg_unadj | 0.04 | 0.04 | TRUE | Among opponents: neg info coef composite scale unadjusted; rewrite: 0.039 |
+| study1_W2scale_opp_const_unadj | -0.91 | -0.91 | TRUE | Among opponents: constant unadjusted; rewrite: -0.908 |
+| study1_W2scale_opp_pos_adj | 0.05 | 0.05 | TRUE | Among opponents: pos info coef composite scale adjusted; rewrite: 0.049 |
+| study1_W2scale_opp_neg_adj | -0.003 | -0.003 | TRUE | Among opponents: neg info coef composite scale adjusted; rewrite: -0.0026 |
+| study1_N_opponents | 718 | 718 | TRUE | N opponents in Table 2 |
+| study1_W2scale_pro_pos_unadj | 0.06 | 0.06 | TRUE | Among proponents: pos info coef composite scale unadjusted; rewrite: 0.055 |
+| study1_W2scale_pro_neg_unadj | 0.04 | 0.04 | TRUE | Among proponents: neg info coef composite scale unadjusted; rewrite: 0.041 |
+| study1_W2scale_pro_const_unadj | 0.41 | 0.41 | TRUE | Among proponents: constant unadjusted; rewrite: 0.413 |
+| study1_N_proponents | 1359 | 1359 | TRUE | N proponents in Table 2 |
 | study1_table_2_note_threshold | NA | 0.01 | NA | The Table 2 note reads three stars as p \> 0.01 where Table 3’s identical note reads p \< 0.01. The starred cells in Table 2 are those with small p-values, so the note as printed contradicts the table it annotates |
 | study1_table_3_reference | NA | 2 | NA | The text introduces the binary gun control support results as Table 2, which is the composite scale table; the binary support results are Table 3 |
-| study1_W2Q1_opp_pos_unadj | 0.03 | 0.03 | 1 | Among opponents: pos info coef W2_Q1 unadjusted; rewrite: 0.026 |
-| study1_W2Q1_opp_neg_unadj | -0.02 | -0.02 | 1 | Among opponents: neg info coef W2_Q1 unadjusted; rewrite: -0.019 |
-| study1_W2Q1_opp_pos_adj | 0.02 | 0.02 | 1 | Among opponents: pos info coef W2_Q1 adjusted; rewrite: 0.015 |
-| study1_W2Q1_opp_neg_adj | -0.03 | -0.03 | 1 | Among opponents: neg info coef W2_Q1 adjusted; rewrite: -0.032 |
-| study1_W2Q1_pro_pos_unadj | 0.01 | 0.01 | 1 | Among proponents: pos info coef W2_Q1 unadjusted; rewrite: 0.006 |
-| study1_W2Q1_pro_neg_unadj | -0.08 | -0.08 | 1 | Among proponents: neg info coef W2_Q1 unadjusted (significant); rewrite: -0.077 |
-| study1_W2Q1_pro_pos_adj | 0.01 | 0.01 | 1 | Among proponents: pos info coef W2_Q1 adjusted; rewrite: 0.008 |
-| study1_W2Q1_pro_neg_adj | -0.07 | -0.07 | 1 | Among proponents: neg info coef W2_Q1 adjusted (significant); rewrite: -0.071 |
-| study1_N_opp_Q1 | 724 | 724 | 1 | N opponents Table 3 |
-| study1_N_pro_Q1 | 1375 | 1375 | 1 | N proponents Table 3 |
+| study1_W2Q1_opp_pos_unadj | 0.03 | 0.03 | TRUE | Among opponents: pos info coef W2_Q1 unadjusted; rewrite: 0.026 |
+| study1_W2Q1_opp_neg_unadj | -0.02 | -0.02 | TRUE | Among opponents: neg info coef W2_Q1 unadjusted; rewrite: -0.019 |
+| study1_W2Q1_opp_pos_adj | 0.02 | 0.02 | TRUE | Among opponents: pos info coef W2_Q1 adjusted; rewrite: 0.015 |
+| study1_W2Q1_opp_neg_adj | -0.03 | -0.03 | TRUE | Among opponents: neg info coef W2_Q1 adjusted; rewrite: -0.032 |
+| study1_W2Q1_pro_pos_unadj | 0.01 | 0.01 | TRUE | Among proponents: pos info coef W2_Q1 unadjusted; rewrite: 0.006 |
+| study1_W2Q1_pro_neg_unadj | -0.08 | -0.08 | TRUE | Among proponents: neg info coef W2_Q1 unadjusted (significant); rewrite: -0.077 |
+| study1_W2Q1_pro_pos_adj | 0.01 | 0.01 | TRUE | Among proponents: pos info coef W2_Q1 adjusted; rewrite: 0.008 |
+| study1_W2Q1_pro_neg_adj | -0.07 | -0.07 | TRUE | Among proponents: neg info coef W2_Q1 adjusted (significant); rewrite: -0.071 |
+| study1_N_opp_Q1 | 724 | 724 | TRUE | N opponents Table 3 |
+| study1_N_pro_Q1 | 1375 | 1375 | TRUE | N proponents Table 3 |
 | study2_N_participated | NA | 1170 | NA | The text states 1,170 participants where Table 4’s own N column sums to 1,169, which is also the number of rows in the deposited Study 2 data |
 | study2_table_4_cells | NA | 49 | NA | Deterministic cells of Table 4: Ns, information content, means and SDs. All 49 reproduce |
 | study2_table_4_boot_cells | NA | 28 | NA | Bootstrapped SE cells of Table 4. The deposit sets no seed, so each published cell is one unseeded draw; 11 of 28 agree at the rewrite’s seed and every disagreement is one unit in the last printed digit |
-| study2_N_placebo | 93 | 93 | 1 | Study 2 Placebo group N |
-| study2_N_conyoung_conold | 162 | 162 | 1 | Con Young / Con Old group N |
-| study2_N_proold_conold | 165 | 165 | 1 | Pro Old / Con Old group N |
-| study2_N_proold_conyoung | 195 | 195 | 1 | Pro Old / Con Young group N |
-| study2_N_proyoung_conold | 169 | 169 | 1 | Pro Young / Con Old group N |
-| study2_N_proyoung_conyoung | 192 | 192 | 1 | Pro Young / Con Young group N |
-| study2_N_proyoung_proold | 193 | 193 | 1 | Pro Young / Pro Old group N |
+| study2_N_placebo | 93 | 93 | TRUE | Study 2 Placebo group N |
+| study2_N_conyoung_conold | 162 | 162 | TRUE | Con Young / Con Old group N |
+| study2_N_proold_conold | 165 | 165 | TRUE | Pro Old / Con Old group N |
+| study2_N_proold_conyoung | 195 | 195 | TRUE | Pro Old / Con Young group N |
+| study2_N_proyoung_conold | 169 | 169 | TRUE | Pro Young / Con Old group N |
+| study2_N_proyoung_conyoung | 192 | 192 | TRUE | Pro Young / Con Young group N |
+| study2_N_proyoung_proold | 193 | 193 | TRUE | Pro Young / Pro Old group N |
 | study2_placebo_sd_test | NA | 0.01 | NA | The deposit ships no randomization inference code, so the significance of the placebo versus Pro Old / Con Old SD difference has no counterpart anywhere in the archive or the rewrite |
-| study2_opp_pos_unadj | 0.43 | 0.43 | 1 | Opponents: pos info amount unadjusted; rewrite: 0.434 |
-| study2_opp_neg_unadj | -0.61 | -0.61 | 1 | Opponents: neg info amount unadjusted; rewrite: -0.611 |
-| study2_opp_pos_adj | 0.60 | 0.60 | 1 | Opponents: pos info amount adjusted; rewrite: 0.601 |
-| study2_opp_neg_adj | -0.70 | -0.70 | 1 | Opponents: neg info amount adjusted (significant); rewrite: -0.696 |
-| study2_pro_pos_unadj | 1.31 | 1.31 | 1 | Proponents: pos info amount unadjusted (significant); rewrite: 1.315 |
-| study2_pro_neg_unadj | -1.93 | -1.93 | 1 | Proponents: neg info amount unadjusted (significant); rewrite: -1.929 |
-| study2_pro_pos_adj | 1.40 | 1.40 | 1 | Proponents: pos info amount adjusted (significant); rewrite: 1.397 |
-| study2_pro_neg_adj | -1.70 | -1.70 | 1 | Proponents: neg info amount adjusted (significant); rewrite: -1.699 |
-| study2_N_opponents | 343 | 343 | 1 | N opponents Table 5 |
-| study2_N_proponents | 470 | 470 | 1 | N proponents Table 5 |
-| study2_N_moderates | 356 | 356 | 1 | N moderates Table 5 |
+| study2_opp_pos_unadj | 0.43 | 0.43 | TRUE | Opponents: pos info amount unadjusted; rewrite: 0.434 |
+| study2_opp_neg_unadj | -0.61 | -0.61 | TRUE | Opponents: neg info amount unadjusted; rewrite: -0.611 |
+| study2_opp_pos_adj | 0.60 | 0.60 | TRUE | Opponents: pos info amount adjusted; rewrite: 0.601 |
+| study2_opp_neg_adj | -0.70 | -0.70 | TRUE | Opponents: neg info amount adjusted (significant); rewrite: -0.696 |
+| study2_pro_pos_unadj | 1.31 | 1.31 | TRUE | Proponents: pos info amount unadjusted (significant); rewrite: 1.315 |
+| study2_pro_neg_unadj | -1.93 | -1.93 | TRUE | Proponents: neg info amount unadjusted (significant); rewrite: -1.929 |
+| study2_pro_pos_adj | 1.40 | 1.40 | TRUE | Proponents: pos info amount adjusted (significant); rewrite: 1.397 |
+| study2_pro_neg_adj | -1.70 | -1.70 | TRUE | Proponents: neg info amount adjusted (significant); rewrite: -1.699 |
+| study2_N_opponents | 343 | 343 | TRUE | N opponents Table 5 |
+| study2_N_proponents | 470 | 470 | TRUE | N proponents Table 5 |
+| study2_N_moderates | 356 | 356 | TRUE | N moderates Table 5 |
 | study2_favor_opp_pos_unadj | NA | 0.43 | NA | Published Table 6 reprints Table 5 cell for cell under the caption for the Favor outcome; the deposit’s own Table 6 block fits the Favor models, which give this value |
 | study2_favor_opp_neg_unadj | NA | -0.61 | NA | Published Table 6 reprints Table 5; the Favor model gives this value |
 | study2_favor_opp_pos_adj | NA | 0.60 | NA | Published Table 6 reprints Table 5; the Favor model gives this value |
@@ -444,36 +447,36 @@ of the outcome distribution. No substantive conclusions depend on Table
 | study3_N_opponents_text | NA | 396 | NA | The text states 396 opponents where Tables 8 and 9 report N = 395, which is also the number of opponents in the deposited data |
 | study3_table_7_cells | NA | 42 | NA | Deterministic cells of Table 7: Ns, information content, means and SDs. All 42 reproduce |
 | study3_table_7_boot_cells | NA | 24 | NA | Bootstrapped SE cells of Table 7. The deposit sets no seed, so each published cell is one unseeded draw; 20 of 24 agree at the rewrite’s seed |
-| study3_N_CC | 117 | 117 | 1 | Study 3 Con Con group N |
-| study3_N_CN | 116 | 116 | 1 | Study 3 Con Null group N |
-| study3_N_NN | 112 | 112 | 1 | Study 3 Null Null group N |
-| study3_N_PC | 118 | 118 | 1 | Study 3 Pro Con group N |
-| study3_N_PN | 121 | 121 | 1 | Study 3 Pro Null group N |
-| study3_N_PP | 102 | 102 | 1 | Study 3 Pro Pro group N |
+| study3_N_CC | 117 | 117 | TRUE | Study 3 Con Con group N |
+| study3_N_CN | 116 | 116 | TRUE | Study 3 Con Null group N |
+| study3_N_NN | 112 | 112 | TRUE | Study 3 Null Null group N |
+| study3_N_PC | 118 | 118 | TRUE | Study 3 Pro Con group N |
+| study3_N_PN | 121 | 121 | TRUE | Study 3 Pro Null group N |
+| study3_N_PP | 102 | 102 | TRUE | Study 3 Pro Pro group N |
 | study3_n_conditions | NA | 6 | NA | Six treatment conditions, one row per condition in the Table 7 output |
 | study3_propro_score | NA | 2 | NA | Positive information content of two Pro reports |
 | study3_pronull_score | NA | 1 | NA | Positive information content of one Pro and one Null report |
 | study3_sd_test_level | NA | 0.05 | NA | The deposit ships no randomization inference code, so this test has no counterpart in the archive or the rewrite |
 | study3_sd_test_pvalue | NA | 0.04 | NA | The deposit ships no randomization inference code, so this p-value has no counterpart in the archive or the rewrite |
 | study3_n_endline_dvs | NA | 2 | NA | Two endline dependent variables, one per Study 3 regression table |
-| study3_pro_pos_unadj | 0.05 | 0.05 | 1 | Proponents: pos info support unadjusted; rewrite: 0.048 |
-| study3_pro_neg_unadj | -0.27 | -0.27 | 1 | Proponents: neg info support unadjusted (significant); rewrite: -0.267 |
-| study3_pro_pos_adj | 0.01 | 0.01 | 1 | Proponents: pos info support adjusted; rewrite: 0.015 |
-| study3_pro_neg_adj | -0.33 | -0.33 | 1 | Proponents: neg info support adjusted (significant); rewrite: -0.326 |
-| study3_opp_pos_unadj | 0.12 | 0.12 | 1 | Opponents: pos info support unadjusted; rewrite: 0.116 |
-| study3_opp_neg_unadj | 0.01 | 0.01 | 1 | Opponents: neg info support unadjusted; rewrite: 0.009 |
-| study3_opp_pos_adj | 0.07 | 0.07 | 1 | Opponents: pos info support adjusted; rewrite: 0.074 |
-| study3_opp_neg_adj | -0.04 | -0.04 | 1 | Opponents: neg info support adjusted; rewrite: -0.040 |
-| study3_N_proponents | 287 | 287 | 1 | N proponents Table 8 |
-| study3_N_opponents | 395 | 395 | 1 | N opponents Table 8 |
-| study3_pro_pos_unadj_deter | 0.15 | 0.15 | 1 | Proponents: pos info deterrence unadjusted; rewrite: 0.146 |
-| study3_pro_neg_unadj_deter | -0.35 | -0.35 | 1 | Proponents: neg info deterrence unadjusted (significant); rewrite: -0.347 |
-| study3_pro_pos_adj_deter | 0.12 | 0.12 | 1 | Proponents: pos info deterrence adjusted; rewrite: 0.118 |
-| study3_pro_neg_adj_deter | -0.36 | -0.36 | 1 | Proponents: neg info deterrence adjusted (significant); rewrite: -0.361 |
-| study3_opp_pos_unadj_deter | 0.35 | 0.35 | 1 | Opponents: pos info deterrence unadjusted (significant); rewrite: 0.349 |
-| study3_opp_neg_unadj_deter | -0.16 | -0.16 | 1 | Opponents: neg info deterrence unadjusted; rewrite: -0.164 |
-| study3_opp_pos_adj_deter | 0.31 | 0.31 | 1 | Opponents: pos info deterrence adjusted (significant); rewrite: 0.312 |
-| study3_opp_neg_adj_deter | -0.20 | -0.20 | 1 | Opponents: neg info deterrence adjusted (significant); rewrite: -0.205 |
+| study3_pro_pos_unadj | 0.05 | 0.05 | TRUE | Proponents: pos info support unadjusted; rewrite: 0.048 |
+| study3_pro_neg_unadj | -0.27 | -0.27 | TRUE | Proponents: neg info support unadjusted (significant); rewrite: -0.267 |
+| study3_pro_pos_adj | 0.01 | 0.01 | TRUE | Proponents: pos info support adjusted; rewrite: 0.015 |
+| study3_pro_neg_adj | -0.33 | -0.33 | TRUE | Proponents: neg info support adjusted (significant); rewrite: -0.326 |
+| study3_opp_pos_unadj | 0.12 | 0.12 | TRUE | Opponents: pos info support unadjusted; rewrite: 0.116 |
+| study3_opp_neg_unadj | 0.01 | 0.01 | TRUE | Opponents: neg info support unadjusted; rewrite: 0.009 |
+| study3_opp_pos_adj | 0.07 | 0.07 | TRUE | Opponents: pos info support adjusted; rewrite: 0.074 |
+| study3_opp_neg_adj | -0.04 | -0.04 | TRUE | Opponents: neg info support adjusted; rewrite: -0.040 |
+| study3_N_proponents | 287 | 287 | TRUE | N proponents Table 8 |
+| study3_N_opponents | 395 | 395 | TRUE | N opponents Table 8 |
+| study3_pro_pos_unadj_deter | 0.15 | 0.15 | TRUE | Proponents: pos info deterrence unadjusted; rewrite: 0.146 |
+| study3_pro_neg_unadj_deter | -0.35 | -0.35 | TRUE | Proponents: neg info deterrence unadjusted (significant); rewrite: -0.347 |
+| study3_pro_pos_adj_deter | 0.12 | 0.12 | TRUE | Proponents: pos info deterrence adjusted; rewrite: 0.118 |
+| study3_pro_neg_adj_deter | -0.36 | -0.36 | TRUE | Proponents: neg info deterrence adjusted (significant); rewrite: -0.361 |
+| study3_opp_pos_unadj_deter | 0.35 | 0.35 | TRUE | Opponents: pos info deterrence unadjusted (significant); rewrite: 0.349 |
+| study3_opp_neg_unadj_deter | -0.16 | -0.16 | TRUE | Opponents: neg info deterrence unadjusted; rewrite: -0.164 |
+| study3_opp_pos_adj_deter | 0.31 | 0.31 | TRUE | Opponents: pos info deterrence adjusted (significant); rewrite: 0.312 |
+| study3_opp_neg_adj_deter | -0.20 | -0.20 | TRUE | Opponents: neg info deterrence adjusted (significant); rewrite: -0.205 |
 | study3_text_pro_pos_adj | NA | 0.015 | NA | Proponents: positive information on support, covariate adjusted, at the three decimals the text prints |
 | study3_text_opp_pos_adj | NA | 0.068 | NA | The text prints 0.068 where the deposited specification gives 0.074. Both round to the 0.07 that Table 8 prints, so the disagreement is visible only at the text’s own precision. Dropping race from the covariate set gives 0.086, so the text’s figure comes from neither specification |
 | study3_text_pro_neg_adj | NA | -0.326 | NA | Proponents: negative information on support, covariate adjusted, at the three decimals the text prints |
@@ -484,8 +487,8 @@ of the outcome distribution. No substantive conclusions depend on Table
 | study3_subject_type_test | NA | 0.05 | NA | The deposit fits no model interacting treatment with subject type, so this test has no counterpart in the archive or the rewrite |
 | study3_deterrence_swing | NA | NA | NA | Holds: the same computation on Table 9 gives 0.96 scale points for proponents and 1.03 for opponents |
 | n_estimates_total | NA | 24 | NA | Treatment effect estimates plotted in Figure 1 |
-| n_correctly_signed | 23 | 23 | 1 | 23 of 24 treatment effect estimates correctly signed |
-| binom_test_pvalue | 0.00000298 | 0.001 | 1 | Binomial test p \< 0.001 (exact: 2.98e-06) |
+| n_correctly_signed | 23 | 23 | TRUE | 23 of 24 treatment effect estimates correctly signed |
+| binom_test_pvalue | 0.00000298 | 0.001 | TRUE | Binomial test p \< 0.001 (exact: 2.98e-06) |
 | n_sig_at_05 | NA | 11 | NA | Figure 1 estimates significant at the 0.05 level |
 | pct_pos_te_under_pos_treatment | 99.0 | 93 | NA | DOES NOT HOLD. The deposited script sets no seed, so the published 93 per cent is one unseeded draw and the comparison is against the distribution rather than against a point. Across ten seeds the rewrite runs 97.7 to 99.6 per cent and 93 lies below every one of them. The error runs against the article’s own interest: a higher share correctly signed is stronger evidence of homogeneity. The archive was deposited in June 2018 when dbarts 0.9-3 was current, and dbarts NEWS records four later repairs to multithreaded sampling, so the gap may belong to the sampler rather than to the analysis. |
 | pct_neg_te_under_neg_treatment | 76.6 | 77 | NA | HOLDS. The deposited script sets no seed, so the published 77 per cent is one unseeded draw. Across ten seeds the rewrite runs 75.6 to 79.5 per cent and 77 sits near the middle. |
@@ -545,41 +548,48 @@ ground truth agree about what the article printed, and that every
 adverse row carries a `defect_locus` while no clean match does. It runs
 from `run_all.R` and halts the run on any failure.
 
-**This repository has no `build_ground_truth.R`.** Its ground truth was
-written by hand, so the rule that such a file be generated from the
-pipeline is not met here, and that should be read as a limitation of
-this repository rather than as a property of the archive. The gate
-closes the channel that matters most: sourcing the second instrument and
-comparing what it prints against the committed `value_rewrite` column
-makes every hand-typed rewrite value auditable against a live
-recomputation.
+**This repository has no `build_ground_truth.R`.** The values in its
+ground truth were written by hand, so the rule that such a file be
+generated from the pipeline is not met here, and that should be read as
+a limitation of this repository rather than as a property of the
+archive. The gate closes the channel that matters most: sourcing the
+second instrument and comparing what it prints against the committed
+`value_rewrite` column makes every hand-typed rewrite value auditable
+against a live recomputation. The gate also writes the columns that
+restate another file, so they are never typed: each row’s `location`,
+`claim_type`, and `digits` are copied from the extraction, and its
+`disposition` is `corrected_here` exactly when an errata entry names it.
+It writes `ground_truth/float_coverage.csv`, which the table below
+reads.
 
-| Float    | Published numbers | Ground truth rows |
-|:---------|------------------:|------------------:|
-| figure_1 |                24 |                 5 |
-| figure_2 |                 2 |                 3 |
-| table_1  |                27 |                19 |
-| table_2  |                32 |                11 |
-| table_3  |                32 |                11 |
-| table_4  |                77 |                 9 |
-| table_5  |                60 |                11 |
-| table_6  |                60 |                14 |
-| table_7  |                66 |                11 |
-| table_8  |                40 |                10 |
-| table_9  |                40 |                 9 |
+| Float    | Published numbers | Covered | Reproduced by the rewrite | Plotted |
+|:---------|------------------:|--------:|--------------------------:|--------:|
+| Table 1  |                27 |      27 |                        25 |      NA |
+| Table 2  |                32 |      10 |                        10 |      NA |
+| Table 3  |                32 |      10 |                        10 |      NA |
+| Table 4  |                77 |      77 |                        60 |      NA |
+| Table 5  |                60 |      11 |                        11 |      NA |
+| Table 6  |                60 |      12 |                         0 |      NA |
+| Table 7  |                66 |      66 |                        62 |      NA |
+| Table 8  |                40 |      10 |                        10 |      NA |
+| Table 9  |                40 |       8 |                         8 |      NA |
+| Figure 1 |                 0 |       0 |                         0 |      24 |
+| Figure 2 |                 0 |       0 |                         0 |   15668 |
 
-Published numbers per float, against the ground truth rows that reach
-them
+Published numbers per float, against the numbers the ground truth
+reaches
 
 Coverage is not even. Tables 1, 4 and 7 are covered cell by cell, all
 170 of their published numbers, through
 `ground_truth/published_condition_cells.csv`. The six regression tables
 are covered at their coefficient estimates and sample sizes rather than
 at their standard errors, constants and R-squareds, which is between a
-fifth and a third of what each prints. Figure 1’s five rows are the
-summary statistics the text quotes from it; the twenty-four estimates it
-plots are the covariate-adjusted columns of the six regression tables,
-and are checked there.
+sixth and a third of what each prints. Neither figure prints a number on
+its face, so each is counted by what it plots. Figure 1’s twenty-four
+estimates are the covariate-adjusted columns of the six regression
+tables, and are checked there; Figure 2 plots one BART estimate per
+subject from a deposit that sets no seed, so none of its points can be
+compared.
 
 ------------------------------------------------------------------------
 
@@ -731,125 +741,125 @@ sits below every one of the ten runs, whose minimum is 0.977.
 
 ## Maintained Rewrite Verification
 
-| table_figure | claim | value_paper | value_rewrite | match_rewrite | notes |
-|:---|:---|:---|:---|---:|:---|
-| text | study1_N_total | 2122 | 2122 | 1 | Study 1 GfK sample N |
-| table_1 | study1_n_conditions | 3 | 3 | 1 | Three treatment conditions, one row per condition in the Table 1 output |
-| table_1 | study1_table_1_cells | 15 | 14 | 0 | Deterministic cells of the corrigendum’s Table 1: Ns, means and SDs. 14 of 15 reproduce; the exception is the negative information SD of the composite scale, which the rewrite gives as 1.00 against a published 1.01 |
-| table_1 | study1_table_1_boot_cells | 12 | 11 | 0 | Bootstrapped SE cells of the corrigendum’s Table 1. The deposit sets no seed anywhere, so each published cell is one unseeded draw and cannot be reproduced as a point value; 11 of 12 agree at the rewrite’s seed |
-| table_1 | study1_N_control | 730 | 730 | 1 | Control group N |
-| table_1 | study1_N_pos_info | 702 | 702 | 1 | Positive information group N |
-| table_1 | study1_N_neg_info | 690 | 690 | 1 | Negative information group N |
-| table_1 | study1_W2scale_control_mean | -0.03 | -0.03 | 1 | Control group mean composite scale; rewrite: -0.027 rounds to -0.03 |
-| table_1 | study1_W2scale_pos_mean | 0.06 | 0.06 | 1 | Positive info mean composite scale; rewrite: 0.056 rounds to 0.06 |
-| table_1 | study1_W2scale_neg_mean | 0.00 | 0.00 | 1 | Negative info mean composite scale; rewrite: 0.003 rounds to 0.00 |
-| table_1 | study1_W2Q1_control_mean | 0.69 | 0.685956837159691 | 1 | Control group mean gun control support |
-| table_1 | study1_W2Q1_pos_mean | 0.72 | 0.715065174203077 | 1 | Positive information mean gun control support |
-| table_1 | study1_W2Q1_neg_mean | 0.62 | 0.621435706191726 | 1 | Negative information mean gun control support |
-| table_1 | study1_W2scale_control_sd | 1.02 | 1.02 | 1 | Corrigendum corrects SD: original/archive report SE of mean (~0.04) not SD (~1.02); rewrite computes weighted SD |
-| table_1 | study1_W2scale_pos_sd | 0.99 | 0.99 | 1 | Corrigendum corrects SD: original/archive report SE of mean (~0.04) not SD (~0.99); rewrite computes weighted SD |
-| table_1 | study1_W2scale_neg_sd | 1.01 | 1.00 | 0 | Corrigendum corrects SD: original/archive report SE of mean (~0.04) not SD (~1.01); rewrite gives 1.00 (rounds from 1.0046); corrigendum shows 1.01, a negligible rounding discrepancy in weighted SD formula |
-| table_1 | study1_W2Q1_control_sd | 0.46 | 0.46 | 1 | Corrigendum corrects SD: original/archive report SE of mean (~0.02) not SD (~0.46); rewrite computes weighted SD |
-| table_1 | study1_W2Q1_pos_sd | 0.45 | 0.45 | 1 | Corrigendum corrects SD: original/archive report SE of mean (~0.02) not SD (~0.45); rewrite computes weighted SD |
-| table_1 | study1_W2Q1_neg_sd | 0.49 | 0.49 | 1 | Corrigendum corrects SD: original/archive report SE of mean (~0.02) not SD (~0.49); rewrite computes weighted SD |
-| table_2 | study1_W2scale_opp_pos_unadj | 0.05 | 0.05 | 1 | Among opponents: pos info coef composite scale unadjusted; rewrite: 0.051 |
-| table_2 | study1_W2scale_opp_neg_unadj | 0.04 | 0.04 | 1 | Among opponents: neg info coef composite scale unadjusted; rewrite: 0.039 |
-| table_2 | study1_W2scale_opp_const_unadj | -0.91 | -0.91 | 1 | Among opponents: constant unadjusted; rewrite: -0.908 |
-| table_2 | study1_W2scale_opp_pos_adj | 0.05 | 0.05 | 1 | Among opponents: pos info coef composite scale adjusted; rewrite: 0.049 |
-| table_2 | study1_W2scale_opp_neg_adj | -0.003 | -0.003 | 1 | Among opponents: neg info coef composite scale adjusted; rewrite: -0.0026 |
-| table_2 | study1_N_opponents | 718 | 718 | 1 | N opponents in Table 2 |
-| table_2 | study1_W2scale_pro_pos_unadj | 0.06 | 0.06 | 1 | Among proponents: pos info coef composite scale unadjusted; rewrite: 0.055 |
-| table_2 | study1_W2scale_pro_neg_unadj | 0.04 | 0.04 | 1 | Among proponents: neg info coef composite scale unadjusted; rewrite: 0.041 |
-| table_2 | study1_W2scale_pro_const_unadj | 0.41 | 0.41 | 1 | Among proponents: constant unadjusted; rewrite: 0.413 |
-| table_2 | study1_N_proponents | 1359 | 1359 | 1 | N proponents in Table 2 |
-| table_3 | study1_W2Q1_opp_pos_unadj | 0.03 | 0.03 | 1 | Among opponents: pos info coef W2_Q1 unadjusted; rewrite: 0.026 |
-| table_3 | study1_W2Q1_opp_neg_unadj | -0.02 | -0.02 | 1 | Among opponents: neg info coef W2_Q1 unadjusted; rewrite: -0.019 |
-| table_3 | study1_W2Q1_opp_pos_adj | 0.02 | 0.02 | 1 | Among opponents: pos info coef W2_Q1 adjusted; rewrite: 0.015 |
-| table_3 | study1_W2Q1_opp_neg_adj | -0.03 | -0.03 | 1 | Among opponents: neg info coef W2_Q1 adjusted; rewrite: -0.032 |
-| table_3 | study1_W2Q1_pro_pos_unadj | 0.01 | 0.01 | 1 | Among proponents: pos info coef W2_Q1 unadjusted; rewrite: 0.006 |
-| table_3 | study1_W2Q1_pro_neg_unadj | -0.08 | -0.08 | 1 | Among proponents: neg info coef W2_Q1 unadjusted (significant); rewrite: -0.077 |
-| table_3 | study1_W2Q1_pro_pos_adj | 0.01 | 0.01 | 1 | Among proponents: pos info coef W2_Q1 adjusted; rewrite: 0.008 |
-| table_3 | study1_W2Q1_pro_neg_adj | -0.07 | -0.07 | 1 | Among proponents: neg info coef W2_Q1 adjusted (significant); rewrite: -0.071 |
-| table_3 | study1_N_opp_Q1 | 724 | 724 | 1 | N opponents Table 3 |
-| table_3 | study1_N_pro_Q1 | 1375 | 1375 | 1 | N proponents Table 3 |
-| text | study2_N_participated | 1170 | 1169 | 0 | The text states 1,170 participants where Table 4’s own N column sums to 1,169, which is also the number of rows in the deposited Study 2 data |
-| table_4 | study2_table_4_cells | 49 | 49 | 1 | Deterministic cells of Table 4: Ns, information content, means and SDs. All 49 reproduce |
-| table_4 | study2_table_4_boot_cells | 28 | 11 | 0 | Bootstrapped SE cells of Table 4. The deposit sets no seed, so each published cell is one unseeded draw; 11 of 28 agree at the rewrite’s seed and every disagreement is one unit in the last printed digit |
-| table_4 | study2_N_placebo | 93 | 93 | 1 | Study 2 Placebo group N |
-| table_4 | study2_N_conyoung_conold | 162 | 162 | 1 | Con Young / Con Old group N |
-| table_4 | study2_N_proold_conold | 165 | 165 | 1 | Pro Old / Con Old group N |
-| table_4 | study2_N_proold_conyoung | 195 | 195 | 1 | Pro Old / Con Young group N |
-| table_4 | study2_N_proyoung_conold | 169 | 169 | 1 | Pro Young / Con Old group N |
-| table_4 | study2_N_proyoung_conyoung | 192 | 192 | 1 | Pro Young / Con Young group N |
-| table_4 | study2_N_proyoung_proold | 193 | 193 | 1 | Pro Young / Pro Old group N |
-| table_5 | study2_opp_pos_unadj | 0.43 | 0.43 | 1 | Opponents: pos info amount unadjusted; rewrite: 0.434 |
-| table_5 | study2_opp_neg_unadj | -0.61 | -0.61 | 1 | Opponents: neg info amount unadjusted; rewrite: -0.611 |
-| table_5 | study2_opp_pos_adj | 0.60 | 0.60 | 1 | Opponents: pos info amount adjusted; rewrite: 0.601 |
-| table_5 | study2_opp_neg_adj | -0.70 | -0.70 | 1 | Opponents: neg info amount adjusted (significant); rewrite: -0.696 |
-| table_5 | study2_pro_pos_unadj | 1.31 | 1.31 | 1 | Proponents: pos info amount unadjusted (significant); rewrite: 1.315 |
-| table_5 | study2_pro_neg_unadj | -1.93 | -1.93 | 1 | Proponents: neg info amount unadjusted (significant); rewrite: -1.929 |
-| table_5 | study2_pro_pos_adj | 1.40 | 1.40 | 1 | Proponents: pos info amount adjusted (significant); rewrite: 1.397 |
-| table_5 | study2_pro_neg_adj | -1.70 | -1.70 | 1 | Proponents: neg info amount adjusted (significant); rewrite: -1.699 |
-| table_5 | study2_N_opponents | 343 | 343 | 1 | N opponents Table 5 |
-| table_5 | study2_N_proponents | 470 | 470 | 1 | N proponents Table 5 |
-| table_5 | study2_N_moderates | 356 | 356 | 1 | N moderates Table 5 |
-| table_6 | study2_favor_opp_pos_unadj | 0.43 | 0.859844271412679 | 0 | Published Table 6 reprints Table 5 cell for cell under the caption for the Favor outcome; the deposit’s own Table 6 block fits the Favor models, which give this value |
-| table_6 | study2_favor_opp_neg_unadj | -0.61 | -0.0165224232887488 | 0 | Published Table 6 reprints Table 5; the Favor model gives this value |
-| table_6 | study2_favor_opp_pos_adj | 0.60 | 0.768682328279265 | 0 | Published Table 6 reprints Table 5; the Favor model gives this value |
-| table_6 | study2_favor_opp_neg_adj | -0.70 | -0.129624763814162 | 0 | Published Table 6 reprints Table 5; the Favor model gives this value |
-| table_6 | study2_favor_mod_pos_unadj | 1.88 | 0.563795072605646 | 0 | Published Table 6 reprints Table 5; the Favor model gives this value |
-| table_6 | study2_favor_mod_neg_unadj | -0.83 | -0.626221030453936 | 0 | Published Table 6 reprints Table 5; the Favor model gives this value |
-| table_6 | study2_favor_mod_pos_adj | 1.51 | 0.552637743075569 | 0 | Published Table 6 reprints Table 5; the Favor model gives this value |
-| table_6 | study2_favor_mod_neg_adj | -0.93 | -0.656614927913443 | 0 | Published Table 6 reprints Table 5; the Favor model gives this value |
-| table_6 | study2_favor_pro_pos_unadj | 1.31 | 0.286669340820966 | 0 | Published Table 6 reprints Table 5; the Favor model gives this value |
-| table_6 | study2_favor_pro_neg_unadj | -1.93 | -0.556293622141997 | 0 | Published Table 6 reprints Table 5; the Favor model gives this value |
-| table_6 | study2_favor_pro_pos_adj | 1.40 | 0.345014136725256 | 0 | Published Table 6 reprints Table 5; the Favor model gives this value. Figure 1 plots this estimate rather than the one Table 6 prints |
-| table_6 | study2_favor_pro_neg_adj | -1.70 | -0.484836737342731 | 0 | Published Table 6 reprints Table 5; the Favor model gives this value. Figure 1 plots this estimate rather than the one Table 6 prints |
-| text | study3_N_main | 683 | 686 | 0 | The text states 683 participants where Table 7’s own N column sums to 686, which is also the number of rows in the deposited Study 3 data |
-| text | study3_N_proponents_text | 287 | 287 | 1 | Proponents in the Study 3 main survey |
-| text | study3_N_opponents_text | 396 | 395 | 0 | The text states 396 opponents where Tables 8 and 9 report N = 395, which is also the number of opponents in the deposited data |
-| table_7 | study3_table_7_cells | 42 | 42 | 1 | Deterministic cells of Table 7: Ns, information content, means and SDs. All 42 reproduce |
-| table_7 | study3_table_7_boot_cells | 24 | 20 | 0 | Bootstrapped SE cells of Table 7. The deposit sets no seed, so each published cell is one unseeded draw; 20 of 24 agree at the rewrite’s seed |
-| table_7 | study3_N_CC | 117 | 117 | 1 | Study 3 Con Con group N |
-| table_7 | study3_N_CN | 116 | 116 | 1 | Study 3 Con Null group N |
-| table_7 | study3_N_NN | 112 | 112 | 1 | Study 3 Null Null group N |
-| table_7 | study3_N_PC | 118 | 118 | 1 | Study 3 Pro Con group N |
-| table_7 | study3_N_PN | 121 | 121 | 1 | Study 3 Pro Null group N |
-| table_7 | study3_N_PP | 102 | 102 | 1 | Study 3 Pro Pro group N |
-| table_7 | study3_n_conditions | 6 | 6 | 1 | Six treatment conditions, one row per condition in the Table 7 output |
-| table_7 | study3_propro_score | 2 | 2 | 1 | Positive information content of two Pro reports |
-| table_7 | study3_pronull_score | 1 | 1 | 1 | Positive information content of one Pro and one Null report |
-| text | study3_n_endline_dvs | 2 | 2 | 1 | Two endline dependent variables, one per Study 3 regression table |
-| table_8 | study3_pro_pos_unadj | 0.05 | 0.05 | 1 | Proponents: pos info support unadjusted; rewrite: 0.048 |
-| table_8 | study3_pro_neg_unadj | -0.27 | -0.27 | 1 | Proponents: neg info support unadjusted (significant); rewrite: -0.267 |
-| table_8 | study3_pro_pos_adj | 0.01 | 0.01 | 1 | Proponents: pos info support adjusted; rewrite: 0.015 |
-| table_8 | study3_pro_neg_adj | -0.33 | -0.33 | 1 | Proponents: neg info support adjusted (significant); rewrite: -0.326 |
-| table_8 | study3_opp_pos_unadj | 0.12 | 0.12 | 1 | Opponents: pos info support unadjusted; rewrite: 0.116 |
-| table_8 | study3_opp_neg_unadj | 0.01 | 0.01 | 1 | Opponents: neg info support unadjusted; rewrite: 0.009 |
-| table_8 | study3_opp_pos_adj | 0.07 | 0.07 | 1 | Opponents: pos info support adjusted; rewrite: 0.074 |
-| table_8 | study3_opp_neg_adj | -0.04 | -0.04 | 1 | Opponents: neg info support adjusted; rewrite: -0.040 |
-| table_8 | study3_N_proponents | 287 | 287 | 1 | N proponents Table 8 |
-| table_8 | study3_N_opponents | 395 | 395 | 1 | N opponents Table 8 |
-| table_9 | study3_pro_pos_unadj_deter | 0.15 | 0.15 | 1 | Proponents: pos info deterrence unadjusted; rewrite: 0.146 |
-| table_9 | study3_pro_neg_unadj_deter | -0.35 | -0.35 | 1 | Proponents: neg info deterrence unadjusted (significant); rewrite: -0.347 |
-| table_9 | study3_pro_pos_adj_deter | 0.12 | 0.12 | 1 | Proponents: pos info deterrence adjusted; rewrite: 0.118 |
-| table_9 | study3_pro_neg_adj_deter | -0.36 | -0.36 | 1 | Proponents: neg info deterrence adjusted (significant); rewrite: -0.361 |
-| table_9 | study3_opp_pos_unadj_deter | 0.35 | 0.35 | 1 | Opponents: pos info deterrence unadjusted (significant); rewrite: 0.349 |
-| table_9 | study3_opp_neg_unadj_deter | -0.16 | -0.16 | 1 | Opponents: neg info deterrence unadjusted; rewrite: -0.164 |
-| table_9 | study3_opp_pos_adj_deter | 0.31 | 0.31 | 1 | Opponents: pos info deterrence adjusted (significant); rewrite: 0.312 |
-| table_9 | study3_opp_neg_adj_deter | -0.20 | -0.20 | 1 | Opponents: neg info deterrence adjusted (significant); rewrite: -0.205 |
-| text | study3_text_pro_pos_adj | 0.015 | 0.0147188472655291 | 1 | Proponents: positive information on support, covariate adjusted, at the three decimals the text prints |
-| text | study3_text_opp_pos_adj | 0.068 | 0.0739778101879583 | 0 | The text prints 0.068 where the deposited specification gives 0.074. Both round to the 0.07 that Table 8 prints, so the disagreement is visible only at the text’s own precision. Dropping race from the covariate set gives 0.086, so the text’s figure comes from neither specification |
-| text | study3_text_pro_neg_adj | -0.326 | -0.326248527919576 | 1 | Proponents: negative information on support, covariate adjusted, at the three decimals the text prints |
-| text | study3_text_opp_neg_adj | -0.042 | -0.039517816867248 | 0 | The text prints -0.042 where the deposited specification gives -0.040. Both round to the -0.04 that Table 8 prints |
-| text | study3_text_opp_neg_pvalue | 0.43 | 0.462278884588384 | 0 | The text prints p = 0.43 where the deposited specification gives 0.46 |
-| text | study3_text_pro_swing | 0.682 | 0.682 | 1 | Twice the sum of the two covariate-adjusted proponent coefficients, as the text computes it |
-| text | study3_text_opp_swing | 0.220 | 0.228 | 0 | Twice the sum of the two covariate-adjusted opponent coefficients, each at the three decimals the sentence prints, gives 2*0.074 + 2*0.040 = 0.228 (0.227 from the unrounded coefficients), not the 0.220 the text prints; it inherits the two coefficient errors above |
-| figure_1 | n_estimates_total | 24 | 24 | 1 | Treatment effect estimates plotted in Figure 1 |
-| figure_1 | n_correctly_signed | 23 | 23 | 1 | 23 of 24 treatment effect estimates correctly signed |
-| figure_1 | binom_test_pvalue | 0.001 | 0.00000298 | 1 | Binomial test p \< 0.001 (exact: 2.98e-06) |
-| figure_1 | n_sig_at_05 | 11 | 11 | 1 | Figure 1 estimates significant at the 0.05 level |
-| figure_1 | figure_1_interval | 95 | 95 | 1 | Confidence level recovered from the plotted interval, the estimate, its standard error and the residual degrees of freedom |
+| location | claim | value_paper | value_rewrite | match_rewrite | notes |
+|:---|:---|:---|:---|:---|:---|
+| Study 1: Procedure, p. 1501 | study1_N_total | 2122 | 2122 | TRUE | Study 1 GfK sample N |
+| Study 1: Procedure, p. 1501 | study1_n_conditions | 3 | 3 | TRUE | Three treatment conditions, one row per condition in the Table 1 output |
+| Table 1, p. 1502 and corrigendum p. 1517 | study1_table_1_cells | 15 | 14 | FALSE | Deterministic cells of the corrigendum’s Table 1: Ns, means and SDs. 14 of 15 reproduce; the exception is the negative information SD of the composite scale, which the rewrite gives as 1.00 against a published 1.01 |
+| Table 1, p. 1502 and corrigendum p. 1517 | study1_table_1_boot_cells | 12 | 11 | FALSE | Bootstrapped SE cells of the corrigendum’s Table 1. The deposit sets no seed anywhere, so each published cell is one unseeded draw and cannot be reproduced as a point value; 11 of 12 agree at the rewrite’s seed |
+| Table 1, p. 1502 | study1_N_control | 730 | 730 | TRUE | Control group N |
+| Table 1, p. 1502 | study1_N_pos_info | 702 | 702 | TRUE | Positive information group N |
+| Table 1, p. 1502 | study1_N_neg_info | 690 | 690 | TRUE | Negative information group N |
+| Table 1, p. 1502 | study1_W2scale_control_mean | -0.03 | -0.03 | TRUE | Control group mean composite scale; rewrite: -0.027 rounds to -0.03 |
+| Table 1, p. 1502 | study1_W2scale_pos_mean | 0.06 | 0.06 | TRUE | Positive info mean composite scale; rewrite: 0.056 rounds to 0.06 |
+| Table 1, p. 1502 | study1_W2scale_neg_mean | 0.00 | 0.00 | TRUE | Negative info mean composite scale; rewrite: 0.003 rounds to 0.00 |
+| Table 1, p. 1502 | study1_W2Q1_control_mean | 0.69 | 0.685956837159691 | TRUE | Control group mean gun control support |
+| Table 1, p. 1502 | study1_W2Q1_pos_mean | 0.72 | 0.715065174203077 | TRUE | Positive information mean gun control support |
+| Table 1, p. 1502 | study1_W2Q1_neg_mean | 0.62 | 0.621435706191726 | TRUE | Negative information mean gun control support |
+| Corrigendum, p. 1517 | study1_W2scale_control_sd | 1.02 | 1.02 | TRUE | Corrigendum corrects SD: original/archive report SE of mean (~0.04) not SD (~1.02); rewrite computes weighted SD |
+| Corrigendum, p. 1517 | study1_W2scale_pos_sd | 0.99 | 0.99 | TRUE | Corrigendum corrects SD: original/archive report SE of mean (~0.04) not SD (~0.99); rewrite computes weighted SD |
+| Corrigendum, p. 1517 | study1_W2scale_neg_sd | 1.01 | 1.00 | FALSE | Corrigendum corrects SD: original/archive report SE of mean (~0.04) not SD (~1.01); rewrite gives 1.00 (rounds from 1.0046); corrigendum shows 1.01, a negligible rounding discrepancy in weighted SD formula |
+| Corrigendum, p. 1517 | study1_W2Q1_control_sd | 0.46 | 0.46 | TRUE | Corrigendum corrects SD: original/archive report SE of mean (~0.02) not SD (~0.46); rewrite computes weighted SD |
+| Corrigendum, p. 1517 | study1_W2Q1_pos_sd | 0.45 | 0.45 | TRUE | Corrigendum corrects SD: original/archive report SE of mean (~0.02) not SD (~0.45); rewrite computes weighted SD |
+| Corrigendum, p. 1517 | study1_W2Q1_neg_sd | 0.49 | 0.49 | TRUE | Corrigendum corrects SD: original/archive report SE of mean (~0.02) not SD (~0.49); rewrite computes weighted SD |
+| Table 2, p. 1502 | study1_W2scale_opp_pos_unadj | 0.05 | 0.05 | TRUE | Among opponents: pos info coef composite scale unadjusted; rewrite: 0.051 |
+| Table 2, p. 1502 | study1_W2scale_opp_neg_unadj | 0.04 | 0.04 | TRUE | Among opponents: neg info coef composite scale unadjusted; rewrite: 0.039 |
+| Table 2, p. 1502 | study1_W2scale_opp_const_unadj | -0.91 | -0.91 | TRUE | Among opponents: constant unadjusted; rewrite: -0.908 |
+| Table 2, p. 1502 | study1_W2scale_opp_pos_adj | 0.05 | 0.05 | TRUE | Among opponents: pos info coef composite scale adjusted; rewrite: 0.049 |
+| Table 2, p. 1502 | study1_W2scale_opp_neg_adj | -0.003 | -0.003 | TRUE | Among opponents: neg info coef composite scale adjusted; rewrite: -0.0026 |
+| Table 2, p. 1502 | study1_N_opponents | 718 | 718 | TRUE | N opponents in Table 2 |
+| Table 2, p. 1502 | study1_W2scale_pro_pos_unadj | 0.06 | 0.06 | TRUE | Among proponents: pos info coef composite scale unadjusted; rewrite: 0.055 |
+| Table 2, p. 1502 | study1_W2scale_pro_neg_unadj | 0.04 | 0.04 | TRUE | Among proponents: neg info coef composite scale unadjusted; rewrite: 0.041 |
+| Table 2, p. 1502 | study1_W2scale_pro_const_unadj | 0.41 | 0.41 | TRUE | Among proponents: constant unadjusted; rewrite: 0.413 |
+| Table 2, p. 1502 | study1_N_proponents | 1359 | 1359 | TRUE | N proponents in Table 2 |
+| Table 3, p. 1503 | study1_W2Q1_opp_pos_unadj | 0.03 | 0.03 | TRUE | Among opponents: pos info coef W2_Q1 unadjusted; rewrite: 0.026 |
+| Table 3, p. 1503 | study1_W2Q1_opp_neg_unadj | -0.02 | -0.02 | TRUE | Among opponents: neg info coef W2_Q1 unadjusted; rewrite: -0.019 |
+| Table 3, p. 1503 | study1_W2Q1_opp_pos_adj | 0.02 | 0.02 | TRUE | Among opponents: pos info coef W2_Q1 adjusted; rewrite: 0.015 |
+| Table 3, p. 1503 | study1_W2Q1_opp_neg_adj | -0.03 | -0.03 | TRUE | Among opponents: neg info coef W2_Q1 adjusted; rewrite: -0.032 |
+| Table 3, p. 1503 | study1_W2Q1_pro_pos_unadj | 0.01 | 0.01 | TRUE | Among proponents: pos info coef W2_Q1 unadjusted; rewrite: 0.006 |
+| Table 3, p. 1503 | study1_W2Q1_pro_neg_unadj | -0.08 | -0.08 | TRUE | Among proponents: neg info coef W2_Q1 unadjusted (significant); rewrite: -0.077 |
+| Table 3, p. 1503 | study1_W2Q1_pro_pos_adj | 0.01 | 0.01 | TRUE | Among proponents: pos info coef W2_Q1 adjusted; rewrite: 0.008 |
+| Table 3, p. 1503 | study1_W2Q1_pro_neg_adj | -0.07 | -0.07 | TRUE | Among proponents: neg info coef W2_Q1 adjusted (significant); rewrite: -0.071 |
+| Table 3, p. 1503 | study1_N_opp_Q1 | 724 | 724 | TRUE | N opponents Table 3 |
+| Table 3, p. 1503 | study1_N_pro_Q1 | 1375 | 1375 | TRUE | N proponents Table 3 |
+| Study 2: Procedure, p. 1504 | study2_N_participated | 1170 | 1169 | FALSE | The text states 1,170 participants where Table 4’s own N column sums to 1,169, which is also the number of rows in the deposited Study 2 data |
+| Table 4, p. 1505 | study2_table_4_cells | 49 | 49 | TRUE | Deterministic cells of Table 4: Ns, information content, means and SDs. All 49 reproduce |
+| Table 4, p. 1505 | study2_table_4_boot_cells | 28 | 11 | FALSE | Bootstrapped SE cells of Table 4. The deposit sets no seed, so each published cell is one unseeded draw; 11 of 28 agree at the rewrite’s seed and every disagreement is one unit in the last printed digit |
+| Table 4, p. 1505 | study2_N_placebo | 93 | 93 | TRUE | Study 2 Placebo group N |
+| Table 4, p. 1505 | study2_N_conyoung_conold | 162 | 162 | TRUE | Con Young / Con Old group N |
+| Table 4, p. 1505 | study2_N_proold_conold | 165 | 165 | TRUE | Pro Old / Con Old group N |
+| Table 4, p. 1505 | study2_N_proold_conyoung | 195 | 195 | TRUE | Pro Old / Con Young group N |
+| Table 4, p. 1505 | study2_N_proyoung_conold | 169 | 169 | TRUE | Pro Young / Con Old group N |
+| Table 4, p. 1505 | study2_N_proyoung_conyoung | 192 | 192 | TRUE | Pro Young / Con Young group N |
+| Table 4, p. 1505 | study2_N_proyoung_proold | 193 | 193 | TRUE | Pro Young / Pro Old group N |
+| Table 5, p. 1505 | study2_opp_pos_unadj | 0.43 | 0.43 | TRUE | Opponents: pos info amount unadjusted; rewrite: 0.434 |
+| Table 5, p. 1505 | study2_opp_neg_unadj | -0.61 | -0.61 | TRUE | Opponents: neg info amount unadjusted; rewrite: -0.611 |
+| Table 5, p. 1505 | study2_opp_pos_adj | 0.60 | 0.60 | TRUE | Opponents: pos info amount adjusted; rewrite: 0.601 |
+| Table 5, p. 1505 | study2_opp_neg_adj | -0.70 | -0.70 | TRUE | Opponents: neg info amount adjusted (significant); rewrite: -0.696 |
+| Table 5, p. 1505 | study2_pro_pos_unadj | 1.31 | 1.31 | TRUE | Proponents: pos info amount unadjusted (significant); rewrite: 1.315 |
+| Table 5, p. 1505 | study2_pro_neg_unadj | -1.93 | -1.93 | TRUE | Proponents: neg info amount unadjusted (significant); rewrite: -1.929 |
+| Table 5, p. 1505 | study2_pro_pos_adj | 1.40 | 1.40 | TRUE | Proponents: pos info amount adjusted (significant); rewrite: 1.397 |
+| Table 5, p. 1505 | study2_pro_neg_adj | -1.70 | -1.70 | TRUE | Proponents: neg info amount adjusted (significant); rewrite: -1.699 |
+| Table 5, p. 1505 | study2_N_opponents | 343 | 343 | TRUE | N opponents Table 5 |
+| Table 5, p. 1505 | study2_N_proponents | 470 | 470 | TRUE | N proponents Table 5 |
+| Table 5, p. 1505 | study2_N_moderates | 356 | 356 | TRUE | N moderates Table 5 |
+| Table 6, p. 1506 | study2_favor_opp_pos_unadj | 0.43 | 0.859844271412679 | FALSE | Published Table 6 reprints Table 5 cell for cell under the caption for the Favor outcome; the deposit’s own Table 6 block fits the Favor models, which give this value |
+| Table 6, p. 1506 | study2_favor_opp_neg_unadj | -0.61 | -0.0165224232887488 | FALSE | Published Table 6 reprints Table 5; the Favor model gives this value |
+| Table 6, p. 1506 | study2_favor_opp_pos_adj | 0.60 | 0.768682328279265 | FALSE | Published Table 6 reprints Table 5; the Favor model gives this value |
+| Table 6, p. 1506 | study2_favor_opp_neg_adj | -0.70 | -0.129624763814162 | FALSE | Published Table 6 reprints Table 5; the Favor model gives this value |
+| Table 6, p. 1506 | study2_favor_mod_pos_unadj | 1.88 | 0.563795072605646 | FALSE | Published Table 6 reprints Table 5; the Favor model gives this value |
+| Table 6, p. 1506 | study2_favor_mod_neg_unadj | -0.83 | -0.626221030453936 | FALSE | Published Table 6 reprints Table 5; the Favor model gives this value |
+| Table 6, p. 1506 | study2_favor_mod_pos_adj | 1.51 | 0.552637743075569 | FALSE | Published Table 6 reprints Table 5; the Favor model gives this value |
+| Table 6, p. 1506 | study2_favor_mod_neg_adj | -0.93 | -0.656614927913443 | FALSE | Published Table 6 reprints Table 5; the Favor model gives this value |
+| Table 6, p. 1506 | study2_favor_pro_pos_unadj | 1.31 | 0.286669340820966 | FALSE | Published Table 6 reprints Table 5; the Favor model gives this value |
+| Table 6, p. 1506 | study2_favor_pro_neg_unadj | -1.93 | -0.556293622141997 | FALSE | Published Table 6 reprints Table 5; the Favor model gives this value |
+| Table 6, p. 1506 | study2_favor_pro_pos_adj | 1.40 | 0.345014136725256 | FALSE | Published Table 6 reprints Table 5; the Favor model gives this value. Figure 1 plots this estimate rather than the one Table 6 prints |
+| Table 6, p. 1506 | study2_favor_pro_neg_adj | -1.70 | -0.484836737342731 | FALSE | Published Table 6 reprints Table 5; the Favor model gives this value. Figure 1 plots this estimate rather than the one Table 6 prints |
+| Study 3, p. 1506 | study3_N_main | 683 | 686 | FALSE | The text states 683 participants where Table 7’s own N column sums to 686, which is also the number of rows in the deposited Study 3 data |
+| Study 3, p. 1506 | study3_N_proponents_text | 287 | 287 | TRUE | Proponents in the Study 3 main survey |
+| Study 3, p. 1506 | study3_N_opponents_text | 396 | 395 | FALSE | The text states 396 opponents where Tables 8 and 9 report N = 395, which is also the number of opponents in the deposited data |
+| Table 7, p. 1507 | study3_table_7_cells | 42 | 42 | TRUE | Deterministic cells of Table 7: Ns, information content, means and SDs. All 42 reproduce |
+| Table 7, p. 1507 | study3_table_7_boot_cells | 24 | 20 | FALSE | Bootstrapped SE cells of Table 7. The deposit sets no seed, so each published cell is one unseeded draw; 20 of 24 agree at the rewrite’s seed |
+| Table 7, p. 1507 | study3_N_CC | 117 | 117 | TRUE | Study 3 Con Con group N |
+| Table 7, p. 1507 | study3_N_CN | 116 | 116 | TRUE | Study 3 Con Null group N |
+| Table 7, p. 1507 | study3_N_NN | 112 | 112 | TRUE | Study 3 Null Null group N |
+| Table 7, p. 1507 | study3_N_PC | 118 | 118 | TRUE | Study 3 Pro Con group N |
+| Table 7, p. 1507 | study3_N_PN | 121 | 121 | TRUE | Study 3 Pro Null group N |
+| Table 7, p. 1507 | study3_N_PP | 102 | 102 | TRUE | Study 3 Pro Pro group N |
+| Study 3: Procedure, p. 1507 | study3_n_conditions | 6 | 6 | TRUE | Six treatment conditions, one row per condition in the Table 7 output |
+| Study 3: Procedure, p. 1507 | study3_propro_score | 2 | 2 | TRUE | Positive information content of two Pro reports |
+| Study 3: Procedure, p. 1507 | study3_pronull_score | 1 | 1 | TRUE | Positive information content of one Pro and one Null report |
+| Study 3: Analytic Strategy, p. 1507 | study3_n_endline_dvs | 2 | 2 | TRUE | Two endline dependent variables, one per Study 3 regression table |
+| Table 8, p. 1508 | study3_pro_pos_unadj | 0.05 | 0.05 | TRUE | Proponents: pos info support unadjusted; rewrite: 0.048 |
+| Table 8, p. 1508 | study3_pro_neg_unadj | -0.27 | -0.27 | TRUE | Proponents: neg info support unadjusted (significant); rewrite: -0.267 |
+| Table 8, p. 1508 | study3_pro_pos_adj | 0.01 | 0.01 | TRUE | Proponents: pos info support adjusted; rewrite: 0.015 |
+| Table 8, p. 1508 | study3_pro_neg_adj | -0.33 | -0.33 | TRUE | Proponents: neg info support adjusted (significant); rewrite: -0.326 |
+| Table 8, p. 1508 | study3_opp_pos_unadj | 0.12 | 0.12 | TRUE | Opponents: pos info support unadjusted; rewrite: 0.116 |
+| Table 8, p. 1508 | study3_opp_neg_unadj | 0.01 | 0.01 | TRUE | Opponents: neg info support unadjusted; rewrite: 0.009 |
+| Table 8, p. 1508 | study3_opp_pos_adj | 0.07 | 0.07 | TRUE | Opponents: pos info support adjusted; rewrite: 0.074 |
+| Table 8, p. 1508 | study3_opp_neg_adj | -0.04 | -0.04 | TRUE | Opponents: neg info support adjusted; rewrite: -0.040 |
+| Table 8, p. 1508 | study3_N_proponents | 287 | 287 | TRUE | N proponents Table 8 |
+| Table 8, p. 1508 | study3_N_opponents | 395 | 395 | TRUE | N opponents Table 8 |
+| Table 9, p. 1508 | study3_pro_pos_unadj_deter | 0.15 | 0.15 | TRUE | Proponents: pos info deterrence unadjusted; rewrite: 0.146 |
+| Table 9, p. 1508 | study3_pro_neg_unadj_deter | -0.35 | -0.35 | TRUE | Proponents: neg info deterrence unadjusted (significant); rewrite: -0.347 |
+| Table 9, p. 1508 | study3_pro_pos_adj_deter | 0.12 | 0.12 | TRUE | Proponents: pos info deterrence adjusted; rewrite: 0.118 |
+| Table 9, p. 1508 | study3_pro_neg_adj_deter | -0.36 | -0.36 | TRUE | Proponents: neg info deterrence adjusted (significant); rewrite: -0.361 |
+| Table 9, p. 1508 | study3_opp_pos_unadj_deter | 0.35 | 0.35 | TRUE | Opponents: pos info deterrence unadjusted (significant); rewrite: 0.349 |
+| Table 9, p. 1508 | study3_opp_neg_unadj_deter | -0.16 | -0.16 | TRUE | Opponents: neg info deterrence unadjusted; rewrite: -0.164 |
+| Table 9, p. 1508 | study3_opp_pos_adj_deter | 0.31 | 0.31 | TRUE | Opponents: pos info deterrence adjusted (significant); rewrite: 0.312 |
+| Table 9, p. 1508 | study3_opp_neg_adj_deter | -0.20 | -0.20 | TRUE | Opponents: neg info deterrence adjusted (significant); rewrite: -0.205 |
+| Study 3: Results, p. 1509 | study3_text_pro_pos_adj | 0.015 | 0.0147188472655291 | TRUE | Proponents: positive information on support, covariate adjusted, at the three decimals the text prints |
+| Study 3: Results, p. 1509 | study3_text_opp_pos_adj | 0.068 | 0.0739778101879583 | FALSE | The text prints 0.068 where the deposited specification gives 0.074. Both round to the 0.07 that Table 8 prints, so the disagreement is visible only at the text’s own precision. Dropping race from the covariate set gives 0.086, so the text’s figure comes from neither specification |
+| Study 3: Results, p. 1509 | study3_text_pro_neg_adj | -0.326 | -0.326248527919576 | TRUE | Proponents: negative information on support, covariate adjusted, at the three decimals the text prints |
+| Study 3: Results, p. 1509 | study3_text_opp_neg_adj | -0.042 | -0.039517816867248 | FALSE | The text prints -0.042 where the deposited specification gives -0.040. Both round to the -0.04 that Table 8 prints |
+| Study 3: Results, p. 1509 | study3_text_opp_neg_pvalue | 0.43 | 0.462278884588384 | FALSE | The text prints p = 0.43 where the deposited specification gives 0.46 |
+| Study 3: Results, p. 1509 | study3_text_pro_swing | 0.682 | 0.682 | TRUE | Twice the sum of the two covariate-adjusted proponent coefficients, as the text computes it |
+| Study 3: Results, p. 1509 | study3_text_opp_swing | 0.220 | 0.228 | FALSE | Twice the sum of the two covariate-adjusted opponent coefficients, each at the three decimals the sentence prints, gives 2*0.074 + 2*0.040 = 0.228 (0.227 from the unrounded coefficients), not the 0.220 the text prints; it inherits the two coefficient errors above |
+| Summary of Results, p. 1509 | n_estimates_total | 24 | 24 | TRUE | Treatment effect estimates plotted in Figure 1 |
+| Summary of Results, p. 1509 | n_correctly_signed | 23 | 23 | TRUE | 23 of 24 treatment effect estimates correctly signed |
+| Summary of Results, p. 1509 | binom_test_pvalue | 0.001 | 0.00000298 | TRUE | Binomial test p \< 0.001 (exact: 2.98e-06) |
+| Summary of Results, p. 1509 | n_sig_at_05 | 11 | 11 | TRUE | Figure 1 estimates significant at the 0.05 level |
+| Figure 1 caption, p. 1510 | figure_1_interval | 95 | 95 | TRUE | Confidence level recovered from the plotted interval, the estimate, its standard error and the residual degrees of freedom |
 
 Rewrite verification: 93 of 117 claims match published values
 
@@ -860,16 +870,16 @@ the maintained rewrite.
 
 ## R Environment
 
-| Package    | Version    |
-|:-----------|:-----------|
-| tidyverse  | 2.0.0      |
-| estimatr   | 2.0.1.9000 |
-| rsample    | 1.3.2      |
-| dbarts     | 0.9.33     |
-| knitr      | 1.51       |
-| kableExtra | 1.4.0      |
-| here       | 1.0.2      |
+| Package    | Version |
+|:-----------|:--------|
+| tidyverse  | 2.0.0   |
+| estimatr   | 2.0.1   |
+| rsample    | 1.3.2   |
+| dbarts     | 0.9.34  |
+| knitr      | 1.52    |
+| kableExtra | 1.4.1   |
+| here       | 1.0.2   |
 
 Key package versions
 
-R version: R version 4.6.1 (2026-06-24)
+R version: R version 4.6.2 (2026-10-29)

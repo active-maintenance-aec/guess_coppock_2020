@@ -72,11 +72,11 @@ Required packages: tidyverse, estimatr, rsample, dbarts, knitr, kableExtra, here
 # value_paper is the string the article prints and is forced to character in every
 # reader. Guessed as double it comes back as 0 where the article printed 0.00, and
 # the printed precision is what every comparison in this repository depends on.
-gt_cols <- cols(.default = col_character(), value_paper = col_character())
+gt_cols <- cols(.default = col_character(), value_paper = col_character(),
+                match = col_logical(), match_rewrite = col_logical(), holds = col_logical())
 
 gt_all <- read_csv(here("ground_truth", "guess_coppock_2020_ground_truth.csv"),
-                   col_types = gt_cols) |>
-  mutate(across(c(match, match_rewrite, holds), as.numeric))
+                   col_types = gt_cols)
 seed_df <- read_csv(here("maintained", "output", "text_bart_seed_sensitivity.csv"),
                     show_col_types = FALSE)
 bart_now <- read_csv(here("maintained", "output", "figure_2_bart.csv"),
@@ -285,34 +285,22 @@ k
 
 `ground_truth/claims_gate.R` is what makes that pair a check rather than two documents. It reads `in_text_claims.R` as a program, not as text: it sources the file into its own environment, captures what it prints, and asserts that the number of printed claims equals the number the extraction declares, that the two sets of claim identifiers are equal in both directions, that every printed value matches the ground truth's own rewrite value at that claim's precision, that the extraction and the ground truth agree about what the article printed, and that every adverse row carries a `defect_locus` while no clean match does. It runs from `run_all.R` and halts the run on any failure.
 
-**This repository has no `build_ground_truth.R`.** Its ground truth was written by hand, so the rule that such a file be generated from the pipeline is not met here, and that should be read as a limitation of this repository rather than as a property of the archive. The gate closes the channel that matters most: sourcing the second instrument and comparing what it prints against the committed `value_rewrite` column makes every hand-typed rewrite value auditable against a live recomputation.
+**This repository has no `build_ground_truth.R`.** The values in its ground truth were written by hand, so the rule that such a file be generated from the pipeline is not met here, and that should be read as a limitation of this repository rather than as a property of the archive. The gate closes the channel that matters most: sourcing the second instrument and comparing what it prints against the committed `value_rewrite` column makes every hand-typed rewrite value auditable against a live recomputation. The gate also writes the columns that restate another file, so they are never typed: each row's `location`, `claim_type`, and `digits` are copied from the extraction, and its `disposition` is `corrected_here` exactly when an errata entry names it. It writes `ground_truth/float_coverage.csv`, which the table below reads.
 
 ```{r coverage-table}
-float_cells <- tibble::tribble(
-  ~table_figure, ~published_numbers,
-  "table_1", 27, "table_2", 32, "table_3", 32, "table_4", 77,
-  "table_5", 60, "table_6", 60, "table_7", 66, "table_8", 40,
-  "table_9", 40, "figure_1", 24, "figure_2", 2
-)
-
-cov_df <- gt_all |>
-  filter(table_figure %in% float_cells$table_figure) |>
-  summarise(rows = n(), .by = table_figure) |>
-  right_join(float_cells, by = "table_figure") |>
-  mutate(rows = tidyr::replace_na(rows, 0L)) |>
-  arrange(table_figure, .locale = "en") |>
-  transmute(Float = table_figure, `Published numbers` = published_numbers,
-            `Ground truth rows` = rows)
+cov_df <- read_csv(here("ground_truth", "float_coverage.csv"), show_col_types = FALSE) |>
+  transmute(Float = float, `Published numbers` = published_numbers, Covered = covered,
+            `Reproduced by the rewrite` = reproduced_by_rewrite, Plotted = plotted)
 
 k <- kable(cov_df, booktabs = TRUE,
-           caption = "Published numbers per float, against the ground truth rows that reach them")
+           caption = "Published numbers per float, against the numbers the ground truth reaches")
 if (latex_out) {
   k <- kable_styling(k, latex_options = c("striped", "hold_position"))
 }
 k
 ```
 
-Coverage is not even. Tables 1, 4 and 7 are covered cell by cell, all `r n_det_cells + n_boot_cells` of their published numbers, through `ground_truth/published_condition_cells.csv`. The six regression tables are covered at their coefficient estimates and sample sizes rather than at their standard errors, constants and R-squareds, which is between a fifth and a third of what each prints. Figure 1's five rows are the summary statistics the text quotes from it; the twenty-four estimates it plots are the covariate-adjusted columns of the six regression tables, and are checked there.
+Coverage is not even. Tables 1, 4 and 7 are covered cell by cell, all `r n_det_cells + n_boot_cells` of their published numbers, through `ground_truth/published_condition_cells.csv`. The six regression tables are covered at their coefficient estimates and sample sizes rather than at their standard errors, constants and R-squareds, which is between a sixth and a third of what each prints. Neither figure prints a number on its face, so each is counted by what it plots. Figure 1's twenty-four estimates are the covariate-adjusted columns of the six regression tables, and are checked there; Figure 2 plots one BART estimate per subject from a deposit that sets no seed, so none of its points can be compared.
 
 ---
 
@@ -437,7 +425,7 @@ gt <- gt_all
 
 rv <- gt |>
   filter(!is.na(match_rewrite)) |>
-  select(any_of(c("table_figure", "claim", "value_paper", "value_rewrite", "match_rewrite", "notes")))
+  select(any_of(c("location", "claim", "value_paper", "value_rewrite", "match_rewrite", "notes")))
 
 k <- kable(rv, booktabs = TRUE, digits = 4,
            caption = paste0("Rewrite verification: ", sum(rv$match_rewrite == 1, na.rm=TRUE),

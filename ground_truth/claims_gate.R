@@ -1,17 +1,25 @@
 # guess_coppock_2020/ground_truth/claims_gate.R
-# Output: printed summary only; no files
+# Output: ground_truth/guess_coppock_2020_ground_truth.csv (its derived columns),
+#   ground_truth/float_coverage.csv
 # Depends on: ground_truth/published_claims.csv, ground_truth/published_condition_cells.csv,
-#   ground_truth/guess_coppock_2020_ground_truth.csv, maintained/in_text_claims.R
+#   ground_truth/guess_coppock_2020_ground_truth.csv, errata_entries.csv,
+#   maintained/in_text_claims.R, maintained/output/
 # Description: The coverage gate. It halts the run if the extraction, the ground
 #   truth and the second instrument disagree about which claims the article makes,
 #   about what the article printed, or about what the pipeline produces.
 #
-#   This repository has no build_ground_truth.R: its ground truth was written by
-#   hand, so Stage 2's rule that the file be generated is not met here. A gate is
-#   still buildable and closes the channel that matters most. Sourcing
+#   This repository has no build_ground_truth.R: the values in its ground truth were
+#   written by hand, so Stage 2's rule that the file be generated is not met here. A
+#   gate is still buildable and closes the channel that matters most. Sourcing
 #   in_text_claims.R and comparing what it prints against the committed
 #   value_rewrite column makes every hand-typed rewrite value auditable against a
 #   live recomputation, which is the check a generator would otherwise provide.
+#
+#   The columns that restate another file are not typed. location, claim_type, and
+#   digits are copied from the extraction, and disposition is computed from the
+#   errata spine and the judgments below, so this script rewrites the ground truth
+#   with those columns derived and leaves every hand-typed column as it read it.
+#   It also writes float_coverage.csv.
 
 library(here)
 here::i_am("ground_truth/claims_gate.R")
@@ -28,8 +36,9 @@ claims <- read_csv(here::here("ground_truth", "published_claims.csv"),
 
 gt <- read_csv(here::here("ground_truth", "guess_coppock_2020_ground_truth.csv"),
                col_types = cols(.default = col_character(),
-                                value_paper = col_character())) |>
-  mutate(across(c(match, match_rewrite, holds), as.numeric))
+                                value_paper = col_character(),
+                                match = col_logical(), match_rewrite = col_logical(),
+                                holds = col_logical()))
 
 cells <- read_csv(here::here("ground_truth", "published_condition_cells.csv"),
                   col_types = cols(.default = col_character(),
@@ -55,11 +64,11 @@ stopifnot(all(transcription$agrees))
 
 # The locus rule, three states. An adverse row must carry a defect_locus, a clean
 # match must not, and a row with no verdict may.
-adverse <- (!is.na(gt$match) & gt$match == 0) |
-  (!is.na(gt$match_rewrite) & gt$match_rewrite == 0) |
-  (!is.na(gt$holds) & gt$holds == 0)
-clean <- !is.na(gt$match_rewrite) & gt$match_rewrite == 1 &
-  (is.na(gt$match) | gt$match == 1) & (is.na(gt$holds) | gt$holds == 1)
+adverse <- (!is.na(gt$match) & !gt$match) |
+  (!is.na(gt$match_rewrite) & !gt$match_rewrite) |
+  (!is.na(gt$holds) & !gt$holds)
+clean <- !is.na(gt$match_rewrite) & gt$match_rewrite &
+  (is.na(gt$match) | gt$match) & (is.na(gt$holds) | gt$holds)
 stopifnot(all(!is.na(gt$defect_locus[adverse])), all(is.na(gt$defect_locus[clean])))
 stopifnot(all(na.omit(gt$defect_locus) %in%
                 c("paper_internal", "archive", "environment", "rewrite", "unresolved")))
@@ -95,7 +104,7 @@ cross_check <- printed |>
   inner_join(gt |> select(claim_id, value_rewrite, holds), by = "claim_id") |>
   inner_join(claims |> select(claim_id, claim_type, digits), by = "claim_id") |>
   mutate(
-    expected = if_else(claim_type == "descriptive", holds, as.numeric(value_rewrite)),
+    expected = if_else(claim_type == "descriptive", as.numeric(holds), as.numeric(value_rewrite)),
     digits = if_else(claim_type == "descriptive", 0L, digits),
     gt_printed = if_else(is.na(expected), "NA", sprintf(paste0("%.", digits, "f"), expected)),
     agrees = printed_value == gt_printed
@@ -105,72 +114,193 @@ if (any(!cross_check$agrees)) print(filter(cross_check, !agrees), n = Inf, width
 stopifnot(length(setdiff(required_rows, cross_check$claim_id)) == 0,
           all(cross_check$agrees))
 
-# Float coverage. Every published float gets at least one ground-truth row, and
-# the fraction of its published numbers that the ground truth reaches is stated
-# rather than assumed. Tables 1, 4 and 7 are covered cell by cell through
-# published_condition_cells.csv; the six regression tables are covered at their
-# estimates rather than their standard errors, constants and fit statistics.
-float_cells <- tribble(
-  ~table_figure, ~published_numbers,
-  "table_1", 27, "table_2", 32, "table_3", 32, "table_4", 77,
-  "table_5", 60, "table_6", 60, "table_7", 66, "table_8", 40,
-  "table_9", 40, "figure_1", 24, "figure_2", 2
+# Errata spine ----
+# errata.qmd names, for each published entry, the ground truth rows that entry
+# corrects. An id that no longer exists is a typo or a renamed claim, and a dangling
+# reference in a document whose whole purpose is correcting the record is worse than
+# a gate that refuses to finish.
+errata <- read_csv(here::here("errata_entries.csv"),
+                   col_types = cols(.default = col_character()))
+
+spine_ids <- function(rows) {
+  ids <- rows$claim_ids |> str_split(";") |> unlist() |> str_trim()
+  ids[!is.na(ids) & ids != ""]
+}
+
+errata_ids <- spine_ids(errata)
+dangling_errata_ids <- setdiff(errata_ids, gt$claim_id)
+if (length(dangling_errata_ids) > 0) {
+  stop("errata_entries.csv lists claim ids absent from the ground truth: ",
+       str_c(dangling_errata_ids, collapse = ", "))
+}
+print(str_glue("Errata spine: {length(unique(errata_ids))} distinct claim ids ",
+               "listed, all present in the ground truth."))
+
+# A note (form == "note") quotes a passage and proposes no change to it, so the rows it
+# names are documented there and not corrected. Only the corrections count as
+# corrected_here.
+corrected_ids <- spine_ids(filter(errata, form != "note"))
+
+# Columns copied from the extraction ----
+# Every ground truth row has an extraction row (the coverage check above), so location,
+# claim_type, and digits are read from there and never typed twice. The extraction's
+# digits are the precision the article prints, except for the two BART percentages and
+# the binomial p-value, whose overrides the extraction's notes explain.
+gt <- gt |>
+  select(-any_of(c("location", "claim_type", "digits"))) |>
+  left_join(select(claims, claim_id, location, claim_type, digits), by = "claim_id")
+
+stopifnot(!anyNA(gt$location), !anyNA(gt$claim_type), !anyNA(gt$digits))
+
+# Disposition: what became of each defect ----
+# corrected_here is computed from the errata spine and never typed. Every other
+# judgment is one the repository's README, report or errata already make, keyed by
+# claim id; a defect nobody has judged stays NA.
+corrigendum_reason <- str_c(
+  "The authors' corrigendum (British Journal of Political Science 50(4), 1517) corrects ",
+  "Table 1's standard deviations; the deposit still computes the standard error of the ",
+  "mean, as the README's Table 1 section records."
+)
+disposition_judgments <- tribble(
+  ~claim_id, ~judgment, ~disposition_reason,
+  "study1_W2scale_control_sd", "corrected_by_journal", corrigendum_reason,
+  "study1_W2scale_pos_sd", "corrected_by_journal", corrigendum_reason,
+  "study1_W2Q1_control_sd", "corrected_by_journal", corrigendum_reason,
+  "study1_W2Q1_pos_sd", "corrected_by_journal", corrigendum_reason,
+  "study1_W2Q1_neg_sd", "corrected_by_journal", corrigendum_reason,
+  "pct_pos_te_under_pos_treatment", "not_corrected",
+    str_c("Errata entry 12 carries the sentence as a note and corrects nothing: the ",
+          "deposited BART script sets no seed, so no single corrected value exists.")
+)
+stopifnot(all(disposition_judgments$claim_id %in% gt$claim_id))
+
+gt <- gt |>
+  select(-any_of(c("disposition", "disposition_reason"))) |>
+  left_join(disposition_judgments, by = "claim_id") |>
+  mutate(
+    disposition = case_when(
+      is.na(defect_locus) ~ NA_character_,
+      claim_id %in% corrected_ids ~ "corrected_here",
+      .default = judgment
+    ),
+    disposition_reason = if_else(is.na(disposition) | disposition == "corrected_here",
+                                 NA_character_, disposition_reason)
+  ) |>
+  select(-judgment)
+
+# A judgment on a row with no defect, or a correction of a row with none, is a typo.
+stopifnot(all(!is.na(gt$defect_locus[gt$claim_id %in% c(disposition_judgments$claim_id,
+                                                          corrected_ids)])))
+
+undisposed <- gt |> filter(defect_locus == "paper_internal", is.na(disposition))
+if (nrow(undisposed) > 0) {
+  print(undisposed |> select(claim_id, location, claim), n = nrow(undisposed))
+  stop(str_glue("{nrow(undisposed)} paper_internal rows carry no disposition."))
+}
+print(gt |> filter(!is.na(defect_locus)) |> count(defect_locus, disposition))
+
+# Float coverage ----
+# One row per published float. A table's published_numbers is the count of numbers it
+# prints. Tables 1, 4 and 7 are covered cell by cell through
+# published_condition_cells.csv, so what they cover and reproduce is read from their
+# summary rows in the ground truth. The six regression tables are covered at their
+# estimates and sample sizes rather than their standard errors, constants, and fit
+# statistics, through the ground truth rows the extraction locates on the table itself.
+# Neither figure prints a number on its face; what each carries is a count of plotted
+# quantities.
+f1 <- read_csv(here::here("maintained", "output", "figure_1_cate_estimates.csv"),
+               show_col_types = FALSE)
+f2 <- read_csv(here::here("maintained", "output", "figure_2_bart.csv"),
+               show_col_types = FALSE)
+
+float_numbers <- tribble(
+  ~float, ~published_numbers,
+  "Table 1", 27L, "Table 2", 32L, "Table 3", 32L, "Table 4", 77L, "Table 5", 60L,
+  "Table 6", 60L, "Table 7", 66L, "Table 8", 40L, "Table 9", 40L,
+  "Figure 1", 0L, "Figure 2", 0L
 )
 
-covered <- gt |>
-  filter(table_figure %in% float_cells$table_figure) |>
-  mutate(cells = case_when(
-    claim_id %in% c("study1_table_1_cells", "study2_table_4_cells", "study3_table_7_cells",
-                    "study1_table_1_boot_cells", "study2_table_4_boot_cells",
-                    "study3_table_7_boot_cells") ~ as.numeric(value_paper),
-    claim_id %in% c("study1_N_control", "study1_N_pos_info", "study1_N_neg_info",
-                    "study1_W2scale_control_mean", "study1_W2scale_pos_mean",
-                    "study1_W2scale_neg_mean", "study1_W2Q1_control_mean",
-                    "study1_W2Q1_pos_mean", "study1_W2Q1_neg_mean",
-                    "study1_W2scale_control_sd", "study1_W2scale_pos_sd",
-                    "study1_W2scale_neg_sd", "study1_W2Q1_control_sd",
-                    "study1_W2Q1_pos_sd", "study1_W2Q1_neg_sd",
-                    "study2_N_placebo", "study2_N_conyoung_conold", "study2_N_proold_conold",
-                    "study2_N_proold_conyoung", "study2_N_proyoung_conold",
-                    "study2_N_proyoung_conyoung", "study2_N_proyoung_proold",
-                    "study3_N_CC", "study3_N_CN", "study3_N_NN", "study3_N_PC",
-                    "study3_N_PN", "study3_N_PP", "study3_n_conditions",
-                    "study3_propro_score", "study3_pronull_score",
-                    "study1_n_conditions", "bart_wrong_sign_intervals",
-                    "study1_sds_do_not_vary", "study1_table_2_note_threshold",
-                    "study1_table_3_reference", "study2_favor_all_signed",
-                    "study2_favor_sig_exception", "study3_deterrence_swing") ~ 0,
-    .default = 1
-  )) |>
-  summarise(covered = sum(cells), rows = n(), .by = table_figure) |>
-  right_join(float_cells, by = "table_figure") |>
-  mutate(covered = replace_na(covered, 0), rows = replace_na(rows, 0L),
-         fraction = covered / published_numbers) |>
-  arrange(table_figure, .locale = "en")
+cell_tables <- tribble(
+  ~float, ~cells_row, ~boot_row,
+  "Table 1", "study1_table_1_cells", "study1_table_1_boot_cells",
+  "Table 4", "study2_table_4_cells", "study2_table_4_boot_cells",
+  "Table 7", "study3_table_7_cells", "study3_table_7_boot_cells"
+)
 
-stopifnot(all(covered$rows > 0))
-print(covered)
+gt_value <- function(id, column) as.integer(gt[[column]][gt$claim_id == id])
 
-# Errata spine. errata.qmd names, for each published entry, the ground truth rows
-# that entry corrects. An id that no longer exists is a typo or a renamed claim,
-# and a dangling reference in a document whose whole purpose is correcting the
-# record is worse than a gate that refuses to finish.
-errata_path <- here::here("errata_entries.csv")
-if (file.exists(errata_path)) {
-  errata_ids <- read_csv(errata_path, show_col_types = FALSE) |>
-    pull(claim_ids) |>
-    str_split(";") |>
-    unlist() |>
-    str_trim()
-  errata_ids <- errata_ids[!is.na(errata_ids) & errata_ids != ""]
-  dangling_errata_ids <- setdiff(errata_ids, gt$claim_id)
-  if (length(dangling_errata_ids) > 0) {
-    stop("errata_entries.csv lists claim ids absent from the ground truth: ",
-         paste(dangling_errata_ids, collapse = ", "))
-  }
-  print(str_glue("Errata spine: {length(unique(errata_ids))} distinct claim ids ",
-                 "listed, all present in the ground truth."))
-}
+cell_coverage <- cell_tables |>
+  mutate(
+    covered = map2_int(cells_row, boot_row, \(a, b) gt_value(a, "value_paper") +
+                         gt_value(b, "value_paper")),
+    reproduced_by_rewrite = map2_int(cells_row, boot_row, \(a, b) gt_value(a, "value_rewrite") +
+                                       gt_value(b, "value_rewrite")),
+    transcribed = map_int(float, \(f) sum(cells$table_figure == str_replace(str_to_lower(f), " ", "_")))
+  )
+stopifnot(all(cell_coverage$covered == cell_coverage$transcribed))
+
+# The archive was never compared cell by cell; what it reached is the claims the
+# extraction locates on each table, counted the same way for every table.
+located <- gt |>
+  mutate(float = str_match(location, "^((Table|Figure) \\d+),")[, 2]) |>
+  filter(!is.na(float), !is.na(value_paper))
+
+row_coverage <- located |>
+  summarise(
+    covered = n(),
+    reproduced_by_rewrite = sum(match_rewrite, na.rm = TRUE),
+    reproduced_by_archive = if_else(all(is.na(match)), NA_integer_, sum(match, na.rm = TRUE)),
+    .by = float
+  )
+
+figure_1_plotted <- nrow(f1)
+figure_1_reproduced <- gt$match_rewrite[gt$claim_id == "n_estimates_total"]
+
+float_coverage <- float_numbers |>
+  left_join(row_coverage, by = "float") |>
+  rows_update(select(cell_coverage, float, covered, reproduced_by_rewrite), by = "float") |>
+  mutate(
+    is_figure = str_starts(float, "Figure"),
+    covered = if_else(is_figure, 0L, covered),
+    reproduced_by_rewrite = if_else(is_figure, 0L, reproduced_by_rewrite),
+    reproduced_by_archive = if_else(is_figure, 0L, reproduced_by_archive),
+    plotted = case_when(float == "Figure 1" ~ figure_1_plotted,
+                        float == "Figure 2" ~ nrow(f2),
+                        .default = NA_integer_),
+    plotted_reproduced = case_when(
+      float == "Figure 1" ~ if_else(figure_1_reproduced, figure_1_plotted, 0L),
+      .default = NA_integer_
+    ),
+    note = case_when(
+      float %in% cell_tables$float ~
+        "Covered cell by cell through published_condition_cells.csv; the bootstrapped cells are single unseeded draws in the deposit.",
+      float == "Table 6" ~
+        "Covered at its estimates; the page reprints Table 5's cells, so none of them is reproduced (errata entry 6).",
+      !is_figure ~ "Covered at its estimates and sample sizes; standard errors, constants, and fit statistics are not transcribed.",
+      float == "Figure 1" ~
+        "Prints no numbers on its face; plots the 24 covariate-adjusted estimates of Tables 2, 3, 5, 6, 8, and 9, reproduced when the rewrite plots as many as the article does.",
+      float == "Figure 2" ~
+        "Prints no numbers on its face; plots one BART estimate per subject, outcome and treatment, from a deposit that sets no seed, so no plotted point can be compared."
+    )
+  ) |>
+  select(float, published_numbers, covered, reproduced_by_rewrite, reproduced_by_archive,
+         plotted, plotted_reproduced, note)
+
+stopifnot(
+  !anyNA(float_coverage$covered),
+  with(filter(float_coverage, str_starts(float, "Table")), all(covered > 0 & covered <= published_numbers))
+)
+
+write_csv(float_coverage, here::here("ground_truth", "float_coverage.csv"))
+print(float_coverage, n = nrow(float_coverage), width = 200)
+
+# The ground truth, in the canonical column order ----
+gt <- gt |>
+  select(paper_id, claim_id, location, claim_type, claim, value_paper, digits,
+         value_script, match, value_rewrite, match_rewrite, holds, defect_locus,
+         disposition, disposition_reason, notes)
+
+write_csv(gt, here::here("ground_truth", "guess_coppock_2020_ground_truth.csv"))
 
 print(tibble(
   quantity = c("ground truth rows", "archive comparable", "archive matching",
@@ -180,10 +310,10 @@ print(tibble(
                "extraction rows needing a block", "claims printed by in_text_claims.R",
                "claims compared across the two instruments",
                "published condition cells transcribed"),
-  value = c(nrow(gt), sum(!is.na(gt$match)), sum(gt$match == 1, na.rm = TRUE),
-            sum(!is.na(gt$match_rewrite)), sum(gt$match_rewrite == 1, na.rm = TRUE),
-            sum(gt$match_rewrite == 0, na.rm = TRUE),
-            sum(!is.na(gt$holds)), sum(gt$holds == 1, na.rm = TRUE),
+  value = c(nrow(gt), sum(!is.na(gt$match)), sum(gt$match, na.rm = TRUE),
+            sum(!is.na(gt$match_rewrite)), sum(gt$match_rewrite, na.rm = TRUE),
+            sum(!gt$match_rewrite, na.rm = TRUE),
+            sum(!is.na(gt$holds)), sum(gt$holds, na.rm = TRUE),
             sum(!is.na(gt$defect_locus)), nrow(claims), length(declared),
             nrow(printed), nrow(cross_check), nrow(cells))
 ))

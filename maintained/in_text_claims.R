@@ -58,10 +58,12 @@ published_cells <- read_csv(here::here("ground_truth", "published_condition_cell
 # and not against the sentence the article prints, so a corrected claim that drifted back to
 # the published value stops the run instead of quietly reading as a match.
 # A note (form == "note") corrects nothing and carries no value to score against, so only the
-# corrections are passed on.
+# corrections are passed on. Entry 8 is the corrigendum's Table 1, whose cells come from the
+# publisher's record rather than from maintained/output/, so it carries no corrected value
+# either and is not passed on; excheckr refuses a float entry that names claims without values.
 errata_entries <- read_csv(here::here("errata_entries.csv"),
                            col_types = cols(.default = col_character())) |>
-  filter(form != "note")
+  filter(form != "note", !is.na(corrected_values))
 
 # The scoring machinery comes from excheckr, which carries the verdict ladder, the typography
 # parser and the printed form this file used to define for itself. What is passed here is
@@ -82,10 +84,13 @@ errata_entries <- read_csv(here::here("errata_entries.csv"),
 # behind a descriptive claim: which coefficients were correctly signed, what the ten-seed
 # spread was. That sentence is about the check rather than about the article.
 #
-# Four claims declare expect = "absent" at their own call sites rather than in the extraction,
-# because the package refuses that rung in a column: a claim asserting the deposit has no
-# counterpart for it must be visible where the value would have been. All four are the same
-# absence, that the archive ships no randomization inference code.
+# Every expectation is declared at its own call site: expect = "derived" for the four blocks
+# that count reproduced cells, expect = "range" for the corrigendum SD that differs only in
+# rounding, the binomial p-value stated as a bound, and the two unseeded BART percentages, and
+# expect = "absent" for the four claims the deposit has no counterpart for (three need
+# randomization inference the archive does not ship, one a model it does not fit). The
+# extraction's expect column records the same declarations and is not read here, so a claim's
+# exemption is visible where its value would have been.
 #
 # The precision is NOT read off the typography here, unlike the two claims files converted
 # before this one. This extraction's digits column disagrees with claim_digits(value_paper)
@@ -96,8 +101,7 @@ errata_entries <- read_csv(here::here("errata_entries.csv"),
 # digits at the call site, where the reason is visible, and so do the six descriptive blocks,
 # which print a truth value the article's precision does not apply to.
 claim_start(published = claims, errata = errata_entries, format = "id",
-            quantity_classes = c("quantity", "float", "cross_reference"),
-            expect_column = "expect")
+            quantity_classes = c("quantity", "float", "cross_reference"))
 
 # cell: one coefficient out of a regression table's output. The assertion is what
 # stops a widened output file from turning a scalar into a vector and a claim into
@@ -204,9 +208,10 @@ claim("study1_n_conditions", nrow(t1), "treatment conditions in the Table 1 outp
 # ground_truth/published_condition_cells.csv, so the claim here is how many of
 # them the rewrite reproduces.
 claim("study1_table_1_cells", cells_agreeing("table_1", "FALSE"),
-      "of 15 deterministic Table 1 cells reproduced")
+      "of 15 deterministic Table 1 cells reproduced", expect = "derived")
 claim("study1_table_1_boot_cells", cells_agreeing("table_1", "TRUE"),
-      "of 12 bootstrapped Table 1 standard error cells reproduced at the rewrite's seed")
+      "of 12 bootstrapped Table 1 standard error cells reproduced at the rewrite's seed",
+      expect = "derived")
 
 t1_row <- function(condition, column) {
   hits <- t1[[column]][t1$condition == condition]
@@ -238,7 +243,7 @@ claim("study1_W2scale_control_sd", t1_row("Control", "W2_scale_sd"),
 claim("study1_W2scale_pos_sd", t1_row("Positive Information", "W2_scale_sd"),
       "corrigendum Table 1, positive information SD of the composite scale")
 claim("study1_W2scale_neg_sd", t1_row("Negative Information", "W2_scale_sd"),
-      "corrigendum Table 1, negative information SD of the composite scale")
+      "corrigendum Table 1, negative information SD of the composite scale", expect = "range")
 claim("study1_W2Q1_control_sd", t1_row("Control", "W2_Q1_sd"),
       "corrigendum Table 1, control SD of gun control support")
 claim("study1_W2Q1_pos_sd", t1_row("Positive Information", "W2_Q1_sd"),
@@ -349,7 +354,8 @@ claim("study2_N_participated", sum(t4$n),
 claim("study2_table_4_cells", cells_agreeing("table_4", "FALSE"),
       "of 49 deterministic Table 4 cells reproduced")
 claim("study2_table_4_boot_cells", cells_agreeing("table_4", "TRUE"),
-      "of 28 bootstrapped Table 4 standard error cells reproduced at the rewrite's seed")
+      "of 28 bootstrapped Table 4 standard error cells reproduced at the rewrite's seed",
+      expect = "derived")
 
 t4_n <- function(condition) {
   hits <- t4$n[t4$condition_type == condition]
@@ -468,7 +474,8 @@ claim("study3_N_opponents_text", group_n(t8, "Opponents"),
 claim("study3_table_7_cells", cells_agreeing("table_7", "FALSE"),
       "of 42 deterministic Table 7 cells reproduced")
 claim("study3_table_7_boot_cells", cells_agreeing("table_7", "TRUE"),
-      "of 24 bootstrapped Table 7 standard error cells reproduced at the rewrite's seed")
+      "of 24 bootstrapped Table 7 standard error cells reproduced at the rewrite's seed",
+      expect = "derived")
 
 t7_n <- function(condition) {
   hits <- t7$n[t7$condition_factor == condition]
@@ -627,7 +634,7 @@ claim("n_correctly_signed", stat("n_correctly_signed"),
       "Figure 1 estimates whose sign matches the direction of the information")
 claim("binom_test_pvalue", stat("binom_test_pvalue"),
       "binomial test p-value, which the article states as below 0.001",
-      digits = 6)
+      digits = 6, expect = "range")
 
 # "Eleven of the twenty-four treatment effect estimates are statistically
 #  significant at p <0.05 or better."
@@ -648,11 +655,11 @@ neg_range <- range(seeds$prop_correctly_signed[seeds$treatment == "Negative Info
 claim("pct_pos_te_under_pos_treatment",
       100 * mean(f2$tau_hat[f2$treatment == "Positive Information"] > 0),
       str_glue("per cent positive under positive information; ten seeds run {sprintf('%.1f', 100 * pos_range[1])} to {sprintf('%.1f', 100 * pos_range[2])} and the published 93 lies below all of them"),
-      digits = 1)
+      digits = 1, expect = "range")
 claim("pct_neg_te_under_neg_treatment",
       100 * mean(f2$tau_hat[f2$treatment == "Negative Information"] < 0),
       str_glue("per cent negative under negative information; ten seeds run {sprintf('%.1f', 100 * neg_range[1])} to {sprintf('%.1f', 100 * neg_range[2])} and the published 77 sits inside that range"),
-      digits = 1)
+      digits = 1, expect = "range")
 
 # "In none of the cases for which a subject was predicted to have an incorrectly
 #  signed treatment effect does the 95 per cent confidence interval exclude 0."
