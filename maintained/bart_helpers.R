@@ -126,6 +126,8 @@ individual_effects <- function(fit, n_subjects, study_dv) {
   ) |>
     mutate(study_dv = study_dv, .before = 1) |>
     group_by(treatment) |>
-    mutate(ordering = rank(tau_hat, ties.method = "first")) |>
+    # Ranked on tau_hat rounded to 1e-10: near-ties beyond that are floating-point noise
+    # that changes with the BLAS, and would swap ranks across machines.
+    mutate(ordering = rank(round(tau_hat, 10), ties.method = "first")) |>
     ungroup()
 }
